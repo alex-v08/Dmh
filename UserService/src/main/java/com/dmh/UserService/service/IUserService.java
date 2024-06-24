@@ -8,7 +8,7 @@ public interface IUserService {
     User createUser(UserDTO userDTO);
 
     User updateUser(UserDTO userDTO);
-    void deleteUser(Long userId);
+
 
 
 

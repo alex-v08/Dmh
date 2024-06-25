@@ -6,8 +6,10 @@ import com.dmh.UserService.repository.UserRepository;
 import com.dmh.UserService.service.IUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @Service
+
 @RequiredArgsConstructor
 public class UserServiceImpl implements IUserService{
     private final UserRepository usersRepository;

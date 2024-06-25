@@ -5,56 +5,35 @@ import com.dmh.UserService.entity.User;
 import com.dmh.UserService.repository.UserRepository;
 import com.dmh.UserService.service.IUserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class UserServiceImpl implements IUserService {
-
-    @Autowired
-    private final UserRepository userRepository;
+public class UserServiceImpl implements IUserService{
+    private final UserRepository usersRepository;
 
 
-
-    @Override
-    public User createUser(UserDTO userDTO) {
-        if (userRepository.existsByDni(userDTO.getDni())) {
-            throw new RuntimeException("User already exists");
+    public void createUser(UserDTO userDTO) {
+        if (usersRepository.existsByEmail(userDTO.getEmail())) {
+            throw new RuntimeException("Email already exists");
         }
-        try {
-            User user = new User();
-            user.setFirstName(userDTO.getFirstName());
-            user.setLastName(userDTO.getLastName());
-            user.setEmail(userDTO.getEmail());
-            user.setPassword(userDTO.getPassword());
-            user.setCvu(userDTO.getCvu());
-            user.setAlias(userDTO.getAlias());
-            return userRepository.save(user);
-        } catch (Exception e) {
-            e.printStackTrace();
-
+        if (usersRepository.existsByDni(userDTO.getDni())) {
+            throw new RuntimeException("Dni already exists");
         }
 
-        return null;
+        User user = new User();
+        updateUser(userDTO, user.getId());
+
+
     }
 
-    @Override
-    public User updateUser(UserDTO userDTO) {
+    public void updateUser(UserDTO userDTO, Long id) {
 
-        User user = userRepository.getUserByEmail(userDTO.getEmail()).orElseThrow(() -> new RuntimeException("User not found"));
+        User user = usersRepository.getUserById(id).orElseThrow(() -> new RuntimeException("User not found"));
         user.setFirstName(userDTO.getFirstName());
         user.setLastName(userDTO.getLastName());
         user.setEmail(userDTO.getEmail());
-        user.setPassword(userDTO.getPassword());
-        user.setCvu(userDTO.getCvu());
-        user.setAlias(userDTO.getAlias());
-        return userRepository.save(user);
 
+        usersRepository.save(user);
     }
-
-    public void deleteUser(Long userId) {
-        userRepository.deleteById(userId);
-    }
-
 }

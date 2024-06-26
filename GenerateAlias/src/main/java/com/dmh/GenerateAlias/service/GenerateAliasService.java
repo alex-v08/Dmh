@@ -1,4 +1,4 @@
-package com.dmh.GenerateAlias.controller.service;
+package com.dmh.GenerateAlias.service;
 
 
 import jakarta.annotation.PostConstruct;
@@ -9,7 +9,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.Random;
 
 public class GenerateAliasService {

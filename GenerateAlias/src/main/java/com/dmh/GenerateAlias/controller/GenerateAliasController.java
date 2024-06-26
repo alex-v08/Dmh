@@ -1,2 +1,4 @@
-package com.dmh.GenerateAlias.controller;public class GenerateAliasController {
+package com.dmh.GenerateAlias.controller;
+
+public class GenerateAliasController {
 }

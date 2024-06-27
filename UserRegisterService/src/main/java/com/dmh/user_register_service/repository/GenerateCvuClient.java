@@ -7,6 +7,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 @FeignClient(name = "GenerateCvu", url = "localhost:8089")
 public interface GenerateCvuClient {
 
-    @GetMapping("/generateCvu")
+    @GetMapping("/cvu/generate")
     String generateCvu();
 }

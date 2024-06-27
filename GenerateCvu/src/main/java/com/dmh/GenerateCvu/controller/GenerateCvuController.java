@@ -22,6 +22,4 @@ public class GenerateCvuController {
         return generateCvuService.generateCvu();
     }
 
-
-
 }

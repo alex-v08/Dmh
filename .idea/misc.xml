@@ -9,6 +9,7 @@
         <option value="$PROJECT_DIR$/UserService/pom.xml" />
         <option value="$PROJECT_DIR$/UserRegisterService/pom.xml" />
         <option value="$PROJECT_DIR$/GenerateAlias/pom.xml" />
+        <option value="$PROJECT_DIR$/GenerateCvu/pom.xml" />
       </list>
     </option>
   </component>

@@ -12,7 +12,7 @@
 	<artifactId>user-register-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>UserRegisterService</name>
-	<description>Register service </description>
+	<description>Register service</description>
 	<url/>
 	<licenses>
 		<license/>

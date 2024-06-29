@@ -2,6 +2,7 @@ package com.dmh.user_register_service.controller;
 
 
 import com.dmh.user_register_service.service.UserRegisterService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,11 +13,11 @@ import com.dmh.user_register_service.entity.UserDto;
 
 @RestController
 @RequestMapping("/register")
-
+@RequiredArgsConstructor
 
 public class UserRegisterController {
     @Autowired
-    private UserRegisterService userRegisterService;
+    private final UserRegisterService userRegisterService;
 
     @PostMapping
     public ResponseEntity<UserDto> registerUser(@RequestBody UserDto userDto) {

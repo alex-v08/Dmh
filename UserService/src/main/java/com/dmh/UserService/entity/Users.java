@@ -1,38 +1,35 @@
 package com.dmh.UserService.entity;
 
-
 import jakarta.persistence.*;
 import lombok.Data;
 
 @Entity
 @Data
-
-
 @Table(name = "users")
-public class User {
+public class Users {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column
     private String firstName;
 
-    @Column(nullable = false)
+    @Column
     private String lastName;
 
-    @Column(nullable = false, unique = true)
+    @Column
     private String email;
 
-    @Column(nullable = false, unique = true)
+    @Column
     private String dni;
 
-    @Column(nullable = false)
+    @Column
     private String password;
 
-    @Column(nullable = false, unique = true)
+    @Column
     private String cvu;
 
-    @Column(nullable = false, unique = true)
+    @Column
     private String alias;
 
 }

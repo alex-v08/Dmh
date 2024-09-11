@@ -3,7 +3,7 @@ package com.dmh.UserService.dto;
 import lombok.Data;
 
 @Data
-public class UserDTO {
+public class UserDto {
 
 
     private String firstName;

@@ -4,9 +4,6 @@ server:
 spring:
   application:
     name: UserService
-  cloud:
-    config:
-      enabled: false
   datasource:
     url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/db}
     username: ${SPRING_DATASOURCE_USERNAME:postgres}
@@ -19,8 +16,6 @@ spring:
     properties:
       hibernate:
         dialect: ${SPRING_JPA_HIBERNATE_DIALECT:org.hibernate.dialect.PostgreSQLDialect}
-  main:
-    allow-bean-definition-overriding: true
 
 eureka:
   client:
@@ -35,6 +30,5 @@ management:
       exposure:
         include: "*"
   endpoint:
-    env:
-      post:
-        enabled: ${MANAGEMENT_ENDPOINT_ENV_POST_ENABLED:true}
+    health:
+      show-details: ALWAYS

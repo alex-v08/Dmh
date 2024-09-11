@@ -1,0 +1,15 @@
+package com.dmh.UserService.service;
+
+import com.dmh.UserService.dto.UserDto;
+import com.dmh.UserService.entity.Users;
+
+import java.util.List;
+
+public interface IUsersService {
+    Users save(UserDto userDto);
+    List<Users> findAll();
+    Users findById(Long id);
+    Users findByEmail(String email);
+    Users update(Long id, UserDto userDto);
+    void delete(Long id);
+}

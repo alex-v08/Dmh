@@ -3,8 +3,7 @@ package com.dmh.user_register_service.entity;
 import lombok.Data;
 
 @Data
-
-public class UserDto {
+public class User {
     private Long id;
     private String firstName;
     private String lastName;
@@ -13,5 +12,4 @@ public class UserDto {
     private String password;
     private String cvu;
     private String alias;
-
 }

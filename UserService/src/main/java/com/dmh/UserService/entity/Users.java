@@ -17,19 +17,18 @@ public class Users {
     @Column
     private String lastName;
 
-    @Column
+    @Column(unique = true)
     private String email;
 
-    @Column
+    @Column(unique = true)
     private String dni;
 
     @Column
     private String password;
 
-    @Column
+    @Column(unique = true)
     private String cvu;
 
-    @Column
+    @Column(unique = true)
     private String alias;
-
 }

@@ -3,6 +3,7 @@ package com.dmh.UserService.controller;
 import com.dmh.UserService.dto.UserDto;
 import com.dmh.UserService.entity.Users;
 import com.dmh.UserService.service.IUsersService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,13 +13,13 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/users")
-public class UserController {
+public class UsersController {
 
     @Autowired
     private IUsersService usersService;
 
     @PostMapping("/createUser")
-    public ResponseEntity<Users> createUser(@RequestBody UserDto userDto) {
+    public ResponseEntity<Users> createUser(@Valid @RequestBody UserDto userDto) {
         Users createdUser = usersService.save(userDto);
         return new ResponseEntity<>(createdUser, HttpStatus.CREATED);
     }
@@ -50,7 +51,7 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Users> updateUser(@PathVariable Long id, @RequestBody UserDto userDto) {
+    public ResponseEntity<Users> updateUser(@PathVariable Long id, @Valid @RequestBody UserDto userDto) {
         Users updatedUser = usersService.update(id, userDto);
         if (updatedUser != null) {
             return new ResponseEntity<>(updatedUser, HttpStatus.OK);

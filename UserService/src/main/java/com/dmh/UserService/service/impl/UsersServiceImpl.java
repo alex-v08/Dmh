@@ -2,6 +2,7 @@ package com.dmh.UserService.service.impl;
 
 import com.dmh.UserService.dto.UserDto;
 import com.dmh.UserService.entity.Users;
+import com.dmh.UserService.exception.UserAlreadyExistsException;
 import com.dmh.UserService.repository.UsersRepository;
 import com.dmh.UserService.service.IUsersService;
 import org.springframework.beans.BeanUtils;
@@ -19,6 +20,12 @@ public class UsersServiceImpl implements IUsersService {
 
     @Override
     public Users save(UserDto userDto) {
+        if (usersRepository.findByEmail(userDto.getEmail()) != null) {
+            throw new UserAlreadyExistsException("Email already in use");
+        }
+        if (usersRepository.findByDni(userDto.getDni()) != null) {
+            throw new UserAlreadyExistsException("DNI already in use");
+        }
         Users user = new Users();
         BeanUtils.copyProperties(userDto, user);
         return usersRepository.save(user);
@@ -44,6 +51,12 @@ public class UsersServiceImpl implements IUsersService {
         Optional<Users> existingUser = usersRepository.findById(id);
         if (existingUser.isPresent()) {
             Users user = existingUser.get();
+            if (!user.getEmail().equals(userDto.getEmail()) && usersRepository.findByEmail(userDto.getEmail()) != null) {
+                throw new UserAlreadyExistsException("Email already in use");
+            }
+            if (!user.getDni().equals(userDto.getDni()) && usersRepository.findByDni(userDto.getDni()) != null) {
+                throw new UserAlreadyExistsException("DNI already in use");
+            }
             BeanUtils.copyProperties(userDto, user);
             user.setId(id);
             return usersRepository.save(user);

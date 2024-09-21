@@ -5,6 +5,7 @@ import com.dmh.UserService.entity.Users;
 import com.dmh.UserService.repository.UsersRepository;
 import com.dmh.UserService.service.IUsersService;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,11 +14,8 @@ import java.util.Optional;
 @Service
 public class UsersServiceImpl implements IUsersService {
 
-    private final UsersRepository usersRepository;
-
-    public UsersServiceImpl(UsersRepository usersRepository) {
-        this.usersRepository = usersRepository;
-    }
+    @Autowired
+    private UsersRepository usersRepository;
 
     @Override
     public Users save(UserDto userDto) {

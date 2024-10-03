@@ -9,9 +9,10 @@ spring:
       server:
         git:
           uri: ${SPRING_CLOUD_CONFIG_SERVER_GIT_URI:git@gitlab.com:atuhome/service-configuration.git}
+          host-key-algorithm: ssh-rsa
+          private-key: ${SPRING_CLOUD_CONFIG_SERVER_GIT_PRIVATE_KEY:}
 
-  profiles:
-    active: native
+
 
 eureka:
   client:

@@ -1,18 +1,16 @@
 server:
-  port: ${SERVER_PORT:8888}
+  port: ${SERVER_PORT_CONFIG_SERVER:8888}
 
 spring:
   application:
-    name: ${SPRING_APPLICATION_NAME:config-service}
+    name: ${SPRING_APPLICATION_NAME_CONFIG_SERVER:config-server}
   cloud:
     config:
       server:
         git:
-          uri: ${SPRING_CLOUD_CONFIG_SERVER_GIT_URI:git@gitlab.com:atuhome/service-configuration.git}
+          uri: ${SPRING_CLOUD_CONFIG_SERVER_GIT_URI:}
           host-key-algorithm: ssh-rsa
           private-key: ${SPRING_CLOUD_CONFIG_SERVER_GIT_PRIVATE_KEY:}
-
-
 
 eureka:
   client:
@@ -30,3 +28,8 @@ management:
     env:
       post:
         enabled: ${MANAGEMENT_ENDPOINT_ENV_POST_ENABLED:true}
+
+logging:
+  level:
+    org.springframework.cloud: DEBUG
+    org.springframework.boot: DEBUG

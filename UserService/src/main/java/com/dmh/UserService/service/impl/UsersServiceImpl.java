@@ -8,6 +8,7 @@ import com.dmh.UserService.service.IUsersService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -19,6 +20,7 @@ public class UsersServiceImpl implements IUsersService {
     private UsersRepository usersRepository;
 
     @Override
+    @Transactional
     public Users save(UserDto userDto) {
         if (usersRepository.findByEmail(userDto.getEmail()) != null) {
             throw new UserAlreadyExistsException("Email already in use");
@@ -32,21 +34,25 @@ public class UsersServiceImpl implements IUsersService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Users> findAll() {
         return usersRepository.findAll();
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Users findById(Long id) {
         return usersRepository.findById(id).orElse(null);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Users findByEmail(String email) {
         return usersRepository.findByEmail(email);
     }
 
     @Override
+    @Transactional
     public Users update(Long id, UserDto userDto) {
         Optional<Users> existingUser = usersRepository.findById(id);
         if (existingUser.isPresent()) {
@@ -65,6 +71,7 @@ public class UsersServiceImpl implements IUsersService {
     }
 
     @Override
+    @Transactional
     public void delete(Long id) {
         usersRepository.deleteById(id);
     }

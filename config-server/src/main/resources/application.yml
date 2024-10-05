@@ -1,9 +1,9 @@
 server:
-  port: ${SERVER_PORT_CONFIG_SERVER:8888}
+  port: ${SERVER_PORT_CONFIG_SERVER:}
 
 spring:
   application:
-    name: ${SPRING_APPLICATION_NAME_CONFIG_SERVER:config-server}
+    name: ${SPRING_APPLICATION_NAME_CONFIG_SERVER:}
   cloud:
     config:
       server:
@@ -14,10 +14,10 @@ spring:
 
 eureka:
   client:
-    register-with-eureka: ${EUREKA_REGISTER_WITH_EUREKA:true}
-    fetch-registry: ${EUREKA_FETCH_REGISTRY:true}
+    register-with-eureka: ${EUREKA_REGISTER_WITH_EUREKA:}
+    fetch-registry: ${EUREKA_FETCH_REGISTRY:}
     service-url:
-      defaultZone: ${EUREKA_SERVICE_URL_DEFAULT_ZONE:http://localhost:8761/eureka}
+      defaultZone: ${EUREKA_SERVICE_URL_DEFAULT_ZONE:}
 
 management:
   endpoints:
@@ -27,7 +27,7 @@ management:
   endpoint:
     env:
       post:
-        enabled: ${MANAGEMENT_ENDPOINT_ENV_POST_ENABLED:true}
+        enabled: ${MANAGEMENT_ENDPOINT_ENV_POST_ENABLED:}
 
 logging:
   level:

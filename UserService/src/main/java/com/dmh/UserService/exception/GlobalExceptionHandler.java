@@ -1,5 +1,6 @@
 package com.dmh.UserService.exception;
 
+import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -28,6 +29,11 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(UserAlreadyExistsException.class)
     public ResponseEntity<String> handleUserAlreadyExistsException(UserAlreadyExistsException ex) {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(DataAccessException.class)
+    public ResponseEntity<String> handleDataAccessException(DataAccessException ex) {
+        return new ResponseEntity<>("Error de acceso a datos: " + ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @ExceptionHandler(Exception.class)

@@ -33,36 +33,24 @@ public class UsersController {
     @GetMapping("/{id}")
     public ResponseEntity<Users> getUserById(@PathVariable Long id) {
         Users user = usersService.findById(id);
-        if (user != null) {
-            return new ResponseEntity<>(user, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        return user != null ? ResponseEntity.ok(user) : ResponseEntity.notFound().build();
     }
 
     @GetMapping("/email/{email}")
     public ResponseEntity<Users> getUserByEmail(@PathVariable String email) {
         Users user = usersService.findByEmail(email);
-        if (user != null) {
-            return new ResponseEntity<>(user, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        return user != null ? ResponseEntity.ok(user) : ResponseEntity.notFound().build();
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Users> updateUser(@PathVariable Long id, @Valid @RequestBody UserDto userDto) {
         Users updatedUser = usersService.update(id, userDto);
-        if (updatedUser != null) {
-            return new ResponseEntity<>(updatedUser, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        return updatedUser != null ? ResponseEntity.ok(updatedUser) : ResponseEntity.notFound().build();
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
         usersService.delete(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return ResponseEntity.noContent().build();
     }
 }

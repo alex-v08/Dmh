@@ -1,0 +1,21 @@
+
+services:
+  account-db:
+    image: postgres:13
+    container_name: account-service-db
+    environment:
+      POSTGRES_DB: account_service_db
+      POSTGRES_USER: myuser
+      POSTGRES_PASSWORD: changeme
+    ports:
+      - "5433:5432"
+    volumes:
+      - account-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U myuser -d account_service_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  account-data:

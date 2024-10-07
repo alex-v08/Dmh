@@ -1,6 +1,6 @@
 package com.dmh.user_register_service.service;
 
-import com.dmh.user_register_service.entity.UserDto;
+import com.dmh.user_register_service.entity.dto.UserDto;
 import com.dmh.user_register_service.entity.dto.UserRegisterDto;
 import com.dmh.user_register_service.exception.UserAlreadyExistsException;
 import com.dmh.user_register_service.repository.GenerateAliasClient;

@@ -1,14 +1,13 @@
-package com.dmh.user_register_service.repository;
+package com.dmh.accountservice.repository.feign;
 
 
 import org.springframework.cloud.openfeign.FeignClient;
-
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 @FeignClient(name = "GenerateAlias", url = "localhost:8087")
-public interface GenerateAliasClient {
 
+public interface FeignAliasGenerateRepository {
     @RequestMapping(method = RequestMethod.GET, value = "/generate-alias")
     String generateAlias();
 }

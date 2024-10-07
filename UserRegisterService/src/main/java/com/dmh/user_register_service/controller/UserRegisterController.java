@@ -1,7 +1,7 @@
 package com.dmh.user_register_service.controller;
 
 
-import com.dmh.user_register_service.entity.UserDto;
+import com.dmh.user_register_service.entity.dto.UserDto;
 import com.dmh.user_register_service.entity.dto.UserRegisterDto;
 import com.dmh.user_register_service.service.UserRegisterService;
 import jakarta.validation.Valid;

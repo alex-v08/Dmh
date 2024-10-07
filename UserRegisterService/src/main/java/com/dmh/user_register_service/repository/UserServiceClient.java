@@ -1,7 +1,7 @@
 package com.dmh.user_register_service.repository;
 
 
-import com.dmh.user_register_service.entity.UserDto;
+import com.dmh.user_register_service.entity.dto.UserDto;
 import org.springframework.cloud.openfeign.FeignClient;
 
 import org.springframework.web.bind.annotation.RequestBody;

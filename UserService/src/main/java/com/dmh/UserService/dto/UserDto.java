@@ -25,12 +25,4 @@ public class UserDto {
     @NotBlank(message = "Password is required")
     @Size(min = 8, message = "Password must be at least 8 characters long")
     private String password;
-
-    @NotBlank(message = "CVU is required")
-    @Size(min = 22, max = 22, message = "CVU must be 22 characters long")
-    private String cvu;
-
-    @NotBlank(message = "Alias is required")
-    @Pattern(regexp = "^[a-zA-Z0-9.]{6,20}$", message = "Alias must be alphanumeric, may include dots, and be between 6 and 20 characters")
-    private String alias;
 }

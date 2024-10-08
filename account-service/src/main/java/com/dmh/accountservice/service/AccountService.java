@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 
 public interface AccountService {
-    Account createAccount(AccountDto accountDto);
+    void  createAccount(Long userId);
     Account getAccountByUserId(Long userId);
     Account updateBalance(Long userId, BigDecimal amount);
 }

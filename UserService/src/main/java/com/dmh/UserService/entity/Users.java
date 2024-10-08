@@ -26,9 +26,5 @@ public class Users {
     @Column
     private String password;
 
-    @Column(unique = true)
-    private String cvu;
 
-    @Column(unique = true)
-    private String alias;
 }

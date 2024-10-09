@@ -10,6 +10,5 @@ public class User {
     private String email;
     private String dni;
     private String password;
-    private String cvu;
-    private String alias;
+
 }

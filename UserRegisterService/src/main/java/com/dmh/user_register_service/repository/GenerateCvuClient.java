@@ -1,3 +1,4 @@
+/*
 package com.dmh.user_register_service.repository;
 
 
@@ -12,3 +13,4 @@ public interface GenerateCvuClient {
     @RequestMapping(method = RequestMethod.GET, value = "/Cvu/generate")
     String generateCvu();
 }
+*/

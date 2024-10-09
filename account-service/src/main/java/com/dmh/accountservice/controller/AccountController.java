@@ -16,8 +16,8 @@ public class AccountController {
     @Autowired
     private AccountService accountService;
 
-    @PostMapping("/create")
-    public ResponseEntity<Void> createAccount(@RequestBody Long userId) {
+    @PostMapping
+    public ResponseEntity<Void> createAccount(@RequestParam Long userId) {
         try {
             accountService.createAccount(userId);
             return new ResponseEntity<>(HttpStatus.CREATED);

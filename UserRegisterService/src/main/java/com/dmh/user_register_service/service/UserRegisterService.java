@@ -8,10 +8,8 @@ import com.dmh.user_register_service.repository.UserServiceClient;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -23,10 +21,8 @@ public class UserRegisterService {
     private final FeignAccountServiceClient accountServiceClient;
 
 
-
     public UserDto registerUser(UserRegisterDto userRegisterDto) {
         logger.info("Starting user registration process for email: {}", userRegisterDto.getEmail());
-
 
         validateUserRegistrationData(userRegisterDto);
 
@@ -34,8 +30,14 @@ public class UserRegisterService {
 
         try {
             UserDto createdUser = createUser(userDto);
-            createAccount(createdUser.getId());
-            return createdUser;
+            try {
+                createAccount(createdUser.getId());
+                return createdUser;
+            } catch (Exception e) {
+                logger.error("Error creating account for user ID: {}. Error: {}", createdUser.getId(), e.getMessage());
+                rollbackUserCreation(createdUser.getId());
+                throw new RuntimeException("Failed to create account. User creation rolled back.", e);
+            }
         } catch (UserAlreadyExistsException e) {
             logger.warn("Attempted to create duplicate user: {}", e.getMessage());
             throw e;
@@ -47,6 +49,7 @@ public class UserRegisterService {
 
     private UserDto createUser(UserDto userDto) {
         try {
+            userDto.setPassword(userDto.getPassword());
             UserDto createdUser = userServiceClient.createUser(userDto);
             logger.info("User created successfully with ID: {}", createdUser.getId());
             return createdUser;
@@ -56,14 +59,13 @@ public class UserRegisterService {
         }
     }
 
-    private void createAccount(Long userId ) {
+    private void createAccount(Long userId) {
         try {
             accountServiceClient.createAccount(userId);
             logger.info("Account created successfully for user ID: {}", userId);
         } catch (Exception e) {
             logger.error("Error creating account for user ID: {}. Error: {}", userId, e.getMessage());
-            rollbackUserCreation(userId);
-            throw new RuntimeException("Failed to create account. User creation rolled back.", e);
+            throw new RuntimeException("Failed to create account", e);
         }
     }
 
@@ -97,6 +99,7 @@ public class UserRegisterService {
             logger.info("User deletion successful for user ID: {}", userId);
         } catch (Exception e) {
             logger.error("Error rolling back user creation for user ID: {}. Error: {}", userId, e.getMessage());
+
         }
     }
 }

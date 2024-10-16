@@ -12,6 +12,9 @@
         <option value="$PROJECT_DIR$/GenerateCvu/pom.xml" />
         <option value="$PROJECT_DIR$/account-service/pom.xml" />
         <option value="$PROJECT_DIR$/card-service/pom.xml" />
+        <option value="$PROJECT_DIR$/transaction-service/pom.xml" />
+        <option value="$PROJECT_DIR$/User-Register-service/pom.xml" />
+        <option value="$PROJECT_DIR$/User-service/pom.xml" />
       </list>
     </option>
   </component>

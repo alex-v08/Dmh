@@ -10,7 +10,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.dmh</groupId>
-	<artifactId>UserService</artifactId>
+	<artifactId>User-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>UserService</name>
 	<description>Demo project for Spring Boot</description>

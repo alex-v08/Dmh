@@ -19,7 +19,7 @@ public class Card {
     private Integer cod;
 
     @Column(nullable = false)
-    private String expirationDate;
+    private String expirationDate; // Formato MM/YYYY
 
     @Column(nullable = false)
     private String firstLastName;

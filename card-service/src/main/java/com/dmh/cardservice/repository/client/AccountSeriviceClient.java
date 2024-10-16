@@ -1,4 +1,4 @@
-package com.dmh.cardservice.controller.client;
+package com.dmh.cardservice.repository.client;
 
 
 import com.dmh.cardservice.entity.dto.AccountDto;

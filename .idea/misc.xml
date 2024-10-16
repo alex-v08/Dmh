@@ -11,6 +11,7 @@
         <option value="$PROJECT_DIR$/GenerateAlias/pom.xml" />
         <option value="$PROJECT_DIR$/GenerateCvu/pom.xml" />
         <option value="$PROJECT_DIR$/account-service/pom.xml" />
+        <option value="$PROJECT_DIR$/card-service/pom.xml" />
       </list>
     </option>
   </component>

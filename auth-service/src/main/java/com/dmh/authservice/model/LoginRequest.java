@@ -1,4 +1,4 @@
-package com.dmh.authservice.model.dto;
+package com.dmh.authservice.model;
 
 import jdk.jfr.DataAmount;
 import lombok.Data;

@@ -1,11 +1,11 @@
 package com.dmh.UserService.service.impl;
 
-import com.dmh.UserService.dto.UserDto;
+
 import com.dmh.UserService.entity.Users;
 import com.dmh.UserService.exception.UserAlreadyExistsException;
 import com.dmh.UserService.repository.UsersRepository;
 import com.dmh.UserService.service.IUsersService;
-import org.springframework.beans.BeanUtils;
+import com.dmh.UserService.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,17 +19,18 @@ public class UsersServiceImpl implements IUsersService {
     @Autowired
     private UsersRepository usersRepository;
 
+    @Autowired
+    private UserMapper userMapper;
+
     @Override
     @Transactional
-    public Users save(UserDto userDto) {
-        if (usersRepository.findByEmail(userDto.getEmail()) != null) {
+    public Users save(Users user) {
+        if (usersRepository.findByEmail(user.getEmail()) != null) {
             throw new UserAlreadyExistsException("Email already in use");
         }
-        if (usersRepository.findByDni(userDto.getDni()) != null) {
+        if (usersRepository.findByDni(user.getDni()) != null) {
             throw new UserAlreadyExistsException("DNI already in use");
         }
-        Users user = new Users();
-        BeanUtils.copyProperties(userDto, user);
         return usersRepository.save(user);
     }
 
@@ -53,19 +54,19 @@ public class UsersServiceImpl implements IUsersService {
 
     @Override
     @Transactional
-    public Users update(Long id, UserDto userDto) {
-        Optional<Users> existingUser = usersRepository.findById(id);
+    public Users update(Users user) {
+        Optional<Users> existingUser = usersRepository.findById(user.getId());
         if (existingUser.isPresent()) {
-            Users user = existingUser.get();
-            if (!user.getEmail().equals(userDto.getEmail()) && usersRepository.findByEmail(userDto.getEmail()) != null) {
+            Users currentUser = existingUser.get();
+            if (!currentUser.getEmail().equals(user.getEmail()) && usersRepository.findByEmail(user.getEmail()) != null) {
                 throw new UserAlreadyExistsException("Email already in use");
             }
-            if (!user.getDni().equals(userDto.getDni()) && usersRepository.findByDni(userDto.getDni()) != null) {
+            if (!currentUser.getDni().equals(user.getDni()) && usersRepository.findByDni(user.getDni()) != null) {
                 throw new UserAlreadyExistsException("DNI already in use");
             }
-            BeanUtils.copyProperties(userDto, user);
-            user.setId(id);
-            return usersRepository.save(user);
+
+            userMapper.updateUserFromDto(userMapper.userToUserDto(user), currentUser);
+            return usersRepository.save(currentUser);
         }
         return null;
     }

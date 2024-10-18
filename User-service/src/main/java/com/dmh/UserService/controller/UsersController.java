@@ -3,6 +3,8 @@ package com.dmh.UserService.controller;
 import com.dmh.UserService.dto.UserDto;
 import com.dmh.UserService.entity.Users;
 import com.dmh.UserService.service.IUsersService;
+import com.dmh.UserService.mapper.UserMapper;
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -10,42 +12,58 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/api/users")
 public class UsersController {
 
     @Autowired
     private IUsersService usersService;
 
-    @PostMapping("/createUser")
-    public ResponseEntity<Users> createUser(@Valid @RequestBody UserDto userDto) {
-        Users createdUser = usersService.save(userDto);
-        return new ResponseEntity<>(createdUser, HttpStatus.CREATED);
+    @Autowired
+    private UserMapper userMapper;
+
+    @PostMapping
+    @Operation(summary = "Create a new user with a new account")
+    public ResponseEntity<UserDto> createUser(@Valid @RequestBody UserDto userDto) {
+        Users user = userMapper.userDtoToUser(userDto);
+        Users createdUser = usersService.save(user);
+        return new ResponseEntity<>(userMapper.userToUserDto(createdUser), HttpStatus.CREATED);
     }
 
     @GetMapping
-    public ResponseEntity<List<Users>> getAllUsers() {
+    public ResponseEntity<List<UserDto>> getAllUsers() {
         List<Users> users = usersService.findAll();
-        return new ResponseEntity<>(users, HttpStatus.OK);
+        List<UserDto> userDtos = users.stream()
+                .map(userMapper::userToUserDto)
+                .collect(Collectors.toList());
+        return new ResponseEntity<>(userDtos, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Users> getUserById(@PathVariable Long id) {
+    @Operation(summary = "Get user data")
+    public ResponseEntity<UserDto> getUserById(@PathVariable Long id) {
         Users user = usersService.findById(id);
-        return user != null ? ResponseEntity.ok(user) : ResponseEntity.notFound().build();
+        return user != null ? ResponseEntity.ok(userMapper.userToUserDto(user)) : ResponseEntity.notFound().build();
     }
 
     @GetMapping("/email/{email}")
-    public ResponseEntity<Users> getUserByEmail(@PathVariable String email) {
+    public ResponseEntity<UserDto> getUserByEmail(@PathVariable String email) {
         Users user = usersService.findByEmail(email);
-        return user != null ? ResponseEntity.ok(user) : ResponseEntity.notFound().build();
+        return user != null ? ResponseEntity.ok(userMapper.userToUserDto(user)) : ResponseEntity.notFound().build();
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Users> updateUser(@PathVariable Long id, @Valid @RequestBody UserDto userDto) {
-        Users updatedUser = usersService.update(id, userDto);
-        return updatedUser != null ? ResponseEntity.ok(updatedUser) : ResponseEntity.notFound().build();
+    @PatchMapping("/{id}")
+    @Operation(summary = "Update user data")
+    public ResponseEntity<UserDto> updateUser(@PathVariable Long id, @Valid @RequestBody UserDto userDto) {
+        Users existingUser = usersService.findById(id);
+        if (existingUser == null) {
+            return ResponseEntity.notFound().build();
+        }
+        userMapper.updateUserFromDto(userDto, existingUser);
+        Users updatedUser = usersService.update(existingUser);
+        return ResponseEntity.ok(userMapper.userToUserDto(updatedUser));
     }
 
     @DeleteMapping("/{id}")

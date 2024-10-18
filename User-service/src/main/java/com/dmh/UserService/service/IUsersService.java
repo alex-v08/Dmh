@@ -6,10 +6,10 @@ import com.dmh.UserService.entity.Users;
 import java.util.List;
 
 public interface IUsersService {
-    Users save(UserDto userDto);
+    Users save(Users user);
     List<Users> findAll();
     Users findById(Long id);
     Users findByEmail(String email);
-    Users update(Long id, UserDto userDto);
+    Users update(Users user);
     void delete(Long id);
 }

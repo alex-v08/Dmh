@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.math.BigDecimal;
 
 @RestController
-@RequestMapping("/accounts")
+@RequestMapping("/api")
 public class AccountController {
 
     @Autowired

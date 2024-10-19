@@ -10,22 +10,30 @@ spring:
         locator:
           enabled: true
       routes:
-        - id: user-register-service
-          uri: lb://USER-REGISTER-SERVICE
-          predicates:
-            - Path=/register/**
         - id: user-service
           uri: lb://USER-SERVICE
           predicates:
-            - Path=/users/**
+            - Path=/api/users/**
+        - id: account-service
+          uri: lb://ACCOUNT-SERVICE
+          predicates:
+            - Path=/api/accounts/**
+        - id: auth-service
+          uri: lb://AUTH-SERVICE
+          predicates:
+            - Path=/api/auth/**
+        - id: transaction-service
+          uri: lb://TRANSACTION-SERVICE
+          predicates:
+            - Path=/api/transactions/**
         - id: generate-cvu-service
           uri: lb://GENERATE-CVU
           predicates:
-            - Path=/Cvu/**
+            - Path=/api/cvu/**
         - id: generate-alias-service
           uri: lb://GENERATE-ALIAS
           predicates:
-            - Path=/generate-alias/**
+            - Path=/api/alias/**
 
 eureka:
   client:
@@ -37,3 +45,8 @@ management:
     web:
       exposure:
         include: "*"
+
+logging:
+  level:
+    org.springframework.cloud.gateway: DEBUG
+    reactor.netty: DEBUG

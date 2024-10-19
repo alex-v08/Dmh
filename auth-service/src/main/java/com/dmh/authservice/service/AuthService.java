@@ -16,11 +16,11 @@ public class AuthService {
     @Autowired
     private JwtUtil jwtUtil;
 
-    // En una implementación real, esto debería ser una base de datos o un servicio de caché
+
     private Set<String> invalidatedTokens = new HashSet<>();
 
     public String login(LoginRequest loginRequest) {
-        // En una implementación real, aquí verificarías las credenciales contra un servicio de usuarios
+
         if ("user".equals(loginRequest.getUsername()) && "password".equals(loginRequest.getPassword())) {
             return jwtUtil.generateToken(loginRequest.getUsername());
         }

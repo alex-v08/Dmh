@@ -11,5 +11,5 @@ eureka:
       defaultZone: http://localhost:8761/eureka/
 
 jwt:
-  secret: SecretKeyToGenJWTs
+  secret: 8282838492923945986034034
   expiration: 3600

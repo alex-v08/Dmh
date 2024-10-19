@@ -60,6 +60,14 @@
 			<scope>provided</scope>
 		</dependency>
 
+		<!-- Feign Client -->
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-openfeign</artifactId>
+		</dependency>
+
+
+
 		<!-- Jwt depenencias -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

@@ -1,6 +1,7 @@
 package com.dmh.UserService.service.impl;
 
 
+import com.dmh.UserService.client.AccountServiceClient;
 import com.dmh.UserService.entity.Users;
 import com.dmh.UserService.exception.UserAlreadyExistsException;
 import com.dmh.UserService.repository.UsersRepository;
@@ -22,6 +23,9 @@ public class UsersServiceImpl implements IUsersService {
     @Autowired
     private UserMapper userMapper;
 
+    @Autowired
+    private AccountServiceClient accountServiceClient;
+
     @Override
     @Transactional
     public Users save(Users user) {
@@ -31,7 +35,17 @@ public class UsersServiceImpl implements IUsersService {
         if (usersRepository.findByDni(user.getDni()) != null) {
             throw new UserAlreadyExistsException("DNI already in use");
         }
-        return usersRepository.save(user);
+
+        Users savedUser = usersRepository.save(user);
+
+        try {
+            accountServiceClient.createAccount(savedUser.getId());
+        } catch (Exception e) {
+            usersRepository.delete(savedUser);
+            throw new RuntimeException("Failed to create account for user", e);
+        }
+
+        return savedUser;
     }
 
     @Override

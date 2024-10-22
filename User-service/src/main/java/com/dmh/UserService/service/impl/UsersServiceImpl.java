@@ -4,7 +4,7 @@ package com.dmh.UserService.service.impl;
 import com.dmh.UserService.client.AccountServiceClient;
 import com.dmh.UserService.entity.Users;
 import com.dmh.UserService.exception.UserAlreadyExistsException;
-import com.dmh.UserService.repository.UsersRepository;
+import com.dmh.UserService.repository.IUsersRepository;
 import com.dmh.UserService.service.IUsersService;
 import com.dmh.UserService.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +18,7 @@ import java.util.Optional;
 public class UsersServiceImpl implements IUsersService {
 
     @Autowired
-    private UsersRepository usersRepository;
+    private IUsersRepository usersRepository;
 
     @Autowired
     private UserMapper userMapper;

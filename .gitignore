@@ -14,11 +14,12 @@ logs/
 tmp/
 *.tmp
 *.swp
+/*.py
 
 # System files
 .DS_Store
 Thumbs.db
-
+./requirements.txt
 # Environment files
 .env
 

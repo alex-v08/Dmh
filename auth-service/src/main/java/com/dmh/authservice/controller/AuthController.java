@@ -1,40 +1,40 @@
 package com.dmh.authservice.controller;
 
-import com.dmh.authservice.model.LoginRequest;
-import com.dmh.authservice.model.LoginResponse;
-import com.dmh.authservice.service.AuthService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.dmh.authservice.model.AuthenticationRequest;
+import com.dmh.authservice.model.AuthenticationResponse;
+import com.dmh.authservice.service.AuthenticationService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/auth")
+@RequiredArgsConstructor
 public class AuthController {
 
-    @Autowired
-    private AuthService authService;
+    private final AuthenticationService authenticationService;
 
     @PostMapping("/login")
-    public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest loginRequest) {
-        String token = authService.login(loginRequest);
-        return ResponseEntity.ok(new LoginResponse(token));
+    public ResponseEntity<AuthenticationResponse> login(@RequestBody AuthenticationRequest request) {
+        AuthenticationResponse response = authenticationService.authenticate(request);
+        return ResponseEntity.ok(response);
     }
 
     @PostMapping("/logout")
-    public ResponseEntity<?> logout(@RequestHeader("Authorization") String token) {
-        authService.logout(token);
+    public ResponseEntity<Void> logout(@RequestHeader("Authorization") String token) {
+        authenticationService.logout(token);
         return ResponseEntity.ok().build();
     }
 
     @PostMapping("/validate")
-    public ResponseEntity<?> validateToken(@RequestHeader("Authorization") String token) {
-        boolean isValid = authService.validateToken(token);
+    public ResponseEntity<Boolean> validateToken(@RequestHeader("Authorization") String token) {
+        boolean isValid = authenticationService.validateToken(token);
         return ResponseEntity.ok(isValid);
     }
 
     @PostMapping("/refresh")
-    public ResponseEntity<LoginResponse> refreshToken(@RequestHeader("Authorization") String token) {
-        String newToken = authService.refreshToken(token);
-        return ResponseEntity.ok(new LoginResponse(newToken));
+    public ResponseEntity<AuthenticationResponse> refreshToken(@RequestHeader("Authorization") String token) {
+        AuthenticationResponse response = authenticationService.refreshToken(token);
+        return ResponseEntity.ok(response);
     }
 }

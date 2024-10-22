@@ -1,12 +1,20 @@
 
-
 services:
-  keycloak:
-    image: quay.io/keycloak/keycloak:latest
+  mysql:
+    image: mysql:8.0
+    container_name: dmh_auth_db
+    restart: unless-stopped
     environment:
-      KEYCLOAK_ADMIN: admin
-      KEYCLOAK_ADMIN_PASSWORD: admin
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:-root}
+      MYSQL_DATABASE: ${DB_DATABASE:-dmh_auth}
+      MYSQL_USER: ${DB_USERNAME:-user}
+      MYSQL_PASSWORD: ${DB_PASSWORD:-password}
     ports:
-      - "8080:8080"
-    command:
-      - start-dev
+      - "${DB_PORT:-3306}:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+
+volumes:
+  mysql_data:
+    name: dmh_auth_mysql_data

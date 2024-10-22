@@ -40,4 +40,9 @@ public class JwtUtil {
                 .getBody()
                 .getSubject();
     }
+
+    public String extractUsername (String jwt) {
+        return null;
+
+    }
 }

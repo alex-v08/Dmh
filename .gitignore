@@ -21,7 +21,7 @@ tmp/
 Thumbs.db
 ./requirements.txt
 # Environment files
-.env
+.env.template
 
 # Dependency directories
 node_modules/

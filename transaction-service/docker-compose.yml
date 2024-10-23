@@ -1,15 +1,13 @@
-
-
 services:
   postgres:
-    image: postgres:13
-    container_name: postgres-card-service
+    image: postgres:latest
+    container_name: postgres_transaction_db
     environment:
-      POSTGRES_DB: card_db
+      POSTGRES_DB: transaction_db
       POSTGRES_USER: myuser
       POSTGRES_PASSWORD: changeme
     ports:
-      - "5438:5432"
+      - "5436:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
 

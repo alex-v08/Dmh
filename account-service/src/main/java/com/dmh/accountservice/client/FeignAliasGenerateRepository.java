@@ -1,4 +1,4 @@
-package com.dmh.accountservice.repository.client;
+package com.dmh.accountservice.client;
 
 
 import org.springframework.cloud.openfeign.FeignClient;

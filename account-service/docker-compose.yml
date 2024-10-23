@@ -1,21 +1,22 @@
-
 services:
-  account-db:
-    image: postgres:13
+  account-service-db:
+    image: postgres:latest
     container_name: account-service-db
-    environment:
-      POSTGRES_DB: account_service_db
-      POSTGRES_USER: myuser
-      POSTGRES_PASSWORD: changeme
     ports:
       - "5433:5432"
+    environment:
+      POSTGRES_DB: dmh_account
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
     volumes:
-      - account-data:/var/lib/postgresql/data
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U myuser -d account_service_db"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
+      - account_service_data:/var/lib/postgresql/data
+    networks:
+      - dmh-network
 
 volumes:
-  account-data:
+  account_service_data:
+    name: dmh_account_postgres_data
+
+networks:
+  dmh-network:
+    name: dmh-network

@@ -1,4 +1,4 @@
-package com.dmh.accountservice.repository.client;
+package com.dmh.accountservice.client;
 
 
 import com.dmh.accountservice.entity.dto.UserDto;

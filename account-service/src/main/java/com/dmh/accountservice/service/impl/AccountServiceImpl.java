@@ -2,8 +2,8 @@ package com.dmh.accountservice.service.impl;
 
 import com.dmh.accountservice.entity.Account;
 import com.dmh.accountservice.repository.AccountRepository;
-import com.dmh.accountservice.repository.client.FeignAliasGenerateRepository;
-import com.dmh.accountservice.repository.client.FeignCvuGenerateRepository;
+import com.dmh.accountservice.client.FeignAliasGenerateRepository;
+import com.dmh.accountservice.client.FeignCvuGenerateRepository;
 import com.dmh.accountservice.service.AccountService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

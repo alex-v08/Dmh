@@ -1,4 +1,4 @@
-package com.dmh.gateway;
+package com.dmh.gateway.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

@@ -1,28 +1,30 @@
-server:
-  port: 8083
-
 spring:
   application:
     name: account-service
-  datasource:
-    url: jdbc:postgresql://localhost:5433/account_service_db
-    username: myuser
-    password: changeme
-  jpa:
-    hibernate:
-      ddl-auto: create
-    show-sql: true
   cloud:
     config:
-      enabled: false
+      enabled: false  # Deshabilitar config server temporalmente
+  datasource:
+    url: jdbc:postgresql://localhost:5433/dmh_account
+    username: postgres
+    password: password
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: true
+
+server:
+  port: 8082
+  servlet:
+    context-path: /api
 
 eureka:
   client:
     serviceUrl:
       defaultZone: http://localhost:8761/eureka/
-
-management:
-  endpoints:
-    web:
-      exposure:
-        include: "*"
+    register-with-eureka: true
+    fetch-registry: true

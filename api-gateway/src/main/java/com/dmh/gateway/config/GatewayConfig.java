@@ -1,4 +1,4 @@
-package com.dmh.gateway;
+package com.dmh.gateway.config;
 
 import org.springframework.cloud.gateway.route.RouteLocator;
 import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder;

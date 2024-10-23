@@ -1,22 +1,22 @@
+version: '3.8'
 services:
-  account-service-db:
+  postgres:
     image: postgres:latest
-    container_name: account-service-db
-    ports:
-      - "5433:5432"
+    container_name: dmh_account_db
+    restart: unless-stopped
     environment:
-      POSTGRES_DB: dmh_account
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: password
+      POSTGRES_DB: ${DB_DATABASE:-dmh_account}
+      POSTGRES_USER: ${DB_USERNAME:-user}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-password}
+    ports:
+      - "5432:5432"
     volumes:
-      - account_service_data:/var/lib/postgresql/data
-    networks:
-      - dmh-network
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USERNAME:-user} -d ${DB_DATABASE:-dmh_account}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
 volumes:
-  account_service_data:
-    name: dmh_account_postgres_data
-
-networks:
-  dmh-network:
-    name: dmh-network
+  postgres_data:

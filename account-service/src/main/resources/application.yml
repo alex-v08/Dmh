@@ -5,8 +5,8 @@ spring:
     config:
       enabled: false  # Deshabilitar config server temporalmente
   datasource:
-    url: jdbc:postgresql://localhost:5433/dmh_account
-    username: postgres
+    url: jdbc:postgresql://localhost:5432/dmh_account_db
+    username: user
     password: password
     driver-class-name: org.postgresql.Driver
   jpa:

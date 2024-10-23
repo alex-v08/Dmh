@@ -1,0 +1,67 @@
+Sprint IV
+
+Índice
+Épica: Transferir dinero
+Épica: Testing & calidad
+Épica: Infraestructura
+Opcionales
+
+
+
+
+01	
+02	
+03
+04	
+
+Épica: Transferir dinero
+01
+
+Como usuario quiero poder enviar/transferir dinero a un CBU/CVU/alias desde mi saldo disponible en mi billetera.
+
+Utilizar API de transferencias (GET /accounts/ID/transferences) para ver los últimos destinatarios.
+Status 200 en caso de OK.
+Status 403 Permisos insuficientes.
+API funcional de realizar transferencia (POST /accounts/ID/transferences).
+Status 200 en caso de OK.
+Status 400 Bad request: Cuenta inexistente.
+Status 410 Fondos insuficientes.
+
+Épica: Testing & calidad
+02
+
+Testing manual
+Agregar a la planilla de casos de prueba sobre las funcionalidades del sprint 3.
+Realizar mantenimiento de los casos de prueba manuales generados en el sprint 2, en caso de ser necesario.
+Clasificar los casos de prueba en suite de smoke y regression test.
+Generar la suite de prueba con los casos que se puedan ejecutar, luego ejecutar esta suite de prueba.
+Subir a GitLab la planilla de casos de prueba adjunta o el link al archivo.
+Validar el funcionamiento de la API Rest creada por el back end durante el sprint. Utilizar Postman para las pruebas y crear los scripts de prueba necesarios.
+
+Testing exploratorio
+Realizar test exploratorio sobre lo agregado en el sprint. Entregar un documento con notas y forma de la organización del test exploratorio (sesiones, tours, escenarios, workflows, etc.).
+
+QA Sign Off
+Cantidad de casos de prueba ejecutados. 
+Cantidad de casos de prueba pasados.
+Cantidad de defectos reportados y resueltos. 
+Cantidad de casos de pruebas automatizados. 
+
+Épica: Infraestructura
+03
+
+Infraestructura
+Generar archivo Docker Compose.
+Generar imagen de container Docker para deployar en la nube (AWS).
+
+Opcionales
+04
+
+Quiero descargar un archivo como comprobante del pago del servicio.
+El comprobante de pago debe tener los mismos datos que se muestran en el detalle de la transacción.
+El archivo debe tener formato PDF.
+Quiero ver las últimas 5 cuentas a las que transferí dinero.
+
+Como usuario…
+
+¡Muchas gracias!

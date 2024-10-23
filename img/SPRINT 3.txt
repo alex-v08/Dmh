@@ -1,0 +1,68 @@
+Sprint III
+
+Índice
+Épica: Mi actividad
+Épica: Ingreso de dinero 
+Épica: Testing & calidad
+Opcionales
+
+
+
+01	
+02	
+03
+04
+
+Épica: Mi actividad
+01
+
+Como usuario quiero ver toda la actividad realizada con mi billetera, desde la más reciente a la más antigua, para tener el control de mis transacciones.
+
+API funcional de obtener todas las actividades (GET /accounts/ID/activity).
+Header: Token
+Status 200 en caso de OK.
+Status 400 Bad request.
+Status 403 Sin permisos.
+
+Como usuario necesito el detalle de una actividad en específica. 
+
+API funcional de obtener actividad (GET /accounts/ID/activity/transferencesID).
+Status 200 en caso de OK.
+Status 400 Bad request.
+Status 403 Sin permisos.
+Status 404 TransferID inexistente.
+
+Épica: Ingreso de dinero
+02
+
+Como usuario me gustaría ingresar dinero desde mi tarjeta de crédito o débito a mi billetera Digital Money House.
+
+Utilizar API de CRUD de tarjetas (GET /cards).
+API funcional de registrar ingreso (POST /accounts/ID/transferences).
+Status 201 en caso de OK.
+
+Épica: Testing & calidad
+03
+
+Testing exploratorio
+Realizar test exploratorio sobre lo agregado en el sprint. Entregar un documento con notas y forma de la organización del test exploratorio (sesiones, tours, escenarios, workflows, etc.).
+
+Testing automatizado
+Agregar los casos de prueba desarrollados en el sprint 2 al framework de pruebas automatizadas. 
+
+Opcionales
+04
+
+Como usuario me gustaría filtrar mis actividades por monto aproximado: 
+$0 a $1000
+$1000 a $5000
+$5000 a $20 000
+$20 000 a $100 000
+Más de $100 000
+Como usuario me gustaría filtrar mis actividades por:
+Período 
+Ingreso o egreso
+Monto aproximado
+Como usuario…
+
+¡Muchas gracias!

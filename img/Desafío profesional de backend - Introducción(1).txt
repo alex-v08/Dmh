@@ -1,0 +1,132 @@
+Desafío profesional
+Backend
+
+Te damos la bienvenida
+El desafío profesional se propone como una forma de evaluación en la carrera. Es parte de la formación en Digital House y un requisito para la certificación.
+Este documento tiene como objetivo presentar algunos pilares del mismo: el desafío propuesto, lo que se esperamos de un desarrollador back-end como vos y las formas de evaluación que vamos a implementar para confirmar que terminaste la especialización exitosamente. ¿Empezamos?
+
+Índice
+¿Qué es el desafío profesional?
+¿A dónde queremos llegar?
+Requisitos del proyecto por área
+Resultados esperados al finalizar el proyecto
+Sprints
+
+
+
+
+01	
+02	
+03	
+04	
+05
+
+¿Qué es el desafío profesional?
+01
+
+¿Qué es el desafío profesional?
+El desafío es una aplicación práctica de los conceptos teóricos estudiados hasta el momentos y tiene como objetivo el desarrollo de una Rest API (back-end). Funciona como una estrategia didáctica que consiste en la realización de un conjunto de actividades interrelacionadas con un inicio, un desarrollo y un final. La metodología que utilizamos en DH de “aprender haciendo”, favorece la articulación de conocimientos teóricos y prácticos, además de acercarlos a la realidad del mercado profesional.
+
+Beneficios
+Permite aplicar las herramientas aprendidas en las materias realizadas.
+01
+Nos desafía a llevar las ideas a la práctica.
+02
+
+¿Cómo funciona?
+En ésta especialización de back-end el desafío está destinado a la creación de una Rest API de una billetera virtual.
+
+Te recomendamos que lo comiences luego de haber realizado el resto de los cursos de la especialización, dado que éste desafío involucra gran parte de todas las asignaturas anteriores como base técnica, pero con más foco en el back-end, testing e infraestructura.
+
+El desafío se divide en cuatro sprints, cada uno con un conjunto de entregables específicos. Todos los requerimientos del mismo deberán ser entregados al final de este curso a traves del envío de tu repositorio.
+
+¿De qué se trata el desafío?
+En términos generales el objetivo del proyecto es crear los servicios detrás del funcionamiento de una billetera virtual llamada Digital Money House. 
+Este producto digital será el mínimo producto viable para el lanzamiento de la billetera, y el usuario tendrá las funcionalidades básicas de registro, inicio y cierre de sesión, dar de altos medios de pago como tarjetas de crédito o débito, recargar saldo en su billetera y poder usar el saldo de su billetera para hacer envíos de dinero a otros usuarios y/o cuentas.
+El usuario contará con una Cuenta Virtual Uniforme única que será la cuenta que le pertenece. Y deberá llevar registro de todas las transacciones (ingresos y egresos) que se realizan a través de la billetera, también conocido como movimientos o actividad de la cuenta.
+
+¿A dónde queremos llegar?
+02
+
+Funcionalidades esperadas
+Servicio de registro de usuario.
+Servicios de inicio y cierre de sesión.
+Servicios de consulta de saldo e información de la cuenta
+Servicios de consulta y actualización de datos del usuario.
+Servicios de gestión de pago.
+
+Servicio de ingreso de dinero.
+
+Servicio de actividad del usuario.
+
+Servicio de envío de dinero.
+
+Requisitos del proyecto por área
+03
+
+Back-end developer:
+Creación de microservicios necesarios Java y Spring Boot Data con Hibernate.
+Construir una API Rest con Spring Boot y JSON .
+Documentar APIs con Swagger.
+Implementar un inicio de sesión con JWT.
+Conectar a una base de datos.
+Integrar con el front-end provisto por DH 
+
+ACCESO AL FRONT-END
+
+Analista de base de datos:
+Modelar una base de datos para cumplir con las funcionalidades del proyecto con un diagrama DER, que contenga entidades, atributos, relaciones y tipos de datos.
+Crear e implementar la base de datos.
+Documentación de la creación de la BD (DUMP) —opcional—.
+
+QA / Analista de testing:
+Notificación de defectos (errores).
+Construir casos de prueba, ya sea a partir de la documentación de los requisitos del software o de la propia aplicación, pruebas de humo y regresión.
+Automatizar con RestAssured y JAVA como lenguaje principal
+
+Analista de infraestructura:
+Usar Vercel para desplegar el frontend.
+(acá te dejamos una ayuda)
+Implementar una instancia Bucket S3 para el front end e imágenes desde la consola de AWS.
+Conectarse a una  base de datos provista.
+Crear una integración continua con pipelines —opcional—.
+
+Resultados esperados al finalizar el proyecto
+04
+
+Objetivo final
+El objetivo final del desafío es crear un repositorio de GitLab con el contenido programado, el link y el esbozo de la infraestructura utilizada. Además, es necesario construir un documento de proyecto que contenga los siguientes ítems:
+
+Objetivos del proyecto.
+Planificación y descripción de las actividades (backlog) con plazos estimados.
+Informes de entrega.
+Informes de retro personal.
+Lecciones aprendidas.
+
+Sprints
+05
+
+Sprint 1: 
+Crear los servicios necesarios para que el usuario pueda registrarse, iniciar sesión y cerrar sesión en la billetera virtual Digital Money House . El desarrollo incluye testing unitario, plan de pruebas y tests de integración, manejo de errores.
+Usar Java, spring-boot, base de datos MySQL y deployar estos servicios.
+Registro, inicio y cierre de sesión.
+
+Sprint 2: 
+Para el acceso a estas páginas los servicios deben garantizar  que el usuario deberá estar logueado y el token deberá ser enviado para la seguridad del sitio.
+Crear los endpoints donde el usuario pueda consultar sus datos y editar algunos de ellos.
+Servicios de inserción, consulta, actualización y eliminación de las tarjetas que el usuario desea asociar a su billetera.
+Desarrollar un servicio que permita al usuario ingresar dinero desde sus tarjetas hacia su billetera y tener saldo a favor.
+Mi Perfil - Registro de Tarjetas - Ingreso de dinero
+
+Sprint 3: 
+Para el acceso a estas páginas el usuario deberà estar logueado, por eso el token deberá estar presente en todos estos casos en el header.
+Transferir dinero es un egreso desde el saldo disponible en la billetera hacia una cuenta o alias de otro usuario de la billetera o externo.
+El dashboard muestra información básica de la cuenta como el saldo disponible, alias y número de CVU del usuario, así como un resumen de los últimos movimientos/transacciones realizadas por el usuario con su billetera virtual.
+Se deberá trabajar con  las mismas especificaciones técnicas, testing, validación de formularios y respuestas de la Rest API.
+Transferir dinero y Dashboard
+
+Sprint 4: 
+Actividad del usuario
+La actividad del usuario permite ver todos los movimientos realizados por el usuario usando su billetera, es decir, ingresos y egresos de dinero, y poder usar ciertos filtros para realizar búsqueda de esos movimientos.
+
+¡Muchas gracias!

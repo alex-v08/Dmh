@@ -1,0 +1,80 @@
+Sprint II
+
+Índice
+Épica: Dashboard
+Épica: Mi perfil 
+Épica: Registro de tarjetas
+Épica: Testing & calidad
+Opcionales
+
+
+
+
+01	
+02	
+03
+04
+05	
+
+Épica: Dashboard
+01
+
+Como usuario necesito ver, en el inicio, la cantidad de dinero disponible y los últimos 5 movimientos realizados con la billetera Digital Money House.
+
+API funcional de resumen de dinero disponible (GET /accounts/ID).
+API funcional de los últimos movimientos de la cuenta (GET /accounts/ID/transactions).
+
+Épica: Mi perfil
+02
+
+Como usuario quiero ver mi perfil para consultar los datos de mi Cuenta Virtual Uniforme (CVU) y alias provistos por Digital Money House.
+
+API funcional de usuarios (GET y PATCH /users/ID).
+API funcional de info de la cuenta (GET y PATCH /accounts/ID).
+
+Épica: Registro de tarjetas
+03
+
+Como usuario me gustaría ver una lista de las tarjetas de crédito y débito que tengo disponibles para utilizar.
+
+API funcional de CRUD de tarjetas (GET /cards).
+Generar 2 endpoints: 
+Obtener todas las tarjetas asociadas (/accounts/ID/cards).
+Obtener los datos de una tarjeta específica (/accounts/ID/cards/ID) *Verificar si se usa.
+Respuestas posibles: 
+Status 200 vacío si es que  el usuario no tiene tarjetas asociadas.
+Status 200 con la lista de las tarjetas.
+Status 500 en caso de que no se encuentre.
+
+Como usuario me gustaría agregar una tarjeta de débito o crédito para utilizarla para cargar saldo o pagar servicios a través de la billetera.
+
+API funcional de CRUD de tarjetas (POST /cards).
+Crear una tarjeta y asociarla a la cuenta (/accounts/ID/cards).
+Respuestas posibles:
+Status 201 en caso de creación OK.
+Status 409 en caso de que la tarjeta ya esté asociada a otra cuenta.
+Status 400 Bad request.
+
+Como usuario me gustaría eliminar una tarjeta de débito o crédito cuando no quiero utilizarla más a través de la billetera. 
+
+API Funcional de CRUD de tarjetas (DELETE /accounts/ID/cards/ID).
+Respuestas posibles:
+Status 200 en caso de eliminación correcta.
+Status 404 en caso de que no se encuentre el ID de la tarjeta asociada al usuario.
+
+Épica: Testing & calidad
+04
+
+Testing manual
+Agregar a la planilla de casos de prueba sobre las funcionalidades del sprint 2.
+Realizar mantenimiento de los casos de prueba manuales generados en el sprint 1, en caso de ser necesario.
+Clasificar los casos de prueba en suite de smoke y regression test.
+Generar la suite de prueba con los casos que se puedan ejecutar, luego ejecutar esta suite de prueba.
+Subir a GitLab la planilla de casos de prueba adjunta o el link al archivo.
+
+Testing automatizado
+Automatizar los casos de prueba que están dentro de la suite de smoke utilizando Java y RestAssured. 
+Subir el framework de automatización a GitLab. 
+Subir a GitLab la planilla de casos de prueba adjunta o el link al archivo.
+
+¡Muchas gracias!

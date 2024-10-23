@@ -1,0 +1,96 @@
+Sprint I
+
+Índice
+Épica: Inicio, registro y acceso
+Épica: Testing & calidad
+Épica: Infraestructura
+Opcionales
+
+
+
+
+01	
+02	
+03
+04	
+
+Épica: Inicio, registro y acceso
+01
+
+Como usuario quiero registrarme a Digital Money House para acceder y usar los servicios que ofrece.
+
+API funcional de registro de usuario
+Debe contener los siguientes campos: 
+ID.
+ID, NyAP, DNI/identificación, email, teléfono y contraseña.
+Asignación de CVU (22 dígitos numéricos) y alias (3 palabras separadas por un punto) de forma autogenerada y aleatoria, eligiendo de un archivo TXT.
+Respuesta OK con estructura JSON los campos mencionados sin la contraseña.
+Handler errores:
+Bad request
+Error 500
+Usuario registrado OK
+
+Como usuario quiero acceder a Digital Money House para poder realizar transferencias de fondos. 
+
+B) API funcional de login de usuarios
+Debe contener los siguientes campos: 
+Email y contraseña.
+Respuesta OK con estructura JSON con el token.
+Handler errores:
+Bad request 404: Usuario inexistente
+Error 400: contraseña incorrecta
+Error 500
+Debe tener un token para poder navegar entre las páginas del producto. Es decir, al recargar la página, no se debe desloguear.
+
+Como usuario necesito poder cerrar sesión en la billetera Digital Money House.
+
+C) API user/logout para invalidar token del usuario 
+En el header, se envía el token del usuario a invalidar.
+Status 200: OK
+Status 500
+
+Épica: Testing & calidad
+02
+
+Testing exploratorio
+Realizar test exploratorio sobre lo agregado en el sprint. 
+Entregar un documento con notas y forma de la organización del test exploratorio (sesiones, tours, escenarios, workflows, etc.).
+
+Testing kickoff
+Realizar un plan de pruebas en donde se mencione lo siguiente: 
+¿Cómo escribir un caso de prueba? 
+¿Cómo reportar un defecto?
+Criterio para incluir un caso de prueba en una suite de humo.
+Criterio para incluir un caso de prueba en una suite de regresión.
+
+Testing manual
+Agregar a la planilla de casos de prueba sobre las funcionalidades del sprint 1.
+En caso de ser necesario, realizar mantenimiento de los casos de prueba manuales generados en el sprint 1.
+Clasificar los casos de prueba en suite de smoke y regression test.
+Generar la suite de prueba con los casos que se puedan ejecutar. Luego ejecutar esta suite de prueba.
+Subir a GitLab la planilla de casos de prueba adjunta o el link al archivo.
+
+Épica: Infraestructura
+03
+
+Infraestructura
+Herramientas necesarias para el funcionamiento local del proyecto:
+Git
+Docker
+Funcionamiento en microservicios
+Presentar un diseño de la infraestructura necesaria.
+Mostrar un boceto de la red y sus componentes. Ejemplo: servidores, almacenamiento, red interna y base de datos.
+
+Opcionales
+04
+
+Se debe enviar un mail con un link para recuperar la contraseña.
+El link antes mencionado debe dirigir a una pantalla donde se debe ingresar la nueva contraseña y repetirla, para verificar que no haya errores en el ingreso.
+Como usuario necesito recuperar mi contraseña vía correo electrónico.
+
+Se debe enviar un mail con un código de 6 dígitos.
+API funcional de verificación de login de usuario por primera vez.
+
+Como usuario me gustaría validar mi correo electrónico cuando me registre a Digital Money House y haga el primer login.
+
+¡Muchas gracias!

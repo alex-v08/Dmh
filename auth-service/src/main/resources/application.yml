@@ -7,11 +7,11 @@ spring:
     import: optional:configserver:${SPRING_CLOUD_CONFIG_URI:http://localhost:8888}
   cloud:
     config:
-      fail-fast: false
+      enabled: false
   datasource:
-    url: ${SPRING_DATASOURCE_URL:jdbc:mysql://localhost:3306/dmh_auth}
-    username: ${DB_USERNAME:-user}
-    password: ${DB_PASSWORD:-password}
+    url: jdbc:mysql://localhost:3306/dmh_auth
+    username: user
+    password: DB_PASSWORD:-password
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
@@ -57,3 +57,12 @@ logging:
     com.dmh.authservice: DEBUG
     org.springframework.security: DEBUG
     org.springframework.web: DEBUG
+    
+
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    operationsSorter: method
+  packages-to-scan: com.dmh.authservice.controller

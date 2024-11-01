@@ -2,8 +2,11 @@ package com.dmh.authservice.repository;
 
 import com.dmh.authservice.model.Token;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -19,7 +22,7 @@ public interface TokenRepository extends JpaRepository<Token, Long> {
         where t.userId = :userId and 
         (t.expired = false or t.revoked = false)
     """)
-    List<Token> findAllValidTokensByUserId(Long userId);
+    List<Token> findAllValidTokensByUserId(@Param("userId") Long userId);
 
     @Query("""
         select t from Token t 
@@ -29,8 +32,22 @@ public interface TokenRepository extends JpaRepository<Token, Long> {
     """)
     List<Token> findAllValidTokens();
 
+    @Modifying
+    @Transactional
     void deleteByUserId(Long userId);
 
-    void deleteExpiredTokens (LocalDateTime now);
+    @Modifying
+    @Transactional
+    @Query("""
+        delete from Token t 
+        where t.expiresAt < :now or 
+        (t.expired = true and t.revoked = true)
+    """)
+    void deleteExpiredTokens(@Param("now") LocalDateTime now);
 
+    @Query("""
+        select t from Token t 
+        where t.expired = true or t.revoked = true
+    """)
+    List<Token> findAllByExpiredTrueOrRevokedTrue();
 }

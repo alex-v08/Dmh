@@ -21,20 +21,17 @@ public class Token {
     private Long id;
 
     @Column(nullable = false, unique = true)
-    private String token;
+    private String token;  // El JWT string
 
     @Column(name = "token_type", nullable = false)
     @Enumerated(EnumType.STRING)
     private TokenType tokenType = TokenType.BEARER;
 
     @Column(nullable = false)
-    private Long userId;
+    private Long userId;  // ID del usuario al que pertenece el token
 
-    @Column(nullable = false)
-    private boolean revoked;
-
-    @Column(nullable = false)
-    private boolean expired;
+    private boolean revoked;  // Si el token ha sido revocado
+    private boolean expired;  // Si el token ha expirado
 
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
@@ -46,7 +43,6 @@ public class Token {
     protected void onCreate() {
         createdAt = LocalDateTime.now();
         if (expiresAt == null) {
-            // Por defecto, el token expira en 24 horas
             expiresAt = createdAt.plusHours(24);
         }
     }

@@ -1,118 +1,174 @@
 package com.dmh.authservice.service;
 
 import com.dmh.authservice.client.UserServiceClient;
-import com.dmh.authservice.exception.InvalidCredentialsException;
-import com.dmh.authservice.exception.InvalidTokenException;
-import com.dmh.authservice.model.AuthenticationRequest;
-import com.dmh.authservice.model.AuthenticationResponse;
-import com.dmh.authservice.model.dto.UserDTO;
+import com.dmh.authservice.config.CustomUserDetails;
+import com.dmh.authservice.config.JwtTokenProvider;
+import com.dmh.authservice.exception.*;
+import com.dmh.authservice.model.*;
+
 import com.dmh.authservice.repository.TokenRepository;
+import feign.FeignException;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 @Slf4j
 @RequiredArgsConstructor
 public class AuthenticationService {
     private final AuthenticationManager authenticationManager;
-    private final UserServiceClient userServiceClient;
-    private final JwtService jwtService;
+    private final UserServiceClient userServiceClient;  // Solo una instancia
+    private final JwtTokenProvider tokenProvider;
     private final TokenRepository tokenRepository;
-    private final PasswordEncoder passwordEncoder;
+    private final TokenService tokenService;  // Usar tu implementación personalizada de TokenService
 
     @Transactional
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
         try {
+            log.debug("Intentando autenticar usuario con email: {}", request.getEmail());
+
+            // Buscar usuario primero
+            UserDTO user = findUserByEmail(request.getEmail());
+            if (user == null) {
+                throw new UserNotFoundException("Usuario no encontrado");
+            }
+
             // Autenticar credenciales
-            authenticationManager.authenticate(
+            Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
                             request.getEmail(),
                             request.getPassword()
                     )
             );
 
-            // Buscar usuario
-            UserDTO user = userServiceClient.findByEmail(request.getEmail());
-            if (user == null) {
-                throw new InvalidCredentialsException("Usuario no encontrado");
-            }
+            // Obtener detalles del usuario autenticado
+            CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
 
-            // Generar token JWT
-            String token = jwtService.generateToken(user);
+            // Revocar tokens existentes
+            tokenService.revokeAllUserTokens(user.getId());
 
+            // Generar nuevo token
+            String jwt = tokenProvider.generateToken(
+                    user.getEmail(),
+                    user.getId(),
+                    tokenProvider.getJwtExpiration()
+            );
+
+            // Guardar el nuevo token
+            tokenService.saveToken(jwt, user.getId(), LocalDateTime.now().plusDays(1));
+
+            log.info("Usuario autenticado exitosamente: {}", user.getEmail());
+
+            // Retornar respuesta
             return AuthenticationResponse.builder()
-                    .token(token)
+                    .token(jwt)
                     .userId(user.getId())
                     .email(user.getEmail())
                     .build();
 
+        } catch (BadCredentialsException e) {
+            log.error("Credenciales inválidas para el usuario: {}", request.getEmail());
+            throw new InvalidCredentialsException("Credenciales inválidas");
+        } catch (UserNotFoundException e) {
+            log.error("Usuario no encontrado: {}", request.getEmail());
+            throw e;
         } catch (Exception e) {
-            log.error("Authentication failed for user: {}", request.getEmail(), e);
-            throw new InvalidCredentialsException("Error en la autenticación");
+            log.error("Error en el proceso de autenticación", e);
+            throw new AuthenticationProcessException("Error en el proceso de autenticación");
         }
     }
 
     @Transactional
-    public void logout(String token) {
-        if (token == null || !token.startsWith("Bearer ")) {
-            throw new InvalidTokenException("Token inválido");
-        }
+    public void logout(String authHeader) {
+        try {
+            String jwt = extractTokenFromHeader(authHeader);
+            log.debug("Procesando logout para token: {}", jwt);
 
-        String jwt = token.substring(7);
-        jwtService.revokeToken(jwt);
+            Token token = tokenRepository.findByToken(jwt)
+                    .orElseThrow(() -> new TokenNotFoundException("Token no encontrado"));
+
+            token.setRevoked(true);
+            token.setExpired(true);
+            token.setExpiresAt(LocalDateTime.now());
+
+            tokenRepository.save(token);
+            log.info("Logout exitoso");
+        } catch (TokenNotFoundException e) {
+            log.error("Token no encontrado durante logout");
+            throw e;
+        } catch (Exception e) {
+            log.error("Error durante el proceso de logout", e);
+            throw new LogoutProcessException("Error durante el proceso de logout");
+        }
     }
 
-    @Transactional
-    public AuthenticationResponse refreshToken(String token) {
-        if (token == null || !token.startsWith("Bearer ")) {
-            throw new InvalidTokenException("Token inválido");
-        }
+    public boolean validateToken(String authHeader) {
+        try {
+            String jwt = extractTokenFromHeader(authHeader);
+            log.debug("Validando token: {}", jwt);
 
-        String jwt = token.substring(7);
-        String email = jwtService.extractUsername(jwt);
+            Token token = tokenRepository.findByToken(jwt)
+                    .orElseThrow(() -> new TokenNotFoundException("Token no encontrado"));
 
-        UserDTO user = userServiceClient.findByEmail(email);
-        if (user == null) {
-            throw new InvalidCredentialsException("Usuario no encontrado");
-        }
+            if (token.isExpired() || token.isRevoked()) {
+                log.debug("Token expirado o revocado");
+                return false;
+            }
 
-        String newToken = jwtService.generateToken(user);
-
-        return AuthenticationResponse.builder()
-                .token(newToken)
-                .userId(user.getId())
-                .email(user.getEmail())
-                .build();
-    }
-
-    @Scheduled(cron = "0 0 * * * *") // Cada hora
-    @Transactional
-    public void cleanupExpiredTokens() {
-        tokenRepository.deleteExpiredTokens(LocalDateTime.now());
-    }
-
-    public boolean validateToken(String token) {
-        if (token == null || !token.startsWith("Bearer ")) {
+            boolean isValid = tokenProvider.validateToken(jwt);
+            log.debug("Token validado: {}", isValid);
+            return isValid;
+        } catch (Exception e) {
+            log.error("Error en la validación del token", e);
             return false;
         }
-
-        String jwt = token.substring(7);
-        return jwtService.validateToken(jwt);
     }
 
-    // Método helper para extraer el token JWT del header Authorization
-    private String extractJwtFromHeader(String authHeader) {
-        if (authHeader != null && authHeader.startsWith("Bearer ")) {
-            return authHeader.substring(7);
+    public UserDTO findUserByEmail(String email) {
+        try {
+            log.debug("Buscando usuario por email: {}", email);
+            ResponseEntity<UserDTO> response = userServiceClient.findByEmail(email);
+
+            if (!response.getStatusCode().is2xxSuccessful() || response.getBody() == null) {
+                throw new UserNotFoundException("Usuario no encontrado con email: " + email);
+            }
+
+            return response.getBody();
+        } catch (FeignException e) {
+            log.error("Error al buscar usuario por email: {}", email, e);
+            throw new UserNotFoundException("Error al buscar usuario: " + e.getMessage());
         }
-        throw new InvalidTokenException("Token inválido o formato incorrecto");
+    }
+
+    public UserDTO findUserById(Long id) {
+        try {
+            log.debug("Buscando usuario por ID: {}", id);
+            ResponseEntity<UserDTO> response = userServiceClient.findById(id);
+
+            if (!response.getStatusCode().is2xxSuccessful() || response.getBody() == null) {
+                throw new UserNotFoundException("Usuario no encontrado con ID: " + id);
+            }
+
+            return response.getBody();
+        } catch (FeignException e) {
+            log.error("Error al buscar usuario por ID: {}", id, e);
+            throw new UserNotFoundException("Error al buscar usuario: " + e.getMessage());
+        }
+    }
+
+    private String extractTokenFromHeader(String authHeader) {
+        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+            throw new InvalidTokenException("Invalid Authorization header");
+        }
+        return authHeader.substring(7);
     }
 }

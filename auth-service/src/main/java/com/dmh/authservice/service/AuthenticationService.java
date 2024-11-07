@@ -5,9 +5,14 @@ import com.dmh.authservice.config.CustomUserDetails;
 import com.dmh.authservice.config.JwtTokenProvider;
 import com.dmh.authservice.exception.*;
 import com.dmh.authservice.model.*;
-
 import com.dmh.authservice.repository.TokenRepository;
 import feign.FeignException;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,20 +22,42 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
+import org.springframework.web.ErrorResponse;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Service
 @Slf4j
 @RequiredArgsConstructor
+@Tag(name = "Authentication", description = "Authentication management APIs")
 public class AuthenticationService {
     private final AuthenticationManager authenticationManager;
-    private final UserServiceClient userServiceClient;  // Solo una instancia
+    private final UserServiceClient userServiceClient;
     private final JwtTokenProvider tokenProvider;
     private final TokenRepository tokenRepository;
-    private final TokenService tokenService;  // Usar tu implementación personalizada de TokenService
+    private final TokenService tokenService;
 
+    @Operation(
+            summary = "Authenticate user",
+            description = "Search a user by email and password. Return a new token."
+    )
+    @ApiResponses({
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Successful authentication",
+                    content = @Content(schema = @Schema(implementation = AuthenticationResponse.class))
+            ),
+            @ApiResponse(
+                    responseCode = "401",
+                    description = "Invalid credentials",
+                    content = @Content(schema = @Schema(implementation = ErrorResponse.class))
+            ),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "User not found",
+                    content = @Content(schema = @Schema(implementation = ErrorResponse.class))
+            )
+    })
     @Transactional
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
         try {
@@ -44,31 +71,24 @@ public class AuthenticationService {
 
             // Autenticar credenciales
             Authentication authentication = authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(
+                    new UsernamePasswordAuthenticationToken (
                             request.getEmail(),
                             request.getPassword()
                     )
             );
 
-            // Obtener detalles del usuario autenticado
             CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
-
-            // Revocar tokens existentes
             tokenService.revokeAllUserTokens(user.getId());
 
-            // Generar nuevo token
             String jwt = tokenProvider.generateToken(
                     user.getEmail(),
                     user.getId(),
                     tokenProvider.getJwtExpiration()
             );
 
-            // Guardar el nuevo token
             tokenService.saveToken(jwt, user.getId(), LocalDateTime.now().plusDays(1));
-
             log.info("Usuario autenticado exitosamente: {}", user.getEmail());
 
-            // Retornar respuesta
             return AuthenticationResponse.builder()
                     .token(jwt)
                     .userId(user.getId())
@@ -87,6 +107,26 @@ public class AuthenticationService {
         }
     }
 
+    @Operation(
+            summary = "Logout current session",
+            description = "Ends current session and invalidates the token"
+    )
+    @ApiResponses({
+            @ApiResponse(
+                    responseCode = "202",
+                    description = "Successfully logged out"
+            ),
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "Invalid token format",
+                    content = @Content(schema = @Schema(implementation = ErrorResponse.class))
+            ),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "Token not found",
+                    content = @Content(schema = @Schema(implementation = ErrorResponse.class))
+            )
+    })
     @Transactional
     public void logout(String authHeader) {
         try {
@@ -111,6 +151,22 @@ public class AuthenticationService {
         }
     }
 
+    @Operation(
+            summary = "Validate token",
+            description = "Validates if a token is valid and not expired/revoked"
+    )
+    @ApiResponses({
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Token validation result",
+                    content = @Content(schema = @Schema(implementation = Boolean.class))
+            ),
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "Invalid token format",
+                    content = @Content(schema = @Schema(implementation = ErrorResponse.class))
+            )
+    })
     public boolean validateToken(String authHeader) {
         try {
             String jwt = extractTokenFromHeader(authHeader);
@@ -133,6 +189,22 @@ public class AuthenticationService {
         }
     }
 
+    @Operation(
+            summary = "Find user by email",
+            description = "Retrieves user information by email"
+    )
+    @ApiResponses({
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "User found",
+                    content = @Content(schema = @Schema(implementation = UserDTO.class))
+            ),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "User not found",
+                    content = @Content(schema = @Schema(implementation = ErrorResponse.class))
+            )
+    })
     public UserDTO findUserByEmail(String email) {
         try {
             log.debug("Buscando usuario por email: {}", email);
@@ -149,6 +221,22 @@ public class AuthenticationService {
         }
     }
 
+    @Operation(
+            summary = "Find user by ID",
+            description = "Retrieves user information by ID"
+    )
+    @ApiResponses({
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "User found",
+                    content = @Content(schema = @Schema(implementation = UserDTO.class))
+            ),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "User not found",
+                    content = @Content(schema = @Schema(implementation = ErrorResponse.class))
+            )
+    })
     public UserDTO findUserById(Long id) {
         try {
             log.debug("Buscando usuario por ID: {}", id);

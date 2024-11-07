@@ -1,52 +1,122 @@
-server:
-  port: 8080
-
 spring:
   application:
     name: api-gateway
+  main:
+    web-application-type: reactive
+    allow-bean-definition-overriding: true
   cloud:
     gateway:
       discovery:
         locator:
           enabled: true
+          lower-case-service-id: true
       routes:
-        - id: user-service
-          uri: lb://USER-SERVICE
+        # Documentation Routes
+        - id: openapi
+          uri: http://localhost:${server.port}
           predicates:
-            - Path=/api/users/**
-        - id: account-service
-          uri: lb://ACCOUNT-SERVICE
+            - Path=/v3/api-docs/**
+          filters:
+            - RewritePath=/v3/api-docs/(?<path>.*)/v3/api-docs, /$\{path}/v3/api-docs
+        
+        # Auth Service Routes
+        - id: auth-service-docs
+          uri: lb://AUTH-SERVICE
           predicates:
-            - Path=/api/accounts/**
+            - Path=/v3/api-docs/auth-service/**
+          filters:
+            - RewritePath=/v3/api-docs/auth-service/(?<path>.*), /v3/api-docs/$\{path}
         - id: auth-service
           uri: lb://AUTH-SERVICE
           predicates:
             - Path=/api/auth/**
+        
+        # User Service Routes
+        - id: user-service-docs
+          uri: lb://USER-SERVICE
+          predicates:
+            - Path=/v3/api-docs/user-service/**
+          filters:
+            - RewritePath=/v3/api-docs/user-service/(?<path>.*), /v3/api-docs/$\{path}
+        - id: user-service
+          uri: lb://USER-SERVICE
+          predicates:
+            - Path=/api/users/**
+        
+        # Account Service Routes
+        - id: account-service-docs
+          uri: lb://ACCOUNT-SERVICE
+          predicates:
+            - Path=/v3/api-docs/account-service/**
+          filters:
+            - RewritePath=/v3/api-docs/account-service/(?<path>.*), /v3/api-docs/$\{path}
+        - id: account-service
+          uri: lb://ACCOUNT-SERVICE
+          predicates:
+            - Path=/api/accounts/**
+        
+        # Transaction Service Routes
+        - id: transaction-service-docs
+          uri: lb://TRANSACTION-SERVICE
+          predicates:
+            - Path=/v3/api-docs/transaction-service/**
+          filters:
+            - RewritePath=/v3/api-docs/transaction-service/(?<path>.*), /v3/api-docs/$\{path}
         - id: transaction-service
           uri: lb://TRANSACTION-SERVICE
           predicates:
             - Path=/api/transactions/**
-        - id: generate-cvu-service
-          uri: lb://GENERATE-CVU
+        
+        # Card Service Routes
+        - id: card-service-docs
+          uri: lb://CARD-SERVICE
           predicates:
-            - Path=/api/cvu/**
-        - id: generate-alias-service
-          uri: lb://GENERATE-ALIAS
+            - Path=/v3/api-docs/card-service/**
+          filters:
+            - RewritePath=/v3/api-docs/card-service/(?<path>.*), /v3/api-docs/$\{path}
+        - id: card-service
+          uri: lb://CARD-SERVICE
           predicates:
-            - Path=/api/alias/**
+            - Path=/api/cards/**
+
+server:
+  port: 8080
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    config-url: /v3/api-docs/swagger-config
+    urls:
+      - url: /v3/api-docs
+        name: Gateway API
+      - url: /v3/api-docs/auth-service/v3/api-docs
+        name: Auth Service
+      - url: /v3/api-docs/user-service/v3/api-docs
+        name: User Service
+      - url: /v3/api-docs/account-service/v3/api-docs
+        name: Account Service
+      - url: /v3/api-docs/transaction-service/v3/api-docs
+        name: Transaction Service
+      - url: /v3/api-docs/card-service/v3/api-docs
+        name: Card Service
+  cache:
+    disabled: true
+  api-docs:
+    enabled: true
+    path: /v3/api-docs
 
 eureka:
   client:
     serviceUrl:
       defaultZone: http://localhost:8761/eureka/
+  instance:
+    preferIpAddress: true
 
 management:
   endpoints:
     web:
       exposure:
         include: "*"
-
-logging:
-  level:
-    org.springframework.cloud.gateway: DEBUG
-    reactor.netty: DEBUG
+  endpoint:
+    health:
+      show-details: always

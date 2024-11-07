@@ -1,74 +1,183 @@
 package com.dmh.UserService.controller;
 
-import com.dmh.UserService.dto.UserDto;
+import com.dmh.UserService.dto.NewUserResponse;
 import com.dmh.UserService.entity.Users;
-import com.dmh.UserService.service.IUsersService;
+import com.dmh.UserService.dto.UserDto;
 import com.dmh.UserService.mapper.UserMapper;
+import com.dmh.UserService.service.IUsersService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.ErrorResponse;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/users")
+@Tag(name = "User", description = "User management APIs")
+@RequiredArgsConstructor
 public class UsersController {
 
-    @Autowired
-    private IUsersService usersService;
+    private final IUsersService userService;
+    private final UserMapper userMapper;
 
-    @Autowired
-    private UserMapper userMapper;
-
+    @Operation(
+            summary = "Create a new user with a new account",
+            description = "Saves user data by email and password, and generates a new account with a unique random CVU and alias."
+    )
+    @ApiResponses({
+            @ApiResponse(
+                    responseCode = "201",
+                    description = "Created",
+                    content = @Content(schema = @Schema(implementation = NewUserResponse.class))
+            ),
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "Bad Request",
+                    content = @Content(schema = @Schema(implementation = ErrorResponse.class))
+            ),
+            @ApiResponse(
+                    responseCode = "403",
+                    description = "Forbidden",
+                    content = @Content(schema = @Schema(implementation = ErrorResponse.class))
+            ),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "Not Found",
+                    content = @Content(schema = @Schema(implementation = ErrorResponse.class))
+            ),
+            @ApiResponse(
+                    responseCode = "409",
+                    description = "Conflict",
+                    content = @Content(schema = @Schema(implementation = ErrorResponse.class))
+            )
+    })
     @PostMapping
-    @Operation(summary = "Create a new user with a new account")
-    public ResponseEntity<UserDto> createUser(@Valid @RequestBody UserDto userDto) {
+    public ResponseEntity<NewUserResponse> createUser(
+            @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                    description = "User creation request",
+                    required = true,
+                    content = @Content(schema = @Schema(implementation = UserDto.class))
+            )
+            @RequestBody @Valid UserDto userDto) {
         Users user = userMapper.userDtoToUser(userDto);
-        Users createdUser = usersService.save(user);
-        return new ResponseEntity<>(userMapper.userToUserDto(createdUser), HttpStatus.CREATED);
+        Users createdUser = userService.save(user);
+        return new ResponseEntity<>(userMapper.userToNewUserResponse(createdUser), HttpStatus.CREATED);
     }
 
-    @GetMapping
-    public ResponseEntity<List<UserDto>> getAllUsers() {
-        List<Users> users = usersService.findAll();
-        List<UserDto> userDtos = users.stream()
-                .map(userMapper::userToUserDto)
-                .collect(Collectors.toList());
-        return new ResponseEntity<>(userDtos, HttpStatus.OK);
-    }
-
+    @Operation(
+            summary = "Get user data",
+            description = "Get email, firstname, lastname, phone, and dni from a specific user"
+    )
+    @SecurityRequirement(name = "bearerAuth")
+    @ApiResponses({
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "OK",
+                    content = @Content(schema = @Schema(implementation = UserDto.class))
+            ),
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "Bad Request",
+                    content = @Content(schema = @Schema(implementation = ErrorResponse.class))
+            ),
+            @ApiResponse(
+                    responseCode = "401",
+                    description = "Unauthorized",
+                    content = @Content(schema = @Schema(implementation = ErrorResponse.class))
+            ),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "Not Found",
+                    content = @Content(schema = @Schema(implementation = ErrorResponse.class))
+            )
+    })
     @GetMapping("/{id}")
-    @Operation(summary = "Get user data")
-    public ResponseEntity<UserDto> getUserById(@PathVariable Long id) {
-        Users user = usersService.findById(id);
-        return user != null ? ResponseEntity.ok(userMapper.userToUserDto(user)) : ResponseEntity.notFound().build();
+    public ResponseEntity<UserDto> getUserById(
+            @Parameter(description = "User ID", required = true)
+            @PathVariable Long id) {
+        Users user = userService.findById(id);
+        return ResponseEntity.ok(userMapper.userToUserDto(user));
     }
 
+    @Operation(
+            summary = "Get user by email",
+            description = "Retrieve user information by email address"
+    )
+    @SecurityRequirement(name = "bearerAuth")
+    @ApiResponses({
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "User found",
+                    content = @Content(schema = @Schema(implementation = UserDto.class))
+            ),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "User not found",
+                    content = @Content(schema = @Schema(implementation = ErrorResponse.class))
+            )
+    })
     @GetMapping("/email/{email}")
-    public ResponseEntity<UserDto> getUserByEmail(@PathVariable String email) {
-        Users user = usersService.findByEmail(email);
-        return user != null ? ResponseEntity.ok(userMapper.userToUserDto(user)) : ResponseEntity.notFound().build();
+    public ResponseEntity<UserDto> getUserByEmail(
+            @Parameter(description = "User email", required = true)
+            @PathVariable String email) {
+        Users user = userService.findByEmail(email);
+        return ResponseEntity.ok(userMapper.userToUserDto(user));
     }
 
+    @Operation(
+            summary = "Update user data",
+            description = "Update email, password, firstname, lastname, phone, or dni from a specific user"
+    )
+    @SecurityRequirement(name = "bearerAuth")
+    @ApiResponses({
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "OK",
+                    content = @Content(schema = @Schema(implementation = UserDto.class))
+            ),
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "Bad Request",
+                    content = @Content(schema = @Schema(implementation = ErrorResponse.class))
+            ),
+            @ApiResponse(
+                    responseCode = "401",
+                    description = "Unauthorized",
+                    content = @Content(schema = @Schema(implementation = ErrorResponse.class))
+            ),
+            @ApiResponse(
+                    responseCode = "403",
+                    description = "Forbidden",
+                    content = @Content(schema = @Schema(implementation = ErrorResponse.class))
+            ),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "Not Found",
+                    content = @Content(schema = @Schema(implementation = ErrorResponse.class))
+            )
+    })
     @PatchMapping("/{id}")
-    @Operation(summary = "Update user data")
-    public ResponseEntity<UserDto> updateUser(@PathVariable Long id, @Valid @RequestBody UserDto userDto) {
-        Users existingUser = usersService.findById(id);
-        if (existingUser == null) {
-            return ResponseEntity.notFound().build();
-        }
+    public ResponseEntity<UserDto> updateUser(
+            @Parameter(description = "User ID", required = true)
+            @PathVariable Long id,
+            @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                    description = "Updated user data",
+                    required = true,
+                    content = @Content(schema = @Schema(implementation = UserDto.class))
+            )
+            @RequestBody @Valid UserDto userDto) {
+        Users existingUser = userService.findById(id);
         userMapper.updateUserFromDto(userDto, existingUser);
-        Users updatedUser = usersService.update(existingUser);
+        Users updatedUser = userService.update(existingUser);
         return ResponseEntity.ok(userMapper.userToUserDto(updatedUser));
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
-        usersService.delete(id);
-        return ResponseEntity.noContent().build();
     }
 }

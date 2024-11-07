@@ -26,4 +26,10 @@ public class Account {
     private String alias;
 
 
+    @PrePersist
+    public void prePersist() {
+        if (balance == null) {
+            balance = BigDecimal.ZERO;
+        }
+    }
 }

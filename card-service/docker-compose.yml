@@ -1,8 +1,7 @@
 
-
 services:
   postgres:
-    image: postgres:13
+    image: postgres:latest
     container_name: postgres-card-service
     environment:
       POSTGRES_DB: card_db

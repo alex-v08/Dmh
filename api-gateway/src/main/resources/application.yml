@@ -1,3 +1,6 @@
+server:
+  port: 8080
+
 spring:
   application:
     name: api-gateway
@@ -17,70 +20,67 @@ spring:
           predicates:
             - Path=/v3/api-docs/**
           filters:
-            - RewritePath=/v3/api-docs/(?<path>.*)/v3/api-docs, /$\{path}/v3/api-docs
+            - RewritePath=/v3/api-docs/(?<path>.*), /$\{path}/v3/api-docs
         
         # Auth Service Routes
-        - id: auth-service-docs
+        - id: auth-service-swagger
           uri: lb://AUTH-SERVICE
           predicates:
-            - Path=/v3/api-docs/auth-service/**
+            - Path=/auth-service/v3/api-docs/**
           filters:
-            - RewritePath=/v3/api-docs/auth-service/(?<path>.*), /v3/api-docs/$\{path}
+            - RewritePath=/auth-service/v3/api-docs/(?<path>.*), /api/v3/api-docs
         - id: auth-service
           uri: lb://AUTH-SERVICE
           predicates:
             - Path=/api/auth/**
         
         # User Service Routes
-        - id: user-service-docs
+        - id: user-service-swagger
           uri: lb://USER-SERVICE
           predicates:
-            - Path=/v3/api-docs/user-service/**
+            - Path=/user-service/v3/api-docs/**
           filters:
-            - RewritePath=/v3/api-docs/user-service/(?<path>.*), /v3/api-docs/$\{path}
+            - RewritePath=/user-service/v3/api-docs/(?<path>.*), /api/v3/api-docs
         - id: user-service
           uri: lb://USER-SERVICE
           predicates:
             - Path=/api/users/**
         
         # Account Service Routes
-        - id: account-service-docs
+        - id: account-service-swagger
           uri: lb://ACCOUNT-SERVICE
           predicates:
-            - Path=/v3/api-docs/account-service/**
+            - Path=/account-service/v3/api-docs/**
           filters:
-            - RewritePath=/v3/api-docs/account-service/(?<path>.*), /v3/api-docs/$\{path}
+            - RewritePath=/account-service/v3/api-docs/(?<path>.*), /api/v3/api-docs
         - id: account-service
           uri: lb://ACCOUNT-SERVICE
           predicates:
             - Path=/api/accounts/**
         
         # Transaction Service Routes
-        - id: transaction-service-docs
+        - id: transaction-service-swagger
           uri: lb://TRANSACTION-SERVICE
           predicates:
-            - Path=/v3/api-docs/transaction-service/**
+            - Path=/transaction-service/v3/api-docs/**
           filters:
-            - RewritePath=/v3/api-docs/transaction-service/(?<path>.*), /v3/api-docs/$\{path}
+            - RewritePath=/transaction-service/v3/api-docs/(?<path>.*), /api/v3/api-docs
         - id: transaction-service
           uri: lb://TRANSACTION-SERVICE
           predicates:
             - Path=/api/transactions/**
         
         # Card Service Routes
-        - id: card-service-docs
+        - id: card-service-swagger
           uri: lb://CARD-SERVICE
           predicates:
-            - Path=/v3/api-docs/card-service/**
+            - Path=/card-service/v3/api-docs/**
           filters:
-            - RewritePath=/v3/api-docs/card-service/(?<path>.*), /v3/api-docs/$\{path}
+            - RewritePath=/card-service/v3/api-docs/(?<path>.*), /api/v3/api-docs
         - id: card-service
           uri: lb://CARD-SERVICE
           predicates:
             - Path=/api/cards/**
-
-server:
-  port: 8080
 
 springdoc:
   swagger-ui:
@@ -89,28 +89,29 @@ springdoc:
     urls:
       - url: /v3/api-docs
         name: Gateway API
-      - url: /v3/api-docs/auth-service/v3/api-docs
+      - url: /api/v3/api-docs/auth-service
         name: Auth Service
-      - url: /v3/api-docs/user-service/v3/api-docs
+      - url: /api/v3/api-docs/user-service
         name: User Service
-      - url: /v3/api-docs/account-service/v3/api-docs
+      - url: /api/v3/api-docs/account-service
         name: Account Service
-      - url: /v3/api-docs/transaction-service/v3/api-docs
+      - url: /api/v3/api-docs/transaction-service
         name: Transaction Service
-      - url: /v3/api-docs/card-service/v3/api-docs
+      - url: /api/v3/api-docs/card-service
         name: Card Service
-  cache:
-    disabled: true
-  api-docs:
-    enabled: true
-    path: /v3/api-docs
-
+    disable-swagger-default-url: true
+    display-request-duration: true
+    deep-linking: true
+    
 eureka:
   client:
     serviceUrl:
       defaultZone: http://localhost:8761/eureka/
+    register-with-eureka: true
+    fetch-registry: true
   instance:
     preferIpAddress: true
+    hostname: localhost
 
 management:
   endpoints:
@@ -120,3 +121,21 @@ management:
   endpoint:
     health:
       show-details: always
+    gateway:
+      enabled: true
+
+logging:
+  level:
+    root: INFO
+    org.springframework.cloud.gateway: DEBUG
+    org.springframework.security: DEBUG
+    com.dmh.gateway: DEBUG
+
+# CORS Configuration
+cors:
+  allowed-origins: "*"
+  allowed-methods: "*"
+  allowed-headers: "*"
+  exposed-headers: "*"
+  allow-credentials: true
+  max-age: 3600

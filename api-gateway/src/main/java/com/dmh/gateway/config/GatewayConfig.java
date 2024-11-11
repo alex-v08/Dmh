@@ -10,6 +10,14 @@ public class GatewayConfig {
     @Bean
     public RouteLocator customRouteLocator(RouteLocatorBuilder builder) {
         return builder.routes()
+                // Swagger UI route
+                .route("swagger-ui", r -> r.path("/swagger-ui/**")
+                        .uri("http://localhost:8080"))
+                // OpenAPI specs route
+                .route("api-docs", r -> r.path("/v3/api-docs/**")
+                        .uri("http://localhost:8080"))
+
+                // Existing service routes
                 .route("user-service", r -> r.path("/api/users/**")
                         .uri("lb://USER-SERVICE"))
                 .route("account-service", r -> r.path("/api/accounts/**")
@@ -18,11 +26,6 @@ public class GatewayConfig {
                         .uri("lb://AUTH-SERVICE"))
                 .route("transaction-service", r -> r.path("/api/transactions/**")
                         .uri("lb://TRANSACTION-SERVICE"))
-                .route("generate-cvu-service", r -> r.path("/api/cvu/**")
-                        .uri("lb://GENERATE-CVU"))
-                .route("generate-alias-service", r -> r.path("/api/alias/**")
-                        .uri("lb://GENERATE-ALIAS"))
-
                 .route("card-service", r -> r.path("/api/cards/**")
                         .uri("lb://CARD-SERVICE"))
                 .build();

@@ -14,95 +14,46 @@ spring:
           enabled: true
           lower-case-service-id: true
       routes:
-        # Documentation Routes
-        - id: openapi
-          uri: http://localhost:${server.port}
-          predicates:
-            - Path=/v3/api-docs/**
-          filters:
-            - RewritePath=/v3/api-docs/(?<path>.*), /$\{path}/v3/api-docs
-        
         # Auth Service Routes
-        - id: auth-service-swagger
-          uri: lb://AUTH-SERVICE
-          predicates:
-            - Path=/auth-service/v3/api-docs/**
-          filters:
-            - RewritePath=/auth-service/v3/api-docs/(?<path>.*), /api/v3/api-docs
         - id: auth-service
           uri: lb://AUTH-SERVICE
           predicates:
             - Path=/api/auth/**
+          filters:
+            - RewritePath=/api/(?<segment>.*), /$\{segment}
         
         # User Service Routes
-        - id: user-service-swagger
-          uri: lb://USER-SERVICE
-          predicates:
-            - Path=/user-service/v3/api-docs/**
-          filters:
-            - RewritePath=/user-service/v3/api-docs/(?<path>.*), /api/v3/api-docs
         - id: user-service
           uri: lb://USER-SERVICE
           predicates:
             - Path=/api/users/**
+          filters:
+            - RewritePath=/api/(?<segment>.*), /$\{segment}
         
         # Account Service Routes
-        - id: account-service-swagger
-          uri: lb://ACCOUNT-SERVICE
-          predicates:
-            - Path=/account-service/v3/api-docs/**
-          filters:
-            - RewritePath=/account-service/v3/api-docs/(?<path>.*), /api/v3/api-docs
         - id: account-service
           uri: lb://ACCOUNT-SERVICE
           predicates:
             - Path=/api/accounts/**
+          filters:
+            - RewritePath=/api/(?<segment>.*), /$\{segment}
         
         # Transaction Service Routes
-        - id: transaction-service-swagger
-          uri: lb://TRANSACTION-SERVICE
-          predicates:
-            - Path=/transaction-service/v3/api-docs/**
-          filters:
-            - RewritePath=/transaction-service/v3/api-docs/(?<path>.*), /api/v3/api-docs
         - id: transaction-service
           uri: lb://TRANSACTION-SERVICE
           predicates:
             - Path=/api/transactions/**
+          filters:
+            - RewritePath=/api/(?<segment>.*), /$\{segment}
         
         # Card Service Routes
-        - id: card-service-swagger
-          uri: lb://CARD-SERVICE
-          predicates:
-            - Path=/card-service/v3/api-docs/**
-          filters:
-            - RewritePath=/card-service/v3/api-docs/(?<path>.*), /api/v3/api-docs
         - id: card-service
           uri: lb://CARD-SERVICE
           predicates:
             - Path=/api/cards/**
+          filters:
+            - RewritePath=/api/(?<segment>.*), /$\{segment}
 
-springdoc:
-  swagger-ui:
-    path: /swagger-ui.html
-    config-url: /v3/api-docs/swagger-config
-    urls:
-      - url: /v3/api-docs
-        name: Gateway API
-      - url: /api/v3/api-docs/auth-service
-        name: Auth Service
-      - url: /api/v3/api-docs/user-service
-        name: User Service
-      - url: /api/v3/api-docs/account-service
-        name: Account Service
-      - url: /api/v3/api-docs/transaction-service
-        name: Transaction Service
-      - url: /api/v3/api-docs/card-service
-        name: Card Service
-    disable-swagger-default-url: true
-    display-request-duration: true
-    deep-linking: true
-    
 eureka:
   client:
     serviceUrl:
@@ -124,18 +75,28 @@ management:
     gateway:
       enabled: true
 
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    urls:
+      - url: /v3/api-docs
+        name: API Gateway
+      - url: /auth-service/v3/api-docs
+        name: Auth Service
+      - url: /user-service/v3/api-docs
+        name: User Service
+      - url: /account-service/v3/api-docs
+        name: Account Service
+      - url: /transaction-service/v3/api-docs
+        name: Transaction Service
+      - url: /card-service/v3/api-docs
+        name: Card Service
+
 logging:
   level:
     root: INFO
     org.springframework.cloud.gateway: DEBUG
     org.springframework.security: DEBUG
     com.dmh.gateway: DEBUG
-
-# CORS Configuration
-cors:
-  allowed-origins: "*"
-  allowed-methods: "*"
-  allowed-headers: "*"
-  exposed-headers: "*"
-  allow-credentials: true
-  max-age: 3600

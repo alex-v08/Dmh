@@ -62,7 +62,14 @@ service-urls:
 springdoc:
   api-docs:
     path: /v3/api-docs
+    enabled: true
   swagger-ui:
     path: /swagger-ui.html
+    operations-sorter: method
+    tags-sorter: alpha
+    display-request-duration: true
   show-actuator: true
-  packages-to-scan: com.dmh.[service-name]
+  packages-to-scan: com.dmh.userservice.controller
+  paths-to-match:
+    - /api/**
+    - /auth/**

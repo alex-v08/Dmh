@@ -16,6 +16,11 @@ spring:
       idle-timeout: 300000
       connection-timeout: 20000
       connection-test-query: SELECT 1
+      
+      
+      loadbalancer:
+        client:
+          name: ${LOADBALANCER_NAME_auth-service:auth-service}
   
   # JPA Configuration
   jpa:
@@ -34,9 +39,11 @@ spring:
       enabled: false
     discovery:
       enabled: ${DISCOVERY_ENABLED:true}
-
+loadbalancer:
+  client:
+    name: ${LOADBALANCER_NAME_auth-service:auth-service}
 server:
-  port: ${SERVER_PORT:8085}
+  port: ${SERVER_PORT:8083}
   servlet:
     context-path: /api
 

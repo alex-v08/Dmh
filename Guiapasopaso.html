@@ -1,0 +1,1442 @@
+<!DOCTYPE html><html><head>
+      <title>README</title>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      
+      <link rel="stylesheet" href="file:////home/alexv/.vscode/extensions/shd101wyy.markdown-preview-enhanced-0.8.15/crossnote/dependencies/katex/katex.min.css">
+      
+      
+      <script type="text/javascript" src="file:////home/alexv/.vscode/extensions/shd101wyy.markdown-preview-enhanced-0.8.15/crossnote/dependencies/mermaid/mermaid.min.js" charset="UTF-8"></script>
+      
+      
+      <style>
+      code[class*=language-],pre[class*=language-]{color:#333;background:0 0;font-family:Consolas,"Liberation Mono",Menlo,Courier,monospace;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;word-wrap:normal;line-height:1.4;-moz-tab-size:8;-o-tab-size:8;tab-size:8;-webkit-hyphens:none;-moz-hyphens:none;-ms-hyphens:none;hyphens:none}pre[class*=language-]{padding:.8em;overflow:auto;border-radius:3px;background:#f5f5f5}:not(pre)>code[class*=language-]{padding:.1em;border-radius:.3em;white-space:normal;background:#f5f5f5}.token.blockquote,.token.comment{color:#969896}.token.cdata{color:#183691}.token.doctype,.token.macro.property,.token.punctuation,.token.variable{color:#333}.token.builtin,.token.important,.token.keyword,.token.operator,.token.rule{color:#a71d5d}.token.attr-value,.token.regex,.token.string,.token.url{color:#183691}.token.atrule,.token.boolean,.token.code,.token.command,.token.constant,.token.entity,.token.number,.token.property,.token.symbol{color:#0086b3}.token.prolog,.token.selector,.token.tag{color:#63a35c}.token.attr-name,.token.class,.token.class-name,.token.function,.token.id,.token.namespace,.token.pseudo-class,.token.pseudo-element,.token.url-reference .token.variable{color:#795da3}.token.entity{cursor:help}.token.title,.token.title .token.punctuation{font-weight:700;color:#1d3e81}.token.list{color:#ed6a43}.token.inserted{background-color:#eaffea;color:#55a532}.token.deleted{background-color:#ffecec;color:#bd2c00}.token.bold{font-weight:700}.token.italic{font-style:italic}.language-json .token.property{color:#183691}.language-markup .token.tag .token.punctuation{color:#333}.language-css .token.function,code.language-css{color:#0086b3}.language-yaml .token.atrule{color:#63a35c}code.language-yaml{color:#183691}.language-ruby .token.function{color:#333}.language-markdown .token.url{color:#795da3}.language-makefile .token.symbol{color:#795da3}.language-makefile .token.variable{color:#183691}.language-makefile .token.builtin{color:#0086b3}.language-bash .token.keyword{color:#0086b3}pre[data-line]{position:relative;padding:1em 0 1em 3em}pre[data-line] .line-highlight-wrapper{position:absolute;top:0;left:0;background-color:transparent;display:block;width:100%}pre[data-line] .line-highlight{position:absolute;left:0;right:0;padding:inherit 0;margin-top:1em;background:hsla(24,20%,50%,.08);background:linear-gradient(to right,hsla(24,20%,50%,.1) 70%,hsla(24,20%,50%,0));pointer-events:none;line-height:inherit;white-space:pre}pre[data-line] .line-highlight:before,pre[data-line] .line-highlight[data-end]:after{content:attr(data-start);position:absolute;top:.4em;left:.6em;min-width:1em;padding:0 .5em;background-color:hsla(24,20%,50%,.4);color:#f4f1ef;font:bold 65%/1.5 sans-serif;text-align:center;vertical-align:.3em;border-radius:999px;text-shadow:none;box-shadow:0 1px #fff}pre[data-line] .line-highlight[data-end]:after{content:attr(data-end);top:auto;bottom:.4em}html body{font-family:'Helvetica Neue',Helvetica,'Segoe UI',Arial,freesans,sans-serif;font-size:16px;line-height:1.6;color:#333;background-color:#fff;overflow:initial;box-sizing:border-box;word-wrap:break-word}html body>:first-child{margin-top:0}html body h1,html body h2,html body h3,html body h4,html body h5,html body h6{line-height:1.2;margin-top:1em;margin-bottom:16px;color:#000}html body h1{font-size:2.25em;font-weight:300;padding-bottom:.3em}html body h2{font-size:1.75em;font-weight:400;padding-bottom:.3em}html body h3{font-size:1.5em;font-weight:500}html body h4{font-size:1.25em;font-weight:600}html body h5{font-size:1.1em;font-weight:600}html body h6{font-size:1em;font-weight:600}html body h1,html body h2,html body h3,html body h4,html body h5{font-weight:600}html body h5{font-size:1em}html body h6{color:#5c5c5c}html body strong{color:#000}html body del{color:#5c5c5c}html body a:not([href]){color:inherit;text-decoration:none}html body a{color:#08c;text-decoration:none}html body a:hover{color:#00a3f5;text-decoration:none}html body img{max-width:100%}html body>p{margin-top:0;margin-bottom:16px;word-wrap:break-word}html body>ol,html body>ul{margin-bottom:16px}html body ol,html body ul{padding-left:2em}html body ol.no-list,html body ul.no-list{padding:0;list-style-type:none}html body ol ol,html body ol ul,html body ul ol,html body ul ul{margin-top:0;margin-bottom:0}html body li{margin-bottom:0}html body li.task-list-item{list-style:none}html body li>p{margin-top:0;margin-bottom:0}html body .task-list-item-checkbox{margin:0 .2em .25em -1.8em;vertical-align:middle}html body .task-list-item-checkbox:hover{cursor:pointer}html body blockquote{margin:16px 0;font-size:inherit;padding:0 15px;color:#5c5c5c;background-color:#f0f0f0;border-left:4px solid #d6d6d6}html body blockquote>:first-child{margin-top:0}html body blockquote>:last-child{margin-bottom:0}html body hr{height:4px;margin:32px 0;background-color:#d6d6d6;border:0 none}html body table{margin:10px 0 15px 0;border-collapse:collapse;border-spacing:0;display:block;width:100%;overflow:auto;word-break:normal;word-break:keep-all}html body table th{font-weight:700;color:#000}html body table td,html body table th{border:1px solid #d6d6d6;padding:6px 13px}html body dl{padding:0}html body dl dt{padding:0;margin-top:16px;font-size:1em;font-style:italic;font-weight:700}html body dl dd{padding:0 16px;margin-bottom:16px}html body code{font-family:Menlo,Monaco,Consolas,'Courier New',monospace;font-size:.85em;color:#000;background-color:#f0f0f0;border-radius:3px;padding:.2em 0}html body code::after,html body code::before{letter-spacing:-.2em;content:'\00a0'}html body pre>code{padding:0;margin:0;word-break:normal;white-space:pre;background:0 0;border:0}html body .highlight{margin-bottom:16px}html body .highlight pre,html body pre{padding:1em;overflow:auto;line-height:1.45;border:#d6d6d6;border-radius:3px}html body .highlight pre{margin-bottom:0;word-break:normal}html body pre code,html body pre tt{display:inline;max-width:initial;padding:0;margin:0;overflow:initial;line-height:inherit;word-wrap:normal;background-color:transparent;border:0}html body pre code:after,html body pre code:before,html body pre tt:after,html body pre tt:before{content:normal}html body blockquote,html body dl,html body ol,html body p,html body pre,html body ul{margin-top:0;margin-bottom:16px}html body kbd{color:#000;border:1px solid #d6d6d6;border-bottom:2px solid #c7c7c7;padding:2px 4px;background-color:#f0f0f0;border-radius:3px}@media print{html body{background-color:#fff}html body h1,html body h2,html body h3,html body h4,html body h5,html body h6{color:#000;page-break-after:avoid}html body blockquote{color:#5c5c5c}html body pre{page-break-inside:avoid}html body table{display:table}html body img{display:block;max-width:100%;max-height:100%}html body code,html body pre{word-wrap:break-word;white-space:pre}}.markdown-preview{width:100%;height:100%;box-sizing:border-box}.markdown-preview ul{list-style:disc}.markdown-preview ul ul{list-style:circle}.markdown-preview ul ul ul{list-style:square}.markdown-preview ol{list-style:decimal}.markdown-preview ol ol,.markdown-preview ul ol{list-style-type:lower-roman}.markdown-preview ol ol ol,.markdown-preview ol ul ol,.markdown-preview ul ol ol,.markdown-preview ul ul ol{list-style-type:lower-alpha}.markdown-preview .newpage,.markdown-preview .pagebreak{page-break-before:always}.markdown-preview pre.line-numbers{position:relative;padding-left:3.8em;counter-reset:linenumber}.markdown-preview pre.line-numbers>code{position:relative}.markdown-preview pre.line-numbers .line-numbers-rows{position:absolute;pointer-events:none;top:1em;font-size:100%;left:0;width:3em;letter-spacing:-1px;border-right:1px solid #999;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.markdown-preview pre.line-numbers .line-numbers-rows>span{pointer-events:none;display:block;counter-increment:linenumber}.markdown-preview pre.line-numbers .line-numbers-rows>span:before{content:counter(linenumber);color:#999;display:block;padding-right:.8em;text-align:right}.markdown-preview .mathjax-exps .MathJax_Display{text-align:center!important}.markdown-preview:not([data-for=preview]) .code-chunk .code-chunk-btn-group{display:none}.markdown-preview:not([data-for=preview]) .code-chunk .status{display:none}.markdown-preview:not([data-for=preview]) .code-chunk .output-div{margin-bottom:16px}.markdown-preview .md-toc{padding:0}.markdown-preview .md-toc .md-toc-link-wrapper .md-toc-link{display:inline;padding:.25rem 0}.markdown-preview .md-toc .md-toc-link-wrapper .md-toc-link div,.markdown-preview .md-toc .md-toc-link-wrapper .md-toc-link p{display:inline}.markdown-preview .md-toc .md-toc-link-wrapper.highlighted .md-toc-link{font-weight:800}.scrollbar-style::-webkit-scrollbar{width:8px}.scrollbar-style::-webkit-scrollbar-track{border-radius:10px;background-color:transparent}.scrollbar-style::-webkit-scrollbar-thumb{border-radius:5px;background-color:rgba(150,150,150,.66);border:4px solid rgba(150,150,150,.66);background-clip:content-box}html body[for=html-export]:not([data-presentation-mode]){position:relative;width:100%;height:100%;top:0;left:0;margin:0;padding:0;overflow:auto}html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{position:relative;top:0;min-height:100vh}@media screen and (min-width:914px){html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{padding:2em calc(50% - 457px + 2em)}}@media screen and (max-width:914px){html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{padding:2em}}@media screen and (max-width:450px){html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{font-size:14px!important;padding:1em}}@media print{html body[for=html-export]:not([data-presentation-mode]) #sidebar-toc-btn{display:none}}html body[for=html-export]:not([data-presentation-mode]) #sidebar-toc-btn{position:fixed;bottom:8px;left:8px;font-size:28px;cursor:pointer;color:inherit;z-index:99;width:32px;text-align:center;opacity:.4}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] #sidebar-toc-btn{opacity:1}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc{position:fixed;top:0;left:0;width:300px;height:100%;padding:32px 0 48px 0;font-size:14px;box-shadow:0 0 4px rgba(150,150,150,.33);box-sizing:border-box;overflow:auto;background-color:inherit}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar{width:8px}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar-track{border-radius:10px;background-color:transparent}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar-thumb{border-radius:5px;background-color:rgba(150,150,150,.66);border:4px solid rgba(150,150,150,.66);background-clip:content-box}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc a{text-decoration:none}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc{padding:0 16px}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper .md-toc-link{display:inline;padding:.25rem 0}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper .md-toc-link div,html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper .md-toc-link p{display:inline}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper.highlighted .md-toc-link{font-weight:800}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{left:300px;width:calc(100% - 300px);padding:2em calc(50% - 457px - 300px / 2);margin:0;box-sizing:border-box}@media screen and (max-width:1274px){html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{padding:2em}}@media screen and (max-width:450px){html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{width:100%}}html body[for=html-export]:not([data-presentation-mode]):not([html-show-sidebar-toc]) .markdown-preview{left:50%;transform:translateX(-50%)}html body[for=html-export]:not([data-presentation-mode]):not([html-show-sidebar-toc]) .md-sidebar-toc{display:none}
+/* Please visit the URL below for more information: */
+/*   https://shd101wyy.github.io/markdown-preview-enhanced/#/customize-css */
+
+      </style>
+      <!-- The content below will be included at the end of the <head> element. --><script type="text/javascript">
+  document.addEventListener("DOMContentLoaded", function () {
+    // your code here
+  });
+</script></head><body for="html-export">
+    
+    
+      <div class="crossnote markdown-preview  ">
+      <div>
+<h1 id="-guía-completa-de-implementación-de-microservicios-con-spring-boot">🚀 Guía Completa de Implementación de Microservicios con Spring Boot </h1>
+<h2 id="-tabla-de-contenidos">📋 Tabla de Contenidos </h2>
+<ol>
+<li><a href="#arquitectura-detallada">Arquitectura Detallada</a></li>
+<li><a href="#patrones-de-dise%C3%B1o">Patrones de Diseño</a></li>
+<li><a href="#implementaciones-espec%C3%ADficas">Implementaciones Específicas</a></li>
+<li><a href="#manejo-de-errores">Manejo de Errores</a></li>
+<li><a href="#configuraciones-avanzadas">Configuraciones Avanzadas</a></li>
+</ol>
+<h2 id="-arquitectura-detallada">🏗 Arquitectura Detallada </h2>
+<h3 id="diagrama-de-arquitectura-general">Diagrama de Arquitectura General </h3>
+<div class="mermaid">graph TD
+    subgraph "Frontend"
+    A[Cliente Web/Mobile]
+    end
+
+    subgraph "Gateway Layer"
+    B[API Gateway]
+    end
+
+    subgraph "Security"
+    C[Keycloak]
+    end
+
+    subgraph "Service Discovery"
+    D[Eureka Server]
+    end
+
+    subgraph "Configuration"
+    E[Config Server]
+    F[(Git Repo)]
+    end
+
+    subgraph "Business Services"
+    G[Products Service]
+    H[Checkout Service]
+    I[Other Services...]
+    end
+
+    subgraph "Data Layer"
+    J[(Products DB)]
+    K[(Checkout DB)]
+    end
+
+    A --&gt; B
+    B --&gt; C
+    B --&gt; G
+    B --&gt; H
+    B --&gt; I
+    G --&gt; D
+    H --&gt; D
+    I --&gt; D
+    E --&gt; F
+    G --&gt; J
+    H --&gt; K
+    G --&gt; E
+    H --&gt; E
+    I --&gt; E
+</div><h3 id="diagrama-de-flujo-de-solicitudes">Diagrama de Flujo de Solicitudes </h3>
+<div class="mermaid">sequenceDiagram
+    participant C as Cliente
+    participant G as API Gateway
+    participant K as Keycloak
+    participant S as Servicio
+    participant D as Base de Datos
+
+    C-&gt;&gt;G: Solicitud HTTP
+    G-&gt;&gt;K: Validar Token
+    K--&gt;&gt;G: Token Válido
+    G-&gt;&gt;S: Reenviar Solicitud
+    S-&gt;&gt;D: Consultar Datos
+    D--&gt;&gt;S: Respuesta DB
+    S--&gt;&gt;G: Respuesta Servicio
+    G--&gt;&gt;C: Respuesta Final
+</div><h2 id="-patrones-de-diseño">🎯 Patrones de Diseño </h2>
+<h3 id="1-circuit-breaker-pattern">1. Circuit Breaker Pattern </h3>
+<div class="mermaid">stateDiagram-v2
+    [*] --&gt; Closed
+    Closed --&gt; Open : Error Rate &gt; Threshold
+    Open --&gt; HalfOpen : Wait Timeout
+    HalfOpen --&gt; Closed : Success Rate OK
+    HalfOpen --&gt; Open : New Failures
+</div><h4 id="implementación-detallada">Implementación Detallada </h4>
+<pre data-role="codeBlock" data-info="java" class="language-java java"><code><span class="token doc-comment comment">/**
+ * Configuración del Circuit Breaker con Resilience4j
+ */</span>
+<span class="token annotation punctuation">@Configuration</span>
+<span class="token keyword keyword-public">public</span> <span class="token keyword keyword-class">class</span> <span class="token class-name">CircuitBreakerConfig</span> <span class="token punctuation">{</span>
+    
+    <span class="token annotation punctuation">@Bean</span>
+    <span class="token keyword keyword-public">public</span> <span class="token class-name">CircuitBreakerRegistry</span> <span class="token function">circuitBreakerRegistry</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token class-name">CircuitBreakerConfig</span> config <span class="token operator">=</span> <span class="token class-name">CircuitBreakerConfig</span><span class="token punctuation">.</span><span class="token function">custom</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+            <span class="token punctuation">.</span><span class="token function">failureRateThreshold</span><span class="token punctuation">(</span><span class="token number">50</span><span class="token punctuation">)</span>
+            <span class="token punctuation">.</span><span class="token function">waitDurationInOpenState</span><span class="token punctuation">(</span><span class="token class-name">Duration</span><span class="token punctuation">.</span><span class="token function">ofMillis</span><span class="token punctuation">(</span><span class="token number">1000</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+            <span class="token punctuation">.</span><span class="token function">slidingWindowSize</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span>
+            <span class="token punctuation">.</span><span class="token function">build</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            
+        <span class="token keyword keyword-return">return</span> <span class="token class-name">CircuitBreakerRegistry</span><span class="token punctuation">.</span><span class="token function">of</span><span class="token punctuation">(</span>config<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token doc-comment comment">/**
+ * Servicio que implementa Circuit Breaker
+ */</span>
+<span class="token annotation punctuation">@Service</span>
+<span class="token annotation punctuation">@Slf4j</span>
+<span class="token keyword keyword-public">public</span> <span class="token keyword keyword-class">class</span> <span class="token class-name">ResilientProductService</span> <span class="token punctuation">{</span>
+    
+    <span class="token keyword keyword-private">private</span> <span class="token keyword keyword-final">final</span> <span class="token class-name">CircuitBreaker</span> circuitBreaker<span class="token punctuation">;</span>
+    <span class="token keyword keyword-private">private</span> <span class="token keyword keyword-final">final</span> <span class="token class-name">ProductRepository</span> productRepository<span class="token punctuation">;</span>
+    
+    <span class="token keyword keyword-public">public</span> <span class="token class-name">ResilientProductService</span><span class="token punctuation">(</span><span class="token class-name">CircuitBreakerRegistry</span> registry<span class="token punctuation">,</span>
+                                 <span class="token class-name">ProductRepository</span> productRepository<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword keyword-this">this</span><span class="token punctuation">.</span>circuitBreaker <span class="token operator">=</span> registry<span class="token punctuation">.</span><span class="token function">circuitBreaker</span><span class="token punctuation">(</span><span class="token string">"productService"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword keyword-this">this</span><span class="token punctuation">.</span>productRepository <span class="token operator">=</span> productRepository<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    
+    <span class="token keyword keyword-public">public</span> <span class="token class-name">Product</span> <span class="token function">getProduct</span><span class="token punctuation">(</span><span class="token class-name">String</span> id<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword keyword-return">return</span> circuitBreaker<span class="token punctuation">.</span><span class="token function">executeSupplier</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-&gt;</span> <span class="token punctuation">{</span>
+            log<span class="token punctuation">.</span><span class="token function">info</span><span class="token punctuation">(</span><span class="token string">"Intentando obtener producto: {}"</span><span class="token punctuation">,</span> id<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword keyword-return">return</span> productRepository<span class="token punctuation">.</span><span class="token function">findById</span><span class="token punctuation">(</span>id<span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">orElseThrow</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-&gt;</span> <span class="token keyword keyword-new">new</span> <span class="token class-name">ProductNotFoundException</span><span class="token punctuation">(</span>id<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre><h3 id="2-saga-pattern-para-transacciones-distribuidas">2. Saga Pattern para Transacciones Distribuidas </h3>
+<div class="mermaid">sequenceDiagram
+    participant O as Order Service
+    participant P as Payment Service
+    participant I as Inventory Service
+    participant S as Shipping Service
+
+    O-&gt;&gt;P: Iniciar Pago
+    P--&gt;&gt;O: Pago Confirmado
+    O-&gt;&gt;I: Reservar Inventario
+    I--&gt;&gt;O: Inventario Reservado
+    O-&gt;&gt;S: Crear Envío
+    S--&gt;&gt;O: Envío Creado
+</div><h4 id="implementación">Implementación </h4>
+<pre data-role="codeBlock" data-info="java" class="language-java java"><code><span class="token doc-comment comment">/**
+ * Orquestador de Saga para proceso de checkout
+ */</span>
+<span class="token annotation punctuation">@Service</span>
+<span class="token annotation punctuation">@Slf4j</span>
+<span class="token keyword keyword-public">public</span> <span class="token keyword keyword-class">class</span> <span class="token class-name">CheckoutSagaOrchestrator</span> <span class="token punctuation">{</span>
+    
+    <span class="token keyword keyword-private">private</span> <span class="token keyword keyword-final">final</span> <span class="token class-name">PaymentService</span> paymentService<span class="token punctuation">;</span>
+    <span class="token keyword keyword-private">private</span> <span class="token keyword keyword-final">final</span> <span class="token class-name">InventoryService</span> inventoryService<span class="token punctuation">;</span>
+    <span class="token keyword keyword-private">private</span> <span class="token keyword keyword-final">final</span> <span class="token class-name">ShippingService</span> shippingService<span class="token punctuation">;</span>
+    
+    <span class="token annotation punctuation">@Transactional</span>
+    <span class="token keyword keyword-public">public</span> <span class="token class-name">CheckoutResult</span> <span class="token function">processCheckout</span><span class="token punctuation">(</span><span class="token class-name">CheckoutRequest</span> request<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword keyword-try">try</span> <span class="token punctuation">{</span>
+            <span class="token comment">// 1. Procesar Pago</span>
+            <span class="token class-name">PaymentResult</span> payment <span class="token operator">=</span> paymentService<span class="token punctuation">.</span><span class="token function">processPayment</span><span class="token punctuation">(</span>request<span class="token punctuation">.</span><span class="token function">getPaymentDetails</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            
+            <span class="token comment">// 2. Reservar Inventario</span>
+            <span class="token class-name">InventoryResult</span> inventory <span class="token operator">=</span> inventoryService<span class="token punctuation">.</span><span class="token function">reserveProducts</span><span class="token punctuation">(</span>request<span class="token punctuation">.</span><span class="token function">getProducts</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            
+            <span class="token comment">// 3. Crear Envío</span>
+            <span class="token class-name">ShippingResult</span> shipping <span class="token operator">=</span> shippingService<span class="token punctuation">.</span><span class="token function">createShipment</span><span class="token punctuation">(</span>request<span class="token punctuation">.</span><span class="token function">getShippingDetails</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            
+            <span class="token keyword keyword-return">return</span> <span class="token keyword keyword-new">new</span> <span class="token class-name">CheckoutResult</span><span class="token punctuation">(</span>payment<span class="token punctuation">,</span> inventory<span class="token punctuation">,</span> shipping<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            
+        <span class="token punctuation">}</span> <span class="token keyword keyword-catch">catch</span> <span class="token punctuation">(</span><span class="token class-name">Exception</span> e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token comment">// Compensación en caso de fallo</span>
+            <span class="token function">compensateFailedCheckout</span><span class="token punctuation">(</span>request<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword keyword-throw">throw</span> <span class="token keyword keyword-new">new</span> <span class="token class-name">CheckoutFailedException</span><span class="token punctuation">(</span><span class="token string">"Fallo en el proceso de checkout"</span><span class="token punctuation">,</span> e<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+    
+    <span class="token keyword keyword-private">private</span> <span class="token keyword keyword-void">void</span> <span class="token function">compensateFailedCheckout</span><span class="token punctuation">(</span><span class="token class-name">CheckoutRequest</span> request<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment">// Lógica de compensación</span>
+        log<span class="token punctuation">.</span><span class="token function">error</span><span class="token punctuation">(</span><span class="token string">"Iniciando compensación para checkout fallido"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token comment">// Implementar rollback de operaciones</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre><h2 id="-configuraciones-detalladas">🔧 Configuraciones Detalladas </h2>
+<h3 id="1-configuración-de-eureka-server">1. Configuración de Eureka Server </h3>
+<pre data-role="codeBlock" data-info="yaml" class="language-yaml yaml"><code><span class="token comment"># application.yml para Eureka Server</span>
+<span class="token key atrule">server</span><span class="token punctuation">:</span>
+  <span class="token key atrule">port</span><span class="token punctuation">:</span> <span class="token number">8761</span>
+
+<span class="token key atrule">spring</span><span class="token punctuation">:</span>
+  <span class="token key atrule">application</span><span class="token punctuation">:</span>
+    <span class="token key atrule">name</span><span class="token punctuation">:</span> eureka<span class="token punctuation">-</span>server
+  
+<span class="token key atrule">eureka</span><span class="token punctuation">:</span>
+  <span class="token key atrule">instance</span><span class="token punctuation">:</span>
+    <span class="token key atrule">hostname</span><span class="token punctuation">:</span> localhost
+  <span class="token key atrule">client</span><span class="token punctuation">:</span>
+    <span class="token key atrule">registerWithEureka</span><span class="token punctuation">:</span> <span class="token boolean important">false</span>
+    <span class="token key atrule">fetchRegistry</span><span class="token punctuation">:</span> <span class="token boolean important">false</span>
+    <span class="token key atrule">serviceUrl</span><span class="token punctuation">:</span>
+      <span class="token key atrule">defaultZone</span><span class="token punctuation">:</span> http<span class="token punctuation">:</span>//$<span class="token punctuation">{</span>eureka.instance.hostname<span class="token punctuation">}</span><span class="token punctuation">:</span>$<span class="token punctuation">{</span>server.port<span class="token punctuation">}</span>/eureka/
+  <span class="token key atrule">server</span><span class="token punctuation">:</span>
+    <span class="token key atrule">enableSelfPreservation</span><span class="token punctuation">:</span> <span class="token boolean important">false</span>
+    <span class="token key atrule">eviction-interval-timer-in-ms</span><span class="token punctuation">:</span> <span class="token number">1000</span>
+</code></pre><h3 id="2-configuración-de-api-gateway">2. Configuración de API Gateway </h3>
+<pre data-role="codeBlock" data-info="yaml" class="language-yaml yaml"><code><span class="token comment"># application.yml para API Gateway</span>
+<span class="token key atrule">spring</span><span class="token punctuation">:</span>
+  <span class="token key atrule">cloud</span><span class="token punctuation">:</span>
+    <span class="token key atrule">gateway</span><span class="token punctuation">:</span>
+      <span class="token key atrule">routes</span><span class="token punctuation">:</span>
+        <span class="token punctuation">-</span> <span class="token key atrule">id</span><span class="token punctuation">:</span> products<span class="token punctuation">-</span>service
+          <span class="token key atrule">uri</span><span class="token punctuation">:</span> lb<span class="token punctuation">:</span>//products<span class="token punctuation">-</span>service
+          <span class="token key atrule">predicates</span><span class="token punctuation">:</span>
+            <span class="token punctuation">-</span> Path=/api/products/<span class="token important">**</span>
+          <span class="token key atrule">filters</span><span class="token punctuation">:</span>
+            <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> CircuitBreaker
+              <span class="token key atrule">args</span><span class="token punctuation">:</span>
+                <span class="token key atrule">name</span><span class="token punctuation">:</span> productsCircuitBreaker
+                <span class="token key atrule">fallbackUri</span><span class="token punctuation">:</span> forward<span class="token punctuation">:</span>/fallback/products
+            <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> RequestRateLimiter
+              <span class="token key atrule">args</span><span class="token punctuation">:</span>
+                <span class="token key atrule">redis-rate-limiter.replenishRate</span><span class="token punctuation">:</span> <span class="token number">10</span>
+                <span class="token key atrule">redis-rate-limiter.burstCapacity</span><span class="token punctuation">:</span> <span class="token number">20</span>
+            <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> RetryFilter
+              <span class="token key atrule">args</span><span class="token punctuation">:</span>
+                <span class="token key atrule">retries</span><span class="token punctuation">:</span> <span class="token number">3</span>
+                <span class="token key atrule">statuses</span><span class="token punctuation">:</span> BAD_GATEWAY
+                <span class="token key atrule">methods</span><span class="token punctuation">:</span> GET
+                <span class="token key atrule">backoff</span><span class="token punctuation">:</span>
+                  <span class="token key atrule">firstBackoff</span><span class="token punctuation">:</span> 50ms
+                  <span class="token key atrule">maxBackoff</span><span class="token punctuation">:</span> 500ms
+                  <span class="token key atrule">factor</span><span class="token punctuation">:</span> <span class="token number">2</span>
+                  <span class="token key atrule">basedOnPreviousValue</span><span class="token punctuation">:</span> <span class="token boolean important">false</span>
+</code></pre><h2 id="-manejo-de-errores-avanzado">🛠 Manejo de Errores Avanzado </h2>
+<h3 id="1-estructura-de-errores">1. Estructura de Errores </h3>
+<pre data-role="codeBlock" data-info="java" class="language-java java"><code><span class="token doc-comment comment">/**
+ * Estructura base para errores
+ */</span>
+<span class="token annotation punctuation">@Getter</span>
+<span class="token annotation punctuation">@AllArgsConstructor</span>
+<span class="token keyword keyword-public">public</span> <span class="token keyword keyword-class">class</span> <span class="token class-name">ApiError</span> <span class="token punctuation">{</span>
+    <span class="token keyword keyword-private">private</span> <span class="token class-name">HttpStatus</span> status<span class="token punctuation">;</span>
+    <span class="token keyword keyword-private">private</span> <span class="token class-name">String</span> message<span class="token punctuation">;</span>
+    <span class="token keyword keyword-private">private</span> <span class="token class-name">List</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">String</span><span class="token punctuation">&gt;</span></span> errors<span class="token punctuation">;</span>
+    <span class="token keyword keyword-private">private</span> <span class="token class-name">LocalDateTime</span> timestamp<span class="token punctuation">;</span>
+    <span class="token keyword keyword-private">private</span> <span class="token class-name">String</span> path<span class="token punctuation">;</span>
+    
+    <span class="token annotation punctuation">@JsonFormat</span><span class="token punctuation">(</span>shape <span class="token operator">=</span> <span class="token class-name">JsonFormat<span class="token punctuation">.</span>Shape</span><span class="token punctuation">.</span><span class="token constant">STRING</span><span class="token punctuation">,</span> pattern <span class="token operator">=</span> <span class="token string">"dd-MM-yyyy HH:mm:ss"</span><span class="token punctuation">)</span>
+    <span class="token keyword keyword-public">public</span> <span class="token class-name">LocalDateTime</span> <span class="token function">getTimestamp</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword keyword-return">return</span> timestamp<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre><h3 id="2-manejador-global-de-excepciones">2. Manejador Global de Excepciones </h3>
+<pre data-role="codeBlock" data-info="java" class="language-java java"><code><span class="token doc-comment comment">/**
+ * Manejador global de excepciones para toda la aplicación
+ */</span>
+<span class="token annotation punctuation">@RestControllerAdvice</span>
+<span class="token annotation punctuation">@Slf4j</span>
+<span class="token keyword keyword-public">public</span> <span class="token keyword keyword-class">class</span> <span class="token class-name">GlobalExceptionHandler</span> <span class="token keyword keyword-extends">extends</span> <span class="token class-name">ResponseEntityExceptionHandler</span> <span class="token punctuation">{</span>
+
+    <span class="token annotation punctuation">@ExceptionHandler</span><span class="token punctuation">(</span><span class="token class-name">ProductNotFoundException</span><span class="token punctuation">.</span><span class="token keyword keyword-class">class</span><span class="token punctuation">)</span>
+    <span class="token keyword keyword-public">public</span> <span class="token class-name">ResponseEntity</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">ApiError</span><span class="token punctuation">&gt;</span></span> <span class="token function">handleProductNotFound</span><span class="token punctuation">(</span>
+            <span class="token class-name">ProductNotFoundException</span> ex<span class="token punctuation">,</span>
+            <span class="token class-name">WebRequest</span> request<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        
+        log<span class="token punctuation">.</span><span class="token function">error</span><span class="token punctuation">(</span><span class="token string">"Producto no encontrado: {}"</span><span class="token punctuation">,</span> ex<span class="token punctuation">.</span><span class="token function">getMessage</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        
+        <span class="token class-name">ApiError</span> apiError <span class="token operator">=</span> <span class="token keyword keyword-new">new</span> <span class="token class-name">ApiError</span><span class="token punctuation">(</span>
+            <span class="token class-name">HttpStatus</span><span class="token punctuation">.</span><span class="token constant">NOT_FOUND</span><span class="token punctuation">,</span>
+            ex<span class="token punctuation">.</span><span class="token function">getMessage</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+            <span class="token class-name">Collections</span><span class="token punctuation">.</span><span class="token function">singletonList</span><span class="token punctuation">(</span><span class="token string">"Producto no encontrado"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+            <span class="token class-name">LocalDateTime</span><span class="token punctuation">.</span><span class="token function">now</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+            request<span class="token punctuation">.</span><span class="token function">getDescription</span><span class="token punctuation">(</span><span class="token boolean">false</span><span class="token punctuation">)</span>
+        <span class="token punctuation">)</span><span class="token punctuation">;</span>
+        
+        <span class="token keyword keyword-return">return</span> <span class="token keyword keyword-new">new</span> <span class="token class-name">ResponseEntity</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token punctuation">&gt;</span></span><span class="token punctuation">(</span>apiError<span class="token punctuation">,</span> <span class="token class-name">HttpStatus</span><span class="token punctuation">.</span><span class="token constant">NOT_FOUND</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    
+    <span class="token annotation punctuation">@ExceptionHandler</span><span class="token punctuation">(</span><span class="token class-name">CircuitBreakerException</span><span class="token punctuation">.</span><span class="token keyword keyword-class">class</span><span class="token punctuation">)</span>
+    <span class="token keyword keyword-public">public</span> <span class="token class-name">ResponseEntity</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">ApiError</span><span class="token punctuation">&gt;</span></span> <span class="token function">handleCircuitBreakerException</span><span class="token punctuation">(</span>
+            <span class="token class-name">CircuitBreakerException</span> ex<span class="token punctuation">,</span>
+            <span class="token class-name">WebRequest</span> request<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            
+        log<span class="token punctuation">.</span><span class="token function">error</span><span class="token punctuation">(</span><span class="token string">"Circuit Breaker activado: {}"</span><span class="token punctuation">,</span> ex<span class="token punctuation">.</span><span class="token function">getMessage</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        
+        <span class="token class-name">ApiError</span> apiError <span class="token operator">=</span> <span class="token keyword keyword-new">new</span> <span class="token class-name">ApiError</span><span class="token punctuation">(</span>
+            <span class="token class-name">HttpStatus</span><span class="token punctuation">.</span><span class="token constant">SERVICE_UNAVAILABLE</span><span class="token punctuation">,</span>
+            <span class="token string">"Servicio temporalmente no disponible"</span><span class="token punctuation">,</span>
+            <span class="token class-name">Collections</span><span class="token punctuation">.</span><span class="token function">singletonList</span><span class="token punctuation">(</span>ex<span class="token punctuation">.</span><span class="token function">getMessage</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+            <span class="token class-name">LocalDateTime</span><span class="token punctuation">.</span><span class="token function">now</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+            request<span class="token punctuation">.</span><span class="token function">getDescription</span><span class="token punctuation">(</span><span class="token boolean">false</span><span class="token punctuation">)</span>
+        <span class="token punctuation">)</span><span class="token punctuation">;</span>
+        
+        <span class="token keyword keyword-return">return</span> <span class="token keyword keyword-new">new</span> <span class="token class-name">ResponseEntity</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token punctuation">&gt;</span></span><span class="token punctuation">(</span>apiError<span class="token punctuation">,</span> <span class="token class-name">HttpStatus</span><span class="token punctuation">.</span><span class="token constant">SERVICE_UNAVAILABLE</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    
+    <span class="token annotation punctuation">@ExceptionHandler</span><span class="token punctuation">(</span><span class="token class-name">Exception</span><span class="token punctuation">.</span><span class="token keyword keyword-class">class</span><span class="token punctuation">)</span>
+    <span class="token keyword keyword-public">public</span> <span class="token class-name">ResponseEntity</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">ApiError</span><span class="token punctuation">&gt;</span></span> <span class="token function">handleAllUncaughtException</span><span class="token punctuation">(</span>
+            <span class="token class-name">Exception</span> ex<span class="token punctuation">,</span>
+            <span class="token class-name">WebRequest</span> request<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            
+        log<span class="token punctuation">.</span><span class="token function">error</span><span class="token punctuation">(</span><span class="token string">"Error no controlado: "</span><span class="token punctuation">,</span> ex<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        
+        <span class="token class-name">ApiError</span> apiError <span class="token operator">=</span> <span class="token keyword keyword-new">new</span> <span class="token class-name">ApiError</span><span class="token punctuation">(</span>
+            <span class="token class-name">HttpStatus</span><span class="token punctuation">.</span><span class="token constant">INTERNAL_SERVER_ERROR</span><span class="token punctuation">,</span>
+            <span class="token string">"Ha ocurrido un error interno"</span><span class="token punctuation">,</span>
+            <span class="token class-name">Collections</span><span class="token punctuation">.</span><span class="token function">singletonList</span><span class="token punctuation">(</span>ex<span class="token punctuation">.</span><span class="token function">getMessage</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+            <span class="token class-name">LocalDateTime</span><span class="token punctuation">.</span><span class="token function">now</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+            request<span class="token punctuation">.</span><span class="token function">getDescription</span><span class="token punctuation">(</span><span class="token boolean">false</span><span class="token punctuation">)</span>
+        <span class="token punctuation">)</span><span class="token punctuation">;</span>
+        
+        <span class="token keyword keyword-return">return</span> <span class="token keyword keyword-new">new</span> <span class="token class-name">ResponseEntity</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token punctuation">&gt;</span></span><span class="token punctuation">(</span>apiError<span class="token punctuation">,</span> <span class="token class-name">HttpStatus</span><span class="token punctuation">.</span><span class="token constant">INTERNAL_SERVER_ERROR</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre><h3 id="3-manejo-de-errores-en-circuit-breaker">3. Manejo de Errores en Circuit Breaker </h3>
+<pre data-role="codeBlock" data-info="java" class="language-java java"><code><span class="token doc-comment comment">/**
+ * Configuración personalizada de Circuit Breaker
+ */</span>
+<span class="token annotation punctuation">@Configuration</span>
+<span class="token keyword keyword-public">public</span> <span class="token keyword keyword-class">class</span> <span class="token class-name">CustomCircuitBreakerConfig</span> <span class="token punctuation">{</span>
+    
+    <span class="token annotation punctuation">@Bean</span>
+    <span class="token keyword keyword-public">public</span> <span class="token class-name">Customizer</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">Resilience4JCircuitBreakerFactory</span><span class="token punctuation">&gt;</span></span> <span class="token function">defaultCustomizer</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword keyword-return">return</span> factory <span class="token operator">-&gt;</span> factory<span class="token punctuation">.</span><span class="token function">configureDefault</span><span class="token punctuation">(</span>id <span class="token operator">-&gt;</span> <span class="token keyword keyword-new">new</span> <span class="token class-name">Resilience4JConfigBuilder</span><span class="token punctuation">(</span>id<span class="token punctuation">)</span>
+            <span class="token punctuation">.</span><span class="token function">circuitBreakerConfig</span><span class="token punctuation">(</span><span class="token class-name">CircuitBreakerConfig</span><span class="token punctuation">.</span><span class="token function">custom</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">slidingWindowSize</span><span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">failureRateThreshold</span><span class="token punctuation">(</span><span class="token number">50</span><span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">waitDurationInOpenState</span><span class="token punctuation">(</span><span class="token class-name">Duration</span><span class="token punctuation">.</span><span class="token function">ofMillis</span><span class="token punctuation">(</span><span class="token number">10000</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">permittedNumberOfCallsInHalfOpenState</span><span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">slowCallRateThreshold</span><span class="token punctuation">(</span><span class="token number">50</span><span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">slowCallDurationThreshold</span><span class="token punctuation">(</span><span class="token class-name">Duration</span><span class="token punctuation">.</span><span class="token function">ofSeconds</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">build</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+            <span class="token punctuation">.</span><span class="token function">timeLimiterConfig</span><span class="token punctuation">(</span><span class="token class-name">TimeLimiterConfig</span><span class="token punctuation">.</span><span class="token function">custom</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">timeoutDuration</span><span class="token punctuation">(</span><span class="token class-name">Duration</span><span class="token punctuation">.</span><span class="token function">ofSeconds</span><span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">build</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+            <span class="token punctuation">.</span><span class="token function">build</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre><h2 id="-monitoreo-y-métricas">📊 Monitoreo y Métricas </h2>
+<h3 id="1-configuración-de-actuator">1. Configuración de Actuator </h3>
+<pre data-role="codeBlock" data-info="yaml" class="language-yaml yaml"><code><span class="token comment"># application.yml</span>
+<span class="token key atrule">management</span><span class="token punctuation">:</span>
+  <span class="token key atrule">endpoints</span><span class="token punctuation">:</span>
+    <span class="token key atrule">web</span><span class="token punctuation">:</span>
+      <span class="token key atrule">exposure</span><span class="token punctuation">:</span>
+        <span class="token key atrule">include</span><span class="token punctuation">:</span> <span class="token string">"*"</span>
+  <span class="token key atrule">endpoint</span><span class="token punctuation">:</span>
+    <span class="token key atrule">health</span><span class="token punctuation">:</span>
+      <span class="token key atrule">show-details</span><span class="token punctuation">:</span> always
+    <span class="token key atrule">metrics</span><span class="token punctuation">:</span>
+      <span class="token key atrule">enabled</span><span class="token punctuation">:</span> <span class="token boolean important">true</span>
+    <span class="token key atrule">prometheus</span><span class="token punctuation">:</span>
+      <span class="token key atrule">enabled</span><span class="token punctuation">:</span> <span class="token boolean important">true</span>
+  <span class="token key atrule">metrics</span><span class="token punctuation">:</span>
+    <span class="token key atrule">tags</span><span class="token punctuation">:</span>
+      <span class="token key atrule">application</span><span class="token punctuation">:</span> $<span class="token punctuation">{</span>spring.application.name<span class="token punctuation">}</span>
+</code></pre><h3 id="2-métricas-personalizadas">2. Métricas Personalizadas </h3>
+<pre data-role="codeBlock" data-info="java" class="language-java java"><code><span class="token doc-comment comment">/**
+ * Configuración de métricas personalizadas
+ */</span>
+<span class="token annotation punctuation">@Configuration</span>
+<span class="token keyword keyword-public">public</span> <span class="token keyword keyword-class">class</span> <span class="token class-name">MetricsConfig</span> <span class="token punctuation">{</span>
+    
+    <span class="token annotation punctuation">@Bean</span>
+    <span class="token class-name">MeterRegistry</span> <span class="token function">meterRegistry</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword keyword-return">return</span> <span class="token keyword keyword-new">new</span> <span class="token class-name">SimpleMeterRegistry</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    
+    <span class="token annotation punctuation">@Bean</span>
+    <span class="token keyword keyword-public">public</span> <span class="token class-name">Counter</span> <span class="token function">requestCounter</span><span class="token punctuation">(</span><span class="token class-name">MeterRegistry</span> registry<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword keyword-return">return</span> <span class="token class-name">Counter</span><span class="token punctuation">.</span><span class="token function">builder</span><span class="token punctuation">(</span><span class="token string">"http.requests.total"</span><span class="token punctuation">)</span>
+            <span class="token punctuation">.</span><span class="token function">description</span><span class="token punctuation">(</span><span class="token string">"Total HTTP Requests"</span><span class="token punctuation">)</span>
+            <span class="token punctuation">.</span><span class="token function">register</span><span class="token punctuation">(</span>registry<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token doc-comment comment">/**
+ * Interceptor para métricas HTTP
+ */</span>
+<span class="token annotation punctuation">@Component</span>
+<span class="token annotation punctuation">@RequiredArgsConstructor</span>
+<span class="token keyword keyword-public">public</span> <span class="token keyword keyword-class">class</span> <span class="token class-name">MetricsInterceptor</span> <span class="token keyword keyword-implements">implements</span> <span class="token class-name">HandlerInterceptor</span> <span class="token punctuation">{</span>
+    
+    <span class="token keyword keyword-private">private</span> <span class="token keyword keyword-final">final</span> <span class="token class-name">Counter</span> requestCounter<span class="token punctuation">;</span>
+    
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword keyword-public">public</span> <span class="token keyword keyword-boolean">boolean</span> <span class="token function">preHandle</span><span class="token punctuation">(</span><span class="token class-name">HttpServletRequest</span> request<span class="token punctuation">,</span> 
+                           <span class="token class-name">HttpServletResponse</span> response<span class="token punctuation">,</span> 
+                           <span class="token class-name">Object</span> handler<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        requestCounter<span class="token punctuation">.</span><span class="token function">increment</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword keyword-return">return</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre><h2 id="-seguridad-avanzada">🔒 Seguridad Avanzada </h2>
+<h3 id="1-configuración-de-oauth2-con-keycloak">1. Configuración de OAuth2 con Keycloak </h3>
+<pre data-role="codeBlock" data-info="java" class="language-java java"><code><span class="token doc-comment comment">/**
+ * Configuración de seguridad OAuth2
+ */</span>
+<span class="token annotation punctuation">@Configuration</span>
+<span class="token annotation punctuation">@EnableWebSecurity</span>
+<span class="token keyword keyword-public">public</span> <span class="token keyword keyword-class">class</span> <span class="token class-name">OAuth2SecurityConfig</span> <span class="token punctuation">{</span>
+
+    <span class="token annotation punctuation">@Bean</span>
+    <span class="token keyword keyword-public">public</span> <span class="token class-name">SecurityFilterChain</span> <span class="token function">filterChain</span><span class="token punctuation">(</span><span class="token class-name">HttpSecurity</span> http<span class="token punctuation">)</span> <span class="token keyword keyword-throws">throws</span> <span class="token class-name">Exception</span> <span class="token punctuation">{</span>
+        http
+            <span class="token punctuation">.</span><span class="token function">oauth2ResourceServer</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">jwt</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">jwtAuthenticationConverter</span><span class="token punctuation">(</span><span class="token function">jwtAuthenticationConverter</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                
+        http
+            <span class="token punctuation">.</span><span class="token function">authorizeHttpRequests</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">requestMatchers</span><span class="token punctuation">(</span><span class="token string">"/api/public/**"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">permitAll</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">requestMatchers</span><span class="token punctuation">(</span><span class="token string">"/api/admin/**"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">hasRole</span><span class="token punctuation">(</span><span class="token string">"ADMIN"</span><span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">requestMatchers</span><span class="token punctuation">(</span><span class="token string">"/api/user/**"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">hasRole</span><span class="token punctuation">(</span><span class="token string">"USER"</span><span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">anyRequest</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">authenticated</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                
+        <span class="token keyword keyword-return">return</span> http<span class="token punctuation">.</span><span class="token function">build</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    
+    <span class="token keyword keyword-private">private</span> <span class="token class-name">Converter</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">Jwt</span><span class="token punctuation">,</span> <span class="token class-name">AbstractAuthenticationToken</span><span class="token punctuation">&gt;</span></span> <span class="token function">jwtAuthenticationConverter</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token class-name">JwtAuthenticationConverter</span> converter <span class="token operator">=</span> <span class="token keyword keyword-new">new</span> <span class="token class-name">JwtAuthenticationConverter</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        converter<span class="token punctuation">.</span><span class="token function">setJwtGrantedAuthoritiesConverter</span><span class="token punctuation">(</span>jwt <span class="token operator">-&gt;</span> <span class="token punctuation">{</span>
+            <span class="token class-name">List</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">String</span><span class="token punctuation">&gt;</span></span> roles <span class="token operator">=</span> jwt<span class="token punctuation">.</span><span class="token function">getClaimAsStringList</span><span class="token punctuation">(</span><span class="token string">"roles"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword keyword-if">if</span> <span class="token punctuation">(</span>roles <span class="token operator">==</span> <span class="token keyword keyword-null">null</span><span class="token punctuation">)</span> <span class="token keyword keyword-return">return</span> <span class="token class-name">Collections</span><span class="token punctuation">.</span><span class="token function">emptyList</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            
+            <span class="token keyword keyword-return">return</span> roles<span class="token punctuation">.</span><span class="token function">stream</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span>role <span class="token operator">-&gt;</span> <span class="token keyword keyword-new">new</span> <span class="token class-name">SimpleGrantedAuthority</span><span class="token punctuation">(</span><span class="token string">"ROLE_"</span> <span class="token operator">+</span> role<span class="token punctuation">)</span><span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">collect</span><span class="token punctuation">(</span><span class="token class-name">Collectors</span><span class="token punctuation">.</span><span class="token function">toList</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword keyword-return">return</span> converter<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre><h2 id="-conclusiones-y-mejores-prácticas">📝 Conclusiones y Mejores Prácticas </h2>
+<ol>
+<li>
+<p><strong>Diseño de APIs</strong>:</p>
+<ul>
+<li>Usar versionado en las APIs</li>
+<li>Implementar paginación para colecciones grandes</li>
+<li>Documentar APIs con OpenAPI/Swagger</li>
+</ul>
+</li>
+<li>
+<p><strong>Seguridad</strong>:</p>
+<ul>
+<li>Implementar rate limiting</li>
+<li>Usar HTTPS en todas las comunicaciones</li>
+<li>Validar todas las entradas</li>
+<li>Implementar logging de seguridad</li>
+</ul>
+</li>
+<li>
+<p><strong>Despliegue</strong>:</p>
+<ul>
+<li>Usar contenedores Docker</li>
+<li>Implementar CI/CD</li>
+<li>Automatizar pruebas</li>
+<li>Monitorear activamente</li>
+</ul>
+</li>
+<li>
+<p><strong>Rendimiento</strong>:</p>
+<ul>
+<li>Implementar caché</li>
+<li>Usar connection pooling</li>
+<li>Optimizar consultas a base de datos</li>
+<li>Monitorear tiempos de respuesta</li>
+</ul>
+</li>
+</ol>
+<h1 id="-implementación-de-microservicios-con-spring-boot-y-oauth2">🚀 Implementación de Microservicios con Spring Boot y OAuth2 </h1>
+<h2 id="-tabla-de-contenidos-1">📑 Tabla de Contenidos </h2>
+<ol>
+<li><a href="#introducci%C3%B3n">Introducción</a></li>
+<li><a href="#arquitectura-general">Arquitectura General</a></li>
+<li><a href="#configuraci%C3%B3n-del-entorno">Configuración del Entorno</a></li>
+<li><a href="#implementaci%C3%B3n-de-seguridad-oauth2">Implementación de Seguridad OAuth2</a></li>
+<li><a href="#servicios-implementados">Servicios Implementados</a></li>
+<li><a href="#configuraci%C3%B3n-de-gateway">Configuración de Gateway</a></li>
+<li><a href="#implementaci%C3%B3n-de-circuit-breaker">Implementación de Circuit Breaker</a></li>
+<li><a href="#logging-y-monitoreo">Logging y Monitoreo</a></li>
+<li><a href="#pruebas-y-despliegue">Pruebas y Despliegue</a></li>
+<li><a href="#mejores-pr%C3%A1cticas">Mejores Prácticas</a></li>
+<li><a href="#soluci%C3%B3n-de-problemas">Solución de Problemas</a></li>
+<li><a href="#referencias">Referencias</a></li>
+</ol>
+<h2 id="1-introducción">1. Introducción </h2>
+<h3 id="11-objetivo-del-proyecto">1.1 Objetivo del Proyecto </h3>
+<p>Este proyecto implementa una arquitectura de microservicios utilizando Spring Boot, con un enfoque especial en la seguridad mediante OAuth2 y Keycloak. La arquitectura está diseñada para ser escalable, segura y mantenible.</p>
+<h3 id="12-tecnologías-utilizadas">1.2 Tecnologías Utilizadas </h3>
+<ul>
+<li>Java 17</li>
+<li>Spring Boot 3.1.3</li>
+<li>Spring Cloud 2022.0.4</li>
+<li>Keycloak 22.0.1</li>
+<li>Maven</li>
+<li>Docker</li>
+</ul>
+<h3 id="13-componentes-principales">1.3 Componentes Principales </h3>
+<ul>
+<li>Eureka Server (Descubrimiento de Servicios)</li>
+<li>Config Server (Configuración Centralizada)</li>
+<li>API Gateway (Punto de Entrada y Seguridad)</li>
+<li>Servicios de Negocio (Products, Checkout)</li>
+<li>Keycloak (Servidor de Autorización)</li>
+</ul>
+<h2 id="2-arquitectura-general">2. Arquitectura General </h2>
+<h3 id="21-diagrama-de-arquitectura">2.1 Diagrama de Arquitectura </h3>
+<div class="mermaid">graph TD
+    A[Cliente] --&gt; B[API Gateway]
+    B --&gt; C[Eureka Server]
+    B --&gt; D[Config Server]
+    B --&gt; E[Servicio de Productos]
+    B --&gt; F[Servicio de Checkout]
+    B --&gt; G[Keycloak]
+    C --&gt; E
+    C --&gt; F
+    D --&gt; E
+    D --&gt; F
+    E --&gt; H[Base de Datos Productos]
+    F --&gt; I[Base de Datos Checkout]
+</div><h3 id="22-flujo-de-autenticación">2.2 Flujo de Autenticación </h3>
+<div class="mermaid">sequenceDiagram
+    participant C as Cliente
+    participant G as API Gateway
+    participant K as Keycloak
+    participant CS as Checkout Service
+    participant PS as Product Service
+
+    C-&gt;&gt;G: 1. Request /checkout
+    G-&gt;&gt;C: 2. Redirect a Keycloak
+    C-&gt;&gt;K: 3. Login
+    K-&gt;&gt;C: 4. Devuelve JWT
+    C-&gt;&gt;G: 5. Request + JWT
+    Note over G: 6. Valida JWT
+    G-&gt;&gt;CS: 7. Forward Request + JWT
+    CS-&gt;&gt;PS: 8. Request con Feign + JWT
+    PS-&gt;&gt;CS: 9. Response
+    CS-&gt;&gt;G: 10. Response
+    G-&gt;&gt;C: 11. Response Final
+</div><h2 id="3-configuración-del-entorno">3. Configuración del Entorno </h2>
+<h3 id="31-requisitos-previos">3.1 Requisitos Previos </h3>
+<pre data-role="codeBlock" data-info="bash" class="language-bash bash"><code><span class="token comment"># Versiones requeridas</span>
+<span class="token function">java</span> <span class="token parameter variable">--version</span>  <span class="token comment"># Java 17 o superior</span>
+mvn <span class="token parameter variable">--version</span>   <span class="token comment"># Maven 3.6.3 o superior</span>
+<span class="token function">docker</span> <span class="token parameter variable">--version</span> <span class="token comment"># Docker 20.10.0 o superior</span>
+</code></pre><h3 id="32-configuración-de-docker">3.2 Configuración de Docker </h3>
+<pre data-role="codeBlock" data-info="yaml" class="language-yaml yaml"><code><span class="token comment"># docker-compose.yml</span>
+<span class="token key atrule">services</span><span class="token punctuation">:</span>
+  <span class="token key atrule">keycloak</span><span class="token punctuation">:</span>
+    <span class="token key atrule">image</span><span class="token punctuation">:</span> quay.io/keycloak/keycloak<span class="token punctuation">:</span>22.0.1
+    <span class="token key atrule">ports</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> <span class="token string">"8080:8080"</span>
+    <span class="token key atrule">environment</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> KEYCLOAK_ADMIN=admin
+      <span class="token punctuation">-</span> KEYCLOAK_ADMIN_PASSWORD=admin
+    <span class="token key atrule">command</span><span class="token punctuation">:</span> start<span class="token punctuation">-</span>dev
+</code></pre><h3 id="33-estructura-del-proyecto">3.3 Estructura del Proyecto </h3>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>microservices/
+├── eureka-server/
+├── config-server/
+├── gateway/
+├── products-service/
+├── checkout-service/
+└── docker-compose.yml
+</code></pre><h2 id="4-implementación-de-seguridad-oauth2">4. Implementación de Seguridad OAuth2 </h2>
+<h3 id="41-configuración-de-keycloak">4.1 Configuración de Keycloak </h3>
+<h4 id="411-creación-del-realm">4.1.1 Creación del Realm </h4>
+<ol>
+<li>Acceder a la consola de administración (<a href="http://localhost:8080">http://localhost:8080</a>)</li>
+<li>Crear nuevo realm "dh"</li>
+<li>Configuración básica del realm</li>
+</ol>
+<h4 id="412-configuración-del-cliente-oauth2">4.1.2 Configuración del Cliente OAuth2 </h4>
+<pre data-role="codeBlock" data-info="json" class="language-json json"><code><span class="token punctuation">{</span>
+    <span class="token property">"clientId"</span><span class="token operator">:</span> <span class="token string">"gateway-client"</span><span class="token punctuation">,</span>
+    <span class="token property">"protocol"</span><span class="token operator">:</span> <span class="token string">"openid-connect"</span><span class="token punctuation">,</span>
+    <span class="token property">"publicClient"</span><span class="token operator">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span>
+    <span class="token property">"authorizationServicesEnabled"</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+    <span class="token property">"redirectUris"</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+        <span class="token string">"http://localhost:8090/*"</span>
+    <span class="token punctuation">]</span><span class="token punctuation">,</span>
+    <span class="token property">"webOrigins"</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+        <span class="token string">"+"</span>
+    <span class="token punctuation">]</span>
+<span class="token punctuation">}</span>
+</code></pre><h3 id="42-configuración-del-api-gateway-como-resource-server">4.2 Configuración del API Gateway como Resource Server </h3>
+<pre data-role="codeBlock" data-info="java" class="language-java java"><code><span class="token annotation punctuation">@Configuration</span>
+<span class="token annotation punctuation">@EnableWebSecurity</span>
+<span class="token keyword keyword-public">public</span> <span class="token keyword keyword-class">class</span> <span class="token class-name">SecurityConfig</span> <span class="token punctuation">{</span>
+    
+    <span class="token annotation punctuation">@Bean</span>
+    <span class="token keyword keyword-public">public</span> <span class="token class-name">SecurityFilterChain</span> <span class="token function">filterChain</span><span class="token punctuation">(</span><span class="token class-name">HttpSecurity</span> http<span class="token punctuation">)</span> <span class="token keyword keyword-throws">throws</span> <span class="token class-name">Exception</span> <span class="token punctuation">{</span>
+        <span class="token keyword keyword-return">return</span> http
+            <span class="token punctuation">.</span><span class="token function">oauth2ResourceServer</span><span class="token punctuation">(</span>oauth2 <span class="token operator">-&gt;</span> oauth2
+                <span class="token punctuation">.</span><span class="token function">jwt</span><span class="token punctuation">(</span>jwt <span class="token operator">-&gt;</span> jwt
+                    <span class="token punctuation">.</span><span class="token function">jwkSetUri</span><span class="token punctuation">(</span><span class="token string">"http://localhost:8080/realms/dh/protocol/openid-connect/certs"</span><span class="token punctuation">)</span>
+                <span class="token punctuation">)</span>
+            <span class="token punctuation">)</span>
+            <span class="token punctuation">.</span><span class="token function">authorizeHttpRequests</span><span class="token punctuation">(</span>auth <span class="token operator">-&gt;</span> auth
+                <span class="token punctuation">.</span><span class="token function">requestMatchers</span><span class="token punctuation">(</span><span class="token string">"/public/**"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">permitAll</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">requestMatchers</span><span class="token punctuation">(</span><span class="token string">"/api/**"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">authenticated</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">anyRequest</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">authenticated</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+            <span class="token punctuation">)</span>
+            <span class="token punctuation">.</span><span class="token function">build</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre><h3 id="43-configuración-de-applicationyml-para-oauth2">4.3 Configuración de application.yml para OAuth2 </h3>
+<pre data-role="codeBlock" data-info="yaml" class="language-yaml yaml"><code><span class="token key atrule">spring</span><span class="token punctuation">:</span>
+  <span class="token key atrule">security</span><span class="token punctuation">:</span>
+    <span class="token key atrule">oauth2</span><span class="token punctuation">:</span>
+      <span class="token key atrule">resourceserver</span><span class="token punctuation">:</span>
+        <span class="token key atrule">jwt</span><span class="token punctuation">:</span>
+          <span class="token key atrule">issuer-uri</span><span class="token punctuation">:</span> http<span class="token punctuation">:</span>//localhost<span class="token punctuation">:</span>8080/realms/dh
+          <span class="token key atrule">jwk-set-uri</span><span class="token punctuation">:</span> http<span class="token punctuation">:</span>//localhost<span class="token punctuation">:</span>8080/realms/dh/protocol/openid<span class="token punctuation">-</span>connect/certs
+      <span class="token key atrule">client</span><span class="token punctuation">:</span>
+        <span class="token key atrule">registration</span><span class="token punctuation">:</span>
+          <span class="token key atrule">keycloak</span><span class="token punctuation">:</span>
+            <span class="token key atrule">client-id</span><span class="token punctuation">:</span> gateway<span class="token punctuation">-</span>client
+            <span class="token key atrule">client-secret</span><span class="token punctuation">:</span> your<span class="token punctuation">-</span>client<span class="token punctuation">-</span>secret
+            <span class="token key atrule">authorization-grant-type</span><span class="token punctuation">:</span> authorization_code
+            <span class="token key atrule">scope</span><span class="token punctuation">:</span> openid<span class="token punctuation">,</span>email<span class="token punctuation">,</span>profile
+        <span class="token key atrule">provider</span><span class="token punctuation">:</span>
+          <span class="token key atrule">keycloak</span><span class="token punctuation">:</span>
+            <span class="token key atrule">issuer-uri</span><span class="token punctuation">:</span> http<span class="token punctuation">:</span>//localhost<span class="token punctuation">:</span>8080/realms/dh
+</code></pre><h2 id="5-servicios-implementados">5. Servicios Implementados </h2>
+<h3 id="51-servicio-de-productos">5.1 Servicio de Productos </h3>
+<h4 id="511-modelo-de-producto">5.1.1 Modelo de Producto </h4>
+<pre data-role="codeBlock" data-info="java" class="language-java java"><code><span class="token keyword keyword-public">public</span> <span class="token keyword keyword-class">class</span> <span class="token class-name">Product</span> <span class="token punctuation">{</span>
+    <span class="token keyword keyword-private">private</span> <span class="token class-name">String</span> id<span class="token punctuation">;</span>
+    <span class="token keyword keyword-private">private</span> <span class="token class-name">String</span> name<span class="token punctuation">;</span>
+    <span class="token keyword keyword-private">private</span> <span class="token keyword keyword-double">double</span> price<span class="token punctuation">;</span>
+    <span class="token keyword keyword-private">private</span> <span class="token class-name">String</span> instance<span class="token punctuation">;</span>
+
+    <span class="token comment">// Constructores, getters y setters</span>
+<span class="token punctuation">}</span>
+</code></pre><h4 id="512-controlador-de-productos">5.1.2 Controlador de Productos </h4>
+<pre data-role="codeBlock" data-info="java" class="language-java java"><code><span class="token annotation punctuation">@RestController</span>
+<span class="token annotation punctuation">@RequestMapping</span><span class="token punctuation">(</span><span class="token string">"/products"</span><span class="token punctuation">)</span>
+<span class="token keyword keyword-public">public</span> <span class="token keyword keyword-class">class</span> <span class="token class-name">ProductRestController</span> <span class="token punctuation">{</span>
+    
+    <span class="token annotation punctuation">@GetMapping</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token keyword keyword-public">public</span> <span class="token class-name">Product</span> <span class="token function">getProduct</span><span class="token punctuation">(</span><span class="token annotation punctuation">@RequestParam</span> <span class="token class-name">String</span> id<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword keyword-return">return</span> <span class="token keyword keyword-new">new</span> <span class="token class-name">Product</span><span class="token punctuation">(</span>id<span class="token punctuation">,</span> <span class="token string">"Notebook"</span><span class="token punctuation">,</span> <span class="token number">2000.0</span><span class="token punctuation">,</span> <span class="token string">"Instance 1"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre><h3 id="52-servicio-de-checkout">5.2 Servicio de Checkout </h3>
+<h4 id="521-configuración-de-seguridad">5.2.1 Configuración de Seguridad </h4>
+<pre data-role="codeBlock" data-info="java" class="language-java java"><code><span class="token annotation punctuation">@Configuration</span>
+<span class="token annotation punctuation">@EnableWebSecurity</span>
+<span class="token keyword keyword-public">public</span> <span class="token keyword keyword-class">class</span> <span class="token class-name">SecurityConfig</span> <span class="token punctuation">{</span>
+    
+    <span class="token annotation punctuation">@Bean</span>
+    <span class="token keyword keyword-public">public</span> <span class="token class-name">SecurityFilterChain</span> <span class="token function">filterChain</span><span class="token punctuation">(</span><span class="token class-name">HttpSecurity</span> http<span class="token punctuation">)</span> <span class="token keyword keyword-throws">throws</span> <span class="token class-name">Exception</span> <span class="token punctuation">{</span>
+        http
+            <span class="token punctuation">.</span><span class="token function">authorizeHttpRequests</span><span class="token punctuation">(</span>authorize <span class="token operator">-&gt;</span> 
+                authorize<span class="token punctuation">.</span><span class="token function">requestMatchers</span><span class="token punctuation">(</span><span class="token string">"/checkout/{id}"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">hasAuthority</span><span class="token punctuation">(</span><span class="token string">"SCOPE_email"</span><span class="token punctuation">)</span>
+                    <span class="token punctuation">.</span><span class="token function">anyRequest</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">authenticated</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+            <span class="token punctuation">)</span>
+            <span class="token punctuation">.</span><span class="token function">oauth2ResourceServer</span><span class="token punctuation">(</span>oauth2 <span class="token operator">-&gt;</span> oauth2
+                <span class="token punctuation">.</span><span class="token function">jwt</span><span class="token punctuation">(</span>jwt <span class="token operator">-&gt;</span> jwt
+                    <span class="token punctuation">.</span><span class="token function">jwkSetUri</span><span class="token punctuation">(</span><span class="token string">"http://localhost:8080/realms/dh/protocol/openid-connect/certs"</span><span class="token punctuation">)</span>
+                <span class="token punctuation">)</span>
+            <span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword keyword-return">return</span> http<span class="token punctuation">.</span><span class="token function">build</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre><h4 id="522-implementación-de-feign-client">5.2.2 Implementación de Feign Client </h4>
+<pre data-role="codeBlock" data-info="java" class="language-java java"><code><span class="token annotation punctuation">@FeignClient</span><span class="token punctuation">(</span>name <span class="token operator">=</span> <span class="token string">"products-service"</span><span class="token punctuation">)</span>
+<span class="token keyword keyword-public">public</span> <span class="token keyword keyword-interface">interface</span> <span class="token class-name">FeignProductRepository</span> <span class="token punctuation">{</span>
+    
+    <span class="token annotation punctuation">@RequestMapping</span><span class="token punctuation">(</span>method <span class="token operator">=</span> <span class="token class-name">RequestMethod</span><span class="token punctuation">.</span><span class="token constant">GET</span><span class="token punctuation">,</span> value <span class="token operator">=</span> <span class="token string">"/products"</span><span class="token punctuation">)</span>
+    <span class="token class-name">Product</span> <span class="token function">getProductById</span><span class="token punctuation">(</span><span class="token annotation punctuation">@RequestParam</span> <span class="token class-name">String</span> id<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre><h2 id="6-configuración-de-gateway">6. Configuración de Gateway </h2>
+<h3 id="61-custom-filter">6.1 Custom Filter </h3>
+<pre data-role="codeBlock" data-info="java" class="language-java java"><code><span class="token annotation punctuation">@Configuration</span>
+<span class="token keyword keyword-public">public</span> <span class="token keyword keyword-class">class</span> <span class="token class-name">CustomFilter</span> <span class="token keyword keyword-implements">implements</span> <span class="token class-name">GlobalFilter</span> <span class="token punctuation">{</span>
+    
+    <span class="token class-name">Logger</span> logger <span class="token operator">=</span> <span class="token class-name">LoggerFactory</span><span class="token punctuation">.</span><span class="token function">getLogger</span><span class="token punctuation">(</span><span class="token class-name">CustomFilter</span><span class="token punctuation">.</span><span class="token keyword keyword-class">class</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword keyword-public">public</span> <span class="token class-name">Mono</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">Void</span><span class="token punctuation">&gt;</span></span> <span class="token function">filter</span><span class="token punctuation">(</span><span class="token class-name">ServerWebExchange</span> exchange<span class="token punctuation">,</span> <span class="token class-name">GatewayFilterChain</span> chain<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        logger<span class="token punctuation">.</span><span class="token function">info</span><span class="token punctuation">(</span><span class="token string">"Solicitud hacia : "</span> <span class="token operator">+</span> exchange<span class="token punctuation">.</span><span class="token function">getRequest</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getPath</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword keyword-return">return</span> chain<span class="token punctuation">.</span><span class="token function">filter</span><span class="token punctuation">(</span>exchange<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre><h3 id="62-configuración-de-rutas">6.2 Configuración de Rutas </h3>
+<pre data-role="codeBlock" data-info="yaml" class="language-yaml yaml"><code><span class="token key atrule">spring</span><span class="token punctuation">:</span>
+  <span class="token key atrule">cloud</span><span class="token punctuation">:</span>
+    <span class="token key atrule">gateway</span><span class="token punctuation">:</span>
+      <span class="token key atrule">routes</span><span class="token punctuation">:</span>
+        <span class="token punctuation">-</span> <span class="token key atrule">id</span><span class="token punctuation">:</span> products<span class="token punctuation">-</span>service
+          <span class="token key atrule">uri</span><span class="token punctuation">:</span> lb<span class="token punctuation">:</span>//products<span class="token punctuation">-</span>service
+          <span class="token key atrule">predicates</span><span class="token punctuation">:</span>
+            <span class="token punctuation">-</span> Path=/products/<span class="token important">**</span>
+          <span class="token key atrule">filters</span><span class="token punctuation">:</span>
+            <span class="token punctuation">-</span> AddRequestHeader=X<span class="token punctuation">-</span>Request<span class="token punctuation">-</span>From<span class="token punctuation">,</span>gateway
+</code></pre><h2 id="7-implementación-de-circuit-breaker">7. Implementación de Circuit Breaker </h2>
+<h3 id="71-configuración-de-resilience4j">7.1 Configuración de Resilience4j </h3>
+<pre data-role="codeBlock" data-info="java" class="language-java java"><code><span class="token annotation punctuation">@CircuitBreaker</span><span class="token punctuation">(</span>name <span class="token operator">=</span> <span class="token string">"productService"</span><span class="token punctuation">,</span> fallbackMethod <span class="token operator">=</span> <span class="token string">"getDefaultProduct"</span><span class="token punctuation">)</span>
+<span class="token annotation punctuation">@Retry</span><span class="token punctuation">(</span>name <span class="token operator">=</span> <span class="token string">"productService"</span><span class="token punctuation">,</span> fallbackMethod <span class="token operator">=</span> <span class="token string">"getDefaultProduct"</span><span class="token punctuation">)</span>
+<span class="token keyword keyword-public">public</span> <span class="token class-name">Product</span> <span class="token function">getProduct</span><span class="token punctuation">(</span><span class="token class-name">String</span> id<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword keyword-return">return</span> productRepository<span class="token punctuation">.</span><span class="token function">findById</span><span class="token punctuation">(</span>id<span class="token punctuation">)</span>
+        <span class="token punctuation">.</span><span class="token function">orElseThrow</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-&gt;</span> <span class="token keyword keyword-new">new</span> <span class="token class-name">ProductNotFoundException</span><span class="token punctuation">(</span>id<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword keyword-public">public</span> <span class="token class-name">Product</span> <span class="token function">getDefaultProduct</span><span class="token punctuation">(</span><span class="token class-name">String</span> id<span class="token punctuation">,</span> <span class="token class-name">Exception</span> ex<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword keyword-return">return</span> <span class="token keyword keyword-new">new</span> <span class="token class-name">Product</span><span class="token punctuation">(</span><span class="token string">"default"</span><span class="token punctuation">,</span> <span class="token string">"Producto por defecto"</span><span class="token punctuation">,</span> <span class="token number">0.0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre><h2 id="8-logging-y-monitoreo">8. Logging y Monitoreo </h2>
+<h3 id="81-configuración-de-logging">8.1 Configuración de Logging </h3>
+<pre data-role="codeBlock" data-info="xml" class="language-xml xml"><code><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>dependency</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>groupId</span><span class="token punctuation">&gt;</span></span>org.springframework.boot<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>groupId</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>artifactId</span><span class="token punctuation">&gt;</span></span>spring-boot-starter-actuator<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>artifactId</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>dependency</span><span class="token punctuation">&gt;</span></span>
+</code></pre><h3 id="82-endpoints-de-monitoreo">8.2 Endpoints de Monitoreo </h3>
+<pre data-role="codeBlock" data-info="yaml" class="language-yaml yaml"><code><span class="token key atrule">management</span><span class="token punctuation">:</span>
+  <span class="token key atrule">endpoints</span><span class="token punctuation">:</span>
+    <span class="token key atrule">web</span><span class="token punctuation">:</span>
+      <span class="token key atrule">exposure</span><span class="token punctuation">:</span>
+        <span class="token key atrule">include</span><span class="token punctuation">:</span> health<span class="token punctuation">,</span>info<span class="token punctuation">,</span>metrics
+  <span class="token key atrule">endpoint</span><span class="token punctuation">:</span>
+    <span class="token key atrule">health</span><span class="token punctuation">:</span>
+      <span class="token key atrule">show-details</span><span class="token punctuation">:</span> always
+</code></pre><h2 id="9-pruebas-y-despliegue">9. Pruebas y Despliegue </h2>
+<h3 id="91-tests-de-integración">9.1 Tests de Integración </h3>
+<pre data-role="codeBlock" data-info="java" class="language-java java"><code><span class="token annotation punctuation">@SpringBootTest</span>
+<span class="token annotation punctuation">@AutoConfigureMockMvc</span>
+<span class="token keyword keyword-public">public</span> <span class="token keyword keyword-class">class</span> <span class="token class-name">ProductControllerTests</span> <span class="token punctuation">{</span>
+    
+    <span class="token annotation punctuation">@Test</span>
+    <span class="token keyword keyword-public">public</span> <span class="token keyword keyword-void">void</span> <span class="token function">whenGetProduct_thenReturnProduct</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment">// Implementación de test</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre><h3 id="92-dockerfile">9.2 Dockerfile </h3>
+<pre data-role="codeBlock" data-info="dockerfile" class="language-dockerfile dockerfile"><code><span class="token instruction"><span class="token keyword keyword-FROM">FROM</span> openjdk:17-jdk-slim</span>
+<span class="token instruction"><span class="token keyword keyword-ARG">ARG</span> JAR_FILE=target/*.jar</span>
+<span class="token instruction"><span class="token keyword keyword-COPY">COPY</span> <span class="token variable">${JAR_FILE}</span> app.jar</span>
+<span class="token instruction"><span class="token keyword keyword-ENTRYPOINT">ENTRYPOINT</span> [<span class="token string">"java"</span>,<span class="token string">"-jar"</span>,<span class="token string">"/app.jar"</span>]</span>
+</code></pre><h2 id="10-mejores-prácticas">10. Mejores Prácticas </h2>
+<h3 id="101-seguridad">10.1 Seguridad </h3>
+<ul>
+<li>✅ Uso de HTTPS en producción</li>
+<li>✅ Validación de tokens en cada capa</li>
+<li>✅ Principio de mínimo privilegio</li>
+<li>✅ Rotación regular de secretos</li>
+</ul>
+<h3 id="102-rendimiento">10.2 Rendimiento </h3>
+<ul>
+<li>✅ Caché adecuada</li>
+<li>✅ Circuit breakers para fallos</li>
+<li>✅ Load balancing</li>
+<li>✅ Timeouts configurados</li>
+</ul>
+<h3 id="103-escalabilidad">10.3 Escalabilidad </h3>
+<ul>
+<li>✅ Servicios stateless</li>
+<li>✅ Configuración externalizada</li>
+<li>✅ Logs centralizados</li>
+<li>✅ Métricas monitorizadas</li>
+</ul>
+<h2 id="11-solución-de-problemas">11. Solución de Problemas </h2>
+<h3 id="111-problemas-comunes">11.1 Problemas Comunes </h3>
+<h4 id="error-de-conectividad-con-keycloak">Error de Conectividad con Keycloak </h4>
+<pre data-role="codeBlock" data-info="bash" class="language-bash bash"><code><span class="token comment"># Verificar estado de Keycloak</span>
+<span class="token function">docker</span> <span class="token function">ps</span>
+<span class="token function">docker</span> logs keycloak
+</code></pre><h4 id="tokens-inválidos">Tokens Inválidos </h4>
+<ol>
+<li>Verificar tiempo de expiración</li>
+<li>Validar configuración de cliente</li>
+<li>Comprobar URLs de Keycloak</li>
+</ol>
+<h4 id="problemas-de-circuit-breaker">Problemas de Circuit Breaker </h4>
+<pre data-role="codeBlock" data-info="yaml" class="language-yaml yaml"><code><span class="token key atrule">resilience4j</span><span class="token punctuation">:</span>
+  <span class="token key atrule">circuitbreaker</span><span class="token punctuation">:</span>
+    <span class="token key atrule">instances</span><span class="token punctuation">:</span>
+      <span class="token key atrule">productService</span><span class="token punctuation">:</span>
+        <span class="token key atrule">failureRateThreshold</span><span class="token punctuation">:</span> <span class="token number">50</span>
+        <span class="token key atrule">waitDurationInOpenState</span><span class="token punctuation">:</span> 1s
+</code></pre><h2 id="12-referencias">12. Referencias </h2>
+<h3 id="121-documentación-oficial">12.1 Documentación Oficial </h3>
+<ul>
+<li><a href="https://spring.io/projects/spring-cloud">Spring Cloud</a></li>
+<li><a href="https://www.keycloak.org/documentation">Keycloak Documentation</a></li>
+<li><a href="https://oauth.net/2/">OAuth 2.0 Specification</a></li>
+</ul>
+<h3 id="122-guías-relacionadas">12.2 Guías Relacionadas </h3>
+<ul>
+<li><a href="https://docs.spring.io/spring-security/reference/servlet/oauth2/index.html">Spring Security OAuth2</a></li>
+<li><a href="https://docs.microsoft.com/en-us/azure/architecture/patterns/circuit-breaker">Circuit Breaker Pattern</a></li>
+</ul>
+<h2 id="conclusión">Conclusión </h2>
+<p>Esta implementación proporciona una base sólida para una arquitectura de microservicios con:</p>
+<ul>
+<li>✨ Seguridad robusta mediante OAuth2</li>
+<li>🚀 Escalabilidad y resiliencia</li>
+<li>📊 Monitoreo y observabilidad</li>
+<li>🔧 Mantenibilidad y extensibilidad</li>
+</ul>
+<p>La arquitectura está diseñada para crecer y adaptarse a nuevos requerimientos mientras mantiene altos estándares de seguridad y rendimiento.</p>
+<h1 id="microservicios-con-spring-cloud-circuit-breaker-y-resilience4j">Microservicios con Spring Cloud, Circuit Breaker y Resilience4j </h1>
+<h2 id="tabla-de-contenidos">Tabla de Contenidos </h2>
+<ul>
+<li><a href="#1-introducci%C3%B3n">1. Introducción</a></li>
+<li><a href="#2-arquitectura-del-sistema">2. Arquitectura del Sistema</a></li>
+<li><a href="#3-componentes-principales">3. Componentes Principales</a></li>
+<li><a href="#4-implementaci%C3%B3n-detallada">4. Implementación Detallada</a></li>
+<li><a href="#5-circuit-breaker-y-resilience4j">5. Circuit Breaker y Resilience4j</a></li>
+<li><a href="#6-monitoreo-y-actuator">6. Monitoreo y Actuator</a></li>
+<li><a href="#7-ejemplos-de-uso">7. Ejemplos de Uso</a></li>
+<li><a href="#8-mejores-pr%C3%A1cticas">8. Mejores Prácticas</a></li>
+<li><a href="#9-troubleshooting">9. Troubleshooting</a></li>
+</ul>
+<h2 id="1-introducción-1">1. Introducción </h2>
+<p>Este documento proporciona una guía detallada para implementar una arquitectura de microservicios utilizando Spring Cloud, con énfasis en la resiliencia y el monitoreo. La arquitectura incluye Circuit Breaker patterns, retry mechanisms, y monitoreo detallado.</p>
+<h3 id="11-prerrequisitos">1.1 Prerrequisitos </h3>
+<ul>
+<li>Java 17</li>
+<li>Spring Boot 2.7.x/3.x</li>
+<li>Maven</li>
+<li>Docker (opcional)</li>
+</ul>
+<h3 id="12-tecnologías-utilizadas-1">1.2 Tecnologías Utilizadas </h3>
+<ul>
+<li>Spring Cloud</li>
+<li>Resilience4j</li>
+<li>Spring Cloud Gateway</li>
+<li>Eureka Server</li>
+<li>Config Server</li>
+<li>Spring Boot Actuator</li>
+</ul>
+<h2 id="2-arquitectura-del-sistema">2. Arquitectura del Sistema </h2>
+<p>La arquitectura se compone de varios microservicios interconectados que trabajan en conjunto para proporcionar una solución robusta y escalable.</p>
+<h3 id="21-diagrama-de-arquitectura-1">2.1 Diagrama de Arquitectura </h3>
+<div class="mermaid">graph TB
+    Client[Cliente] --&gt; Gateway[API Gateway]
+    Gateway --&gt; Eureka[Eureka Server]
+    Gateway --&gt; Config[Config Server]
+    
+    subgraph Services
+        Checkout[Checkout Service]
+        Products[Products Service]
+    end
+    
+    Gateway --&gt; Services
+    
+    subgraph Resilience Layer
+        CircuitBreaker[Circuit Breaker]
+        Retry[Retry Mechanism]
+        LoadBalancer[Load Balancer]
+    end
+    
+    Checkout --&gt; Resilience Layer
+    Resilience Layer --&gt; Products
+    
+    subgraph Monitoring
+        Actuator[Spring Actuator]
+        Zipkin[Zipkin]
+        Metrics[Metrics]
+    end
+    
+    Services --&gt; Monitoring
+</div><h2 id="3-componentes-principales">3. Componentes Principales </h2>
+<h3 id="31-config-server">3.1 Config Server </h3>
+<pre data-role="codeBlock" data-info="java" class="language-java java"><code><span class="token annotation punctuation">@SpringBootApplication</span>
+<span class="token annotation punctuation">@EnableConfigServer</span>
+<span class="token keyword keyword-public">public</span> <span class="token keyword keyword-class">class</span> <span class="token class-name">ConfigServerApplication</span> <span class="token punctuation">{</span>
+    <span class="token keyword keyword-public">public</span> <span class="token keyword keyword-static">static</span> <span class="token keyword keyword-void">void</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token class-name">String</span><span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token class-name">SpringApplication</span><span class="token punctuation">.</span><span class="token function">run</span><span class="token punctuation">(</span><span class="token class-name">ConfigServerApplication</span><span class="token punctuation">.</span><span class="token keyword keyword-class">class</span><span class="token punctuation">,</span> args<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre><h4 id="configuration-applicationyml">Configuration (application.yml) </h4>
+<pre data-role="codeBlock" data-info="yaml" class="language-yaml yaml"><code><span class="token key atrule">server</span><span class="token punctuation">:</span>
+  <span class="token key atrule">port</span><span class="token punctuation">:</span> <span class="token number">8888</span>
+<span class="token key atrule">spring</span><span class="token punctuation">:</span>
+  <span class="token key atrule">cloud</span><span class="token punctuation">:</span>
+    <span class="token key atrule">config</span><span class="token punctuation">:</span>
+      <span class="token key atrule">server</span><span class="token punctuation">:</span>
+        <span class="token key atrule">git</span><span class="token punctuation">:</span>
+          <span class="token key atrule">uri</span><span class="token punctuation">:</span> $<span class="token punctuation">{</span>CONFIG_REPO_URI<span class="token punctuation">}</span>
+          <span class="token key atrule">default-label</span><span class="token punctuation">:</span> main
+</code></pre><h3 id="32-eureka-server">3.2 Eureka Server </h3>
+<pre data-role="codeBlock" data-info="java" class="language-java java"><code><span class="token annotation punctuation">@SpringBootApplication</span>
+<span class="token annotation punctuation">@EnableEurekaServer</span>
+<span class="token keyword keyword-public">public</span> <span class="token keyword keyword-class">class</span> <span class="token class-name">EurekaServerApplication</span> <span class="token punctuation">{</span>
+    <span class="token keyword keyword-public">public</span> <span class="token keyword keyword-static">static</span> <span class="token keyword keyword-void">void</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token class-name">String</span><span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token class-name">SpringApplication</span><span class="token punctuation">.</span><span class="token function">run</span><span class="token punctuation">(</span><span class="token class-name">EurekaServerApplication</span><span class="token punctuation">.</span><span class="token keyword keyword-class">class</span><span class="token punctuation">,</span> args<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre><h4 id="configuration-applicationyml-1">Configuration (application.yml) </h4>
+<pre data-role="codeBlock" data-info="yaml" class="language-yaml yaml"><code><span class="token key atrule">server</span><span class="token punctuation">:</span>
+  <span class="token key atrule">port</span><span class="token punctuation">:</span> <span class="token number">8761</span>
+<span class="token key atrule">eureka</span><span class="token punctuation">:</span>
+  <span class="token key atrule">client</span><span class="token punctuation">:</span>
+    <span class="token key atrule">registerWithEureka</span><span class="token punctuation">:</span> <span class="token boolean important">false</span>
+    <span class="token key atrule">fetchRegistry</span><span class="token punctuation">:</span> <span class="token boolean important">false</span>
+</code></pre><h3 id="33-api-gateway">3.3 API Gateway </h3>
+<pre data-role="codeBlock" data-info="java" class="language-java java"><code><span class="token annotation punctuation">@SpringBootApplication</span>
+<span class="token keyword keyword-public">public</span> <span class="token keyword keyword-class">class</span> <span class="token class-name">GatewayApplication</span> <span class="token punctuation">{</span>
+    <span class="token keyword keyword-public">public</span> <span class="token keyword keyword-static">static</span> <span class="token keyword keyword-void">void</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token class-name">String</span><span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token class-name">SpringApplication</span><span class="token punctuation">.</span><span class="token function">run</span><span class="token punctuation">(</span><span class="token class-name">GatewayApplication</span><span class="token punctuation">.</span><span class="token keyword keyword-class">class</span><span class="token punctuation">,</span> args<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre><h2 id="4-implementación-detallada">4. Implementación Detallada </h2>
+<h3 id="41-checkout-service">4.1 Checkout Service </h3>
+<pre data-role="codeBlock" data-info="java" class="language-java java"><code><span class="token annotation punctuation">@Service</span>
+<span class="token keyword keyword-public">public</span> <span class="token keyword keyword-class">class</span> <span class="token class-name">CheckoutService</span> <span class="token keyword keyword-implements">implements</span> <span class="token class-name">ICheckoutService</span> <span class="token punctuation">{</span>
+    <span class="token keyword keyword-private">private</span> <span class="token keyword keyword-final">final</span> <span class="token class-name">IProductService</span> productService<span class="token punctuation">;</span>
+    
+    <span class="token keyword keyword-public">public</span> <span class="token class-name">CheckoutService</span><span class="token punctuation">(</span><span class="token class-name">IProductService</span> productService<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword keyword-this">this</span><span class="token punctuation">.</span>productService <span class="token operator">=</span> productService<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword keyword-public">public</span> <span class="token class-name">Checkout</span> <span class="token function">buildCheckout</span><span class="token punctuation">(</span><span class="token class-name">List</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">String</span><span class="token punctuation">&gt;</span></span> productIds<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token class-name">Double</span> total <span class="token operator">=</span> <span class="token number">0.0</span><span class="token punctuation">;</span>
+        <span class="token keyword keyword-for">for</span> <span class="token punctuation">(</span><span class="token class-name">String</span> id <span class="token operator">:</span> productIds<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token class-name">Product</span> product <span class="token operator">=</span> productService<span class="token punctuation">.</span><span class="token function">getProduct</span><span class="token punctuation">(</span>id<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            total <span class="token operator">+=</span> product<span class="token punctuation">.</span><span class="token function">getPrice</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword keyword-return">return</span> <span class="token keyword keyword-new">new</span> <span class="token class-name">Checkout</span><span class="token punctuation">(</span><span class="token string">"234"</span><span class="token punctuation">,</span> 
+                          <span class="token string">"www.digitalhouse.com/checkout?code=234"</span><span class="token punctuation">,</span>
+                          total<span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+                          <span class="token class-name">List</span><span class="token punctuation">.</span><span class="token function">of</span><span class="token punctuation">(</span><span class="token string">"credit_card"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre><h3 id="42-product-service">4.2 Product Service </h3>
+<pre data-role="codeBlock" data-info="java" class="language-java java"><code><span class="token annotation punctuation">@RestController</span>
+<span class="token annotation punctuation">@RequestMapping</span><span class="token punctuation">(</span><span class="token string">"/products"</span><span class="token punctuation">)</span>
+<span class="token keyword keyword-public">public</span> <span class="token keyword keyword-class">class</span> <span class="token class-name">ProductRestController</span> <span class="token punctuation">{</span>
+    
+    <span class="token annotation punctuation">@GetMapping</span>
+    <span class="token keyword keyword-public">public</span> <span class="token class-name">Product</span> <span class="token function">getProduct</span><span class="token punctuation">(</span><span class="token annotation punctuation">@RequestParam</span> <span class="token class-name">String</span> id<span class="token punctuation">,</span>
+                            <span class="token annotation punctuation">@RequestParam</span><span class="token punctuation">(</span>defaultValue <span class="token operator">=</span> <span class="token string">"false"</span><span class="token punctuation">)</span> <span class="token class-name">Boolean</span> throwError<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword keyword-if">if</span> <span class="token punctuation">(</span>throwError<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword keyword-throw">throw</span> <span class="token keyword keyword-new">new</span> <span class="token class-name">RuntimeException</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword keyword-return">return</span> <span class="token keyword keyword-new">new</span> <span class="token class-name">Product</span><span class="token punctuation">(</span>id<span class="token punctuation">,</span> <span class="token string">"Notebook"</span><span class="token punctuation">,</span> <span class="token number">2000.0</span><span class="token punctuation">,</span> <span class="token string">"Instance 1"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre><h2 id="5-circuit-breaker-y-resilience4j">5. Circuit Breaker y Resilience4j </h2>
+<h3 id="51-configuración">5.1 Configuración </h3>
+<pre data-role="codeBlock" data-info="yaml" class="language-yaml yaml"><code><span class="token key atrule">resilience4j</span><span class="token punctuation">:</span>
+  <span class="token key atrule">circuitbreaker</span><span class="token punctuation">:</span>
+    <span class="token key atrule">instances</span><span class="token punctuation">:</span>
+      <span class="token key atrule">product</span><span class="token punctuation">:</span>
+        <span class="token key atrule">slidingWindowSize</span><span class="token punctuation">:</span> <span class="token number">10</span>
+        <span class="token key atrule">minimumNumberOfCalls</span><span class="token punctuation">:</span> <span class="token number">5</span>
+        <span class="token key atrule">failureRateThreshold</span><span class="token punctuation">:</span> <span class="token number">50</span>
+        <span class="token key atrule">waitDurationInOpenState</span><span class="token punctuation">:</span> <span class="token number">10000</span>
+        <span class="token key atrule">permittedNumberOfCallsInHalfOpenState</span><span class="token punctuation">:</span> <span class="token number">3</span>
+  <span class="token key atrule">retry</span><span class="token punctuation">:</span>
+    <span class="token key atrule">instances</span><span class="token punctuation">:</span>
+      <span class="token key atrule">product</span><span class="token punctuation">:</span>
+        <span class="token key atrule">maxAttempts</span><span class="token punctuation">:</span> <span class="token number">3</span>
+        <span class="token key atrule">waitDuration</span><span class="token punctuation">:</span> 1s
+        <span class="token key atrule">enableExponentialBackoff</span><span class="token punctuation">:</span> <span class="token boolean important">true</span>
+</code></pre><h3 id="52-implementación">5.2 Implementación </h3>
+<pre data-role="codeBlock" data-info="java" class="language-java java"><code><span class="token annotation punctuation">@Service</span>
+<span class="token keyword keyword-public">public</span> <span class="token keyword keyword-class">class</span> <span class="token class-name">ProductService</span> <span class="token keyword keyword-implements">implements</span> <span class="token class-name">IProductService</span> <span class="token punctuation">{</span>
+    <span class="token keyword keyword-private">private</span> <span class="token keyword keyword-final">final</span> <span class="token class-name">Logger</span> log <span class="token operator">=</span> <span class="token class-name">LoggerFactory</span><span class="token punctuation">.</span><span class="token function">getLogger</span><span class="token punctuation">(</span><span class="token class-name">ProductService</span><span class="token punctuation">.</span><span class="token keyword keyword-class">class</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-private">private</span> <span class="token keyword keyword-final">final</span> <span class="token class-name">FeignProductRepository</span> feignProductRepository<span class="token punctuation">;</span>
+    
+    <span class="token annotation punctuation">@CircuitBreaker</span><span class="token punctuation">(</span>name <span class="token operator">=</span> <span class="token string">"product"</span><span class="token punctuation">,</span> fallbackMethod <span class="token operator">=</span> <span class="token string">"getProductFallbackMethod"</span><span class="token punctuation">)</span>
+    <span class="token annotation punctuation">@Retry</span><span class="token punctuation">(</span>name <span class="token operator">=</span> <span class="token string">"product"</span><span class="token punctuation">)</span>
+    <span class="token keyword keyword-public">public</span> <span class="token class-name">Product</span> <span class="token function">getProduct</span><span class="token punctuation">(</span><span class="token class-name">String</span> id<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        log<span class="token punctuation">.</span><span class="token function">info</span><span class="token punctuation">(</span><span class="token string">"Attempting to get product with ID: {}"</span><span class="token punctuation">,</span> id<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword keyword-return">return</span> feignProductRepository<span class="token punctuation">.</span><span class="token function">getProductById</span><span class="token punctuation">(</span>id<span class="token punctuation">,</span> <span class="token boolean">true</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    
+    <span class="token keyword keyword-public">public</span> <span class="token class-name">Product</span> <span class="token function">getProductFallbackMethod</span><span class="token punctuation">(</span><span class="token class-name">String</span> id<span class="token punctuation">,</span> <span class="token class-name">CallNotPermittedException</span> exception<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        log<span class="token punctuation">.</span><span class="token function">error</span><span class="token punctuation">(</span><span class="token string">"Circuit breaker is OPEN for product {}"</span><span class="token punctuation">,</span> id<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword keyword-return">return</span> <span class="token keyword keyword-new">new</span> <span class="token class-name">Product</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// Default product</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre><h2 id="6-monitoreo-y-actuator">6. Monitoreo y Actuator </h2>
+<h3 id="61-configuración-de-actuator">6.1 Configuración de Actuator </h3>
+<pre data-role="codeBlock" data-info="yaml" class="language-yaml yaml"><code><span class="token key atrule">management</span><span class="token punctuation">:</span>
+  <span class="token key atrule">endpoints</span><span class="token punctuation">:</span>
+    <span class="token key atrule">web</span><span class="token punctuation">:</span>
+      <span class="token key atrule">exposure</span><span class="token punctuation">:</span>
+        <span class="token key atrule">include</span><span class="token punctuation">:</span> health<span class="token punctuation">,</span>metrics<span class="token punctuation">,</span>circuitbreakers<span class="token punctuation">,</span>retries
+  <span class="token key atrule">endpoint</span><span class="token punctuation">:</span>
+    <span class="token key atrule">health</span><span class="token punctuation">:</span>
+      <span class="token key atrule">show-details</span><span class="token punctuation">:</span> always
+</code></pre><h3 id="62-endpoints-disponibles">6.2 Endpoints Disponibles </h3>
+<ul>
+<li><code>/actuator/health</code> - Estado del sistema</li>
+<li><code>/actuator/metrics</code> - Métricas detalladas</li>
+<li><code>/actuator/circuitbreakers</code> - Estado de los circuit breakers</li>
+<li><code>/actuator/retries</code> - Información de reintentos</li>
+</ul>
+<h2 id="7-ejemplos-de-uso">7. Ejemplos de Uso </h2>
+<h3 id="71-flujo-normal">7.1 Flujo Normal </h3>
+<div class="mermaid">sequenceDiagram
+    participant Cliente
+    participant Gateway
+    participant Checkout
+    participant CircuitBreaker
+    participant Products
+    
+    Cliente-&gt;&gt;Gateway: GET /checkout?productIds=123
+    Gateway-&gt;&gt;Checkout: Forward Request
+    Checkout-&gt;&gt;CircuitBreaker: Get Product
+    CircuitBreaker-&gt;&gt;Products: Request Product
+    Products--&gt;&gt;CircuitBreaker: Product Response
+    CircuitBreaker--&gt;&gt;Checkout: Product Details
+    Checkout--&gt;&gt;Gateway: Checkout Response
+    Gateway--&gt;&gt;Cliente: Final Response
+</div><h3 id="72-flujo-con-errores">7.2 Flujo con Errores </h3>
+<div class="mermaid">sequenceDiagram
+    participant Cliente
+    participant Gateway
+    participant Checkout
+    participant CircuitBreaker
+    participant Products
+    
+    Cliente-&gt;&gt;Gateway: GET /checkout?productIds=123
+    Gateway-&gt;&gt;Checkout: Forward Request
+    Checkout-&gt;&gt;CircuitBreaker: Get Product
+    CircuitBreaker-&gt;&gt;Products: Request Product
+    Products--&gt;&gt;CircuitBreaker: Error Response
+    CircuitBreaker-&gt;&gt;Products: Retry #1
+    Products--&gt;&gt;CircuitBreaker: Error Response
+    CircuitBreaker--&gt;&gt;Checkout: Fallback Response
+    Checkout--&gt;&gt;Gateway: Checkout Response
+    Gateway--&gt;&gt;Cliente: Final Response
+</div><h2 id="8-mejores-prácticas">8. Mejores Prácticas </h2>
+<h3 id="81-circuit-breaker">8.1 Circuit Breaker </h3>
+<ul>
+<li>Configure umbrales apropiados según sus SLAs</li>
+<li>Implemente fallbacks significativos</li>
+<li>Monitoree el estado del circuit breaker</li>
+</ul>
+<h3 id="82-retry-strategy">8.2 Retry Strategy </h3>
+<ul>
+<li>Use backoff exponencial</li>
+<li>Limite el número máximo de reintentos</li>
+<li>Configure timeouts apropiados</li>
+</ul>
+<h3 id="83-monitoreo">8.3 Monitoreo </h3>
+<ul>
+<li>Configure alertas para cambios de estado</li>
+<li>Mantenga logs detallados</li>
+<li>Revise métricas regularmente</li>
+</ul>
+<h2 id="9-troubleshooting">9. Troubleshooting </h2>
+<h3 id="91-problemas-comunes">9.1 Problemas Comunes </h3>
+<ol>
+<li>
+<p>Circuit Breaker no se activa</p>
+<ul>
+<li>Verificar configuración de umbrales</li>
+<li>Revisar logs de errores</li>
+<li>Validar configuración de timeouts</li>
+</ul>
+</li>
+<li>
+<p>Reintentos excesivos</p>
+<ul>
+<li>Ajustar maxAttempts</li>
+<li>Configurar backoff apropiado</li>
+<li>Revisar logs de intentos</li>
+</ul>
+</li>
+<li>
+<p>Problemas de registro en Eureka</p>
+<ul>
+<li>Verificar conectividad</li>
+<li>Validar configuración de URLs</li>
+<li>Revisar logs de Eureka</li>
+</ul>
+</li>
+</ol>
+<h3 id="92-herramientas-de-diagnóstico">9.2 Herramientas de Diagnóstico </h3>
+<ul>
+<li>Spring Boot Actuator</li>
+<li>Zipkin para trazabilidad</li>
+<li>Logs del sistema</li>
+</ul>
+<h2 id="conclusión-1">Conclusión </h2>
+<p>Esta implementación proporciona una base sólida para construir sistemas distribuidos resilientes. La combinación de Circuit Breaker, retry mechanisms y monitoreo detallado permite crear aplicaciones robustas que pueden manejar fallos de manera elegante y recuperarse automáticamente.</p>
+<p>Para más información, consulte la documentación oficial de:</p>
+<ul>
+<li><a href="https://spring.io/projects/spring-cloud">Spring Cloud</a></li>
+<li><a href="https://resilience4j.readme.io/">Resilience4j</a></li>
+<li><a href="https://docs.spring.io/spring-boot/docs/current/reference/html/actuator.html">Spring Boot Actuator</a></li>
+</ul>
+<p>Aquí está el checklist ampliado, con los temas solicitados, diagramas y pasos adicionales para una comprensión más completa:</p>
+<hr>
+<h1 id="-checklist-implementación-de-un-proyecto-de-microservicios">✅ <strong>Checklist: Implementación de un Proyecto de Microservicios</strong> </h1>
+<h2 id="️-fase-1-configuración-inicial">🗂️ <strong>Fase 1: Configuración Inicial</strong> </h2>
+<ol>
+<li>
+<p><strong>Preparar Entorno de Desarrollo</strong></p>
+<ul>
+<li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox"> Instalar <strong>Java 17</strong> y configurar <code>$JAVA_HOME</code>.</li>
+<li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox"> Instalar <strong>Maven</strong> o <strong>Gradle</strong>.</li>
+<li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox"> Instalar <strong>Docker</strong> y <strong>Docker Compose</strong>.</li>
+<li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox"> Instalar un IDE (IntelliJ IDEA recomendado).</li>
+</ul>
+</li>
+<li>
+<p><strong>Configurar Repositorios</strong></p>
+<ul>
+<li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox"> Crear un repositorio Git para el proyecto.</li>
+<li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox"> Organizar la estructura base:<pre data-role="codeBlock" data-info="plaintext" class="language-plaintext plaintext"><code>project/
+├── eureka-server/
+├── config-server/
+├── api-gateway/
+├── product-service/
+├── order-service/
+├── docker-compose.yml
+└── README.md
+</code></pre></li>
+</ul>
+</li>
+<li>
+<p><strong>Definir Alcance del Proyecto</strong></p>
+<ul>
+<li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox"> Crear casos de uso iniciales.</li>
+<li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox"> Diseñar diagramas de flujo de datos y procesos (recomendado usar herramientas como Mermaid o <a href="http://Draw.io">Draw.io</a>).</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2 id="️-fase-2-arquitectura-del-sistema">🗂️ <strong>Fase 2: Arquitectura del Sistema</strong> </h2>
+<ol>
+<li><strong>Diseñar Arquitectura General</strong>
+<ul>
+<li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox"> Definir los componentes principales: Gateway, Eureka, Config Server, microservicios de negocio, bases de datos, Keycloak, etc.</li>
+<li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox"> Crear un diagrama que represente las interacciones principales.</li>
+</ul>
+</li>
+</ol>
+<h3 id="diagrama-de-arquitectura">Diagrama de Arquitectura </h3>
+<div class="mermaid">graph TD
+    A[Cliente] --&gt; B[API Gateway]
+    B --&gt; C[Eureka Server]
+    B --&gt; D[Config Server]
+    B --&gt; E[Servicio de Productos]
+    B --&gt; F[Servicio de Pedidos]
+    B --&gt; G[Servicio de Usuarios]
+    G --&gt; H[Keycloak]
+    E --&gt; I[(Productos DB)]
+    F --&gt; J[(Pedidos DB)]
+</div><hr>
+<h2 id="️-fase-3-componentes-principales">🗂️ <strong>Fase 3: Componentes Principales</strong> </h2>
+<ol>
+<li>
+<p><strong>API Gateway</strong></p>
+<ul>
+<li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox"> Crear un proyecto Spring Boot con las dependencias:
+<ul>
+<li><code>spring-cloud-starter-gateway</code></li>
+<li><code>spring-cloud-starter-netflix-eureka-client</code></li>
+</ul>
+</li>
+<li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox"> Configurar rutas en <code>application.yml</code>:<pre data-role="codeBlock" data-info="yaml" class="language-yaml yaml"><code><span class="token key atrule">spring</span><span class="token punctuation">:</span>
+  <span class="token key atrule">cloud</span><span class="token punctuation">:</span>
+    <span class="token key atrule">gateway</span><span class="token punctuation">:</span>
+      <span class="token key atrule">routes</span><span class="token punctuation">:</span>
+        <span class="token punctuation">-</span> <span class="token key atrule">id</span><span class="token punctuation">:</span> products<span class="token punctuation">-</span>service
+          <span class="token key atrule">uri</span><span class="token punctuation">:</span> lb<span class="token punctuation">:</span>//products<span class="token punctuation">-</span>service
+          <span class="token key atrule">predicates</span><span class="token punctuation">:</span>
+            <span class="token punctuation">-</span> Path=/api/products/<span class="token important">**</span>
+</code></pre></li>
+</ul>
+</li>
+<li>
+<p><strong>Eureka Server</strong></p>
+<ul>
+<li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox"> Crear un proyecto Spring Boot con la dependencia: <code>spring-cloud-starter-netflix-eureka-server</code>.</li>
+<li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox"> Configurar en <code>application.yml</code>:<pre data-role="codeBlock" data-info="yaml" class="language-yaml yaml"><code><span class="token key atrule">eureka</span><span class="token punctuation">:</span>
+  <span class="token key atrule">client</span><span class="token punctuation">:</span>
+    <span class="token key atrule">registerWithEureka</span><span class="token punctuation">:</span> <span class="token boolean important">false</span>
+    <span class="token key atrule">fetchRegistry</span><span class="token punctuation">:</span> <span class="token boolean important">false</span>
+</code></pre></li>
+</ul>
+</li>
+<li>
+<p><strong>Config Server</strong></p>
+<ul>
+<li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox"> Crear un proyecto Spring Boot con la dependencia: <code>spring-cloud-config-server</code>.</li>
+<li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox"> Configurar el repositorio de configuración centralizada:<pre data-role="codeBlock" data-info="yaml" class="language-yaml yaml"><code><span class="token key atrule">spring</span><span class="token punctuation">:</span>
+  <span class="token key atrule">cloud</span><span class="token punctuation">:</span>
+    <span class="token key atrule">config</span><span class="token punctuation">:</span>
+      <span class="token key atrule">server</span><span class="token punctuation">:</span>
+        <span class="token key atrule">git</span><span class="token punctuation">:</span>
+          <span class="token key atrule">uri</span><span class="token punctuation">:</span> https<span class="token punctuation">:</span>//github.com/user/config<span class="token punctuation">-</span>repo
+</code></pre></li>
+</ul>
+</li>
+<li>
+<p><strong>Microservicios de Negocio</strong></p>
+<ul>
+<li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox"> Crear proyectos individuales para cada microservicio con dependencias como <code>spring-boot-starter-web</code> y <code>spring-cloud-starter-netflix-eureka-client</code>.</li>
+<li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox"> Desarrollar entidades y repositorios JPA para manejar datos específicos.</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2 id="️-fase-4-implementación-detallada">🗂️ <strong>Fase 4: Implementación Detallada</strong> </h2>
+<ol>
+<li>
+<p><strong>Desarrollo de Microservicios</strong></p>
+<ul>
+<li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox"> Implementar controladores REST para operaciones CRUD básicas.</li>
+<li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox"> Probar APIs con herramientas como Postman o Swagger.</li>
+</ul>
+</li>
+<li>
+<p><strong>Integración entre Servicios</strong></p>
+<ul>
+<li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox"> Configurar Feign Clients para consumir datos entre servicios.</li>
+<li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox"> Probar la integración localmente.</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2 id="️-fase-5-circuit-breaker-y-resilience4j">🗂️ <strong>Fase 5: Circuit Breaker y Resilience4j</strong> </h2>
+<ol>
+<li>
+<p><strong>Configurar Resilience4j</strong></p>
+<ul>
+<li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox"> Añadir dependencia: <code>resilience4j-spring-boot2</code>.</li>
+<li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox"> Configurar reglas en <code>application.yml</code>:<pre data-role="codeBlock" data-info="yaml" class="language-yaml yaml"><code><span class="token key atrule">resilience4j</span><span class="token punctuation">:</span>
+  <span class="token key atrule">circuitbreaker</span><span class="token punctuation">:</span>
+    <span class="token key atrule">instances</span><span class="token punctuation">:</span>
+      <span class="token key atrule">products</span><span class="token punctuation">:</span>
+        <span class="token key atrule">failureRateThreshold</span><span class="token punctuation">:</span> <span class="token number">50</span>
+        <span class="token key atrule">waitDurationInOpenState</span><span class="token punctuation">:</span> <span class="token number">10000</span>
+  <span class="token key atrule">retry</span><span class="token punctuation">:</span>
+    <span class="token key atrule">instances</span><span class="token punctuation">:</span>
+      <span class="token key atrule">products</span><span class="token punctuation">:</span>
+        <span class="token key atrule">maxAttempts</span><span class="token punctuation">:</span> <span class="token number">3</span>
+</code></pre></li>
+</ul>
+</li>
+<li>
+<p><strong>Implementar Circuit Breaker</strong></p>
+<ul>
+<li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox"> Escribir lógica de fallback en los servicios que consumen otros microservicios:<pre data-role="codeBlock" data-info="java" class="language-java java"><code><span class="token annotation punctuation">@CircuitBreaker</span><span class="token punctuation">(</span>name <span class="token operator">=</span> <span class="token string">"products"</span><span class="token punctuation">,</span> fallbackMethod <span class="token operator">=</span> <span class="token string">"fallbackProduct"</span><span class="token punctuation">)</span>
+<span class="token keyword keyword-public">public</span> <span class="token class-name">Producto</span> <span class="token function">getProducto</span><span class="token punctuation">(</span><span class="token class-name">String</span> id<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword keyword-return">return</span> productoClient<span class="token punctuation">.</span><span class="token function">getProductoById</span><span class="token punctuation">(</span>id<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword keyword-public">public</span> <span class="token class-name">Producto</span> <span class="token function">fallbackProduct</span><span class="token punctuation">(</span><span class="token class-name">String</span> id<span class="token punctuation">,</span> <span class="token class-name">Exception</span> ex<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword keyword-return">return</span> <span class="token keyword keyword-new">new</span> <span class="token class-name">Producto</span><span class="token punctuation">(</span><span class="token string">"default"</span><span class="token punctuation">,</span> <span class="token string">"Producto no disponible"</span><span class="token punctuation">,</span> <span class="token number">0.0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre></li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2 id="️-fase-6-monitoreo-y-actuator">🗂️ <strong>Fase 6: Monitoreo y Actuator</strong> </h2>
+<ol>
+<li>
+<p><strong>Activar Spring Boot Actuator</strong></p>
+<ul>
+<li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox"> Configurar en <code>application.yml</code>:<pre data-role="codeBlock" data-info="yaml" class="language-yaml yaml"><code><span class="token key atrule">management</span><span class="token punctuation">:</span>
+  <span class="token key atrule">endpoints</span><span class="token punctuation">:</span>
+    <span class="token key atrule">web</span><span class="token punctuation">:</span>
+      <span class="token key atrule">exposure</span><span class="token punctuation">:</span>
+        <span class="token key atrule">include</span><span class="token punctuation">:</span> health<span class="token punctuation">,</span>metrics
+  <span class="token key atrule">health</span><span class="token punctuation">:</span>
+    <span class="token key atrule">show-details</span><span class="token punctuation">:</span> always
+</code></pre></li>
+</ul>
+</li>
+<li>
+<p><strong>Integrar Observabilidad</strong></p>
+<ul>
+<li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox"> Usar herramientas como Prometheus y Grafana para monitoreo.</li>
+<li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox"> Configurar trazabilidad distribuida con Zipkin o Jaeger.</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2 id="️-fase-7-ejemplos-de-uso">🗂️ <strong>Fase 7: Ejemplos de Uso</strong> </h2>
+<ol>
+<li><strong>Flujo Normal</strong>
+<ul>
+<li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox"> Representar un flujo típico entre cliente y servicios.</li>
+</ul>
+</li>
+</ol>
+<div class="mermaid">sequenceDiagram
+    participant Cliente
+    participant Gateway
+    participant Productos
+    participant Pedidos
+    
+    Cliente-&gt;&gt;Gateway: GET /productos/1
+    Gateway-&gt;&gt;Productos: Forward Request
+    Productos--&gt;&gt;Gateway: Producto Detallado
+    Cliente-&gt;&gt;Gateway: POST /pedidos
+    Gateway-&gt;&gt;Pedidos: Forward Request
+    Pedidos--&gt;&gt;Gateway: Confirmación Pedido
+    Gateway--&gt;&gt;Cliente: Respuesta Final
+</div><hr>
+<h2 id="️-fase-8-mejores-prácticas">🗂️ <strong>Fase 8: Mejores Prácticas</strong> </h2>
+<ol>
+<li>
+<p><strong>Seguridad</strong></p>
+<ul>
+<li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox"> Validar JWT en cada solicitud.</li>
+<li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox"> Usar HTTPS en producción.</li>
+</ul>
+</li>
+<li>
+<p><strong>Escalabilidad</strong></p>
+<ul>
+<li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox"> Usar balanceo de carga.</li>
+<li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox"> Configurar replicas automáticas en Kubernetes.</li>
+</ul>
+</li>
+<li>
+<p><strong>Desempeño</strong></p>
+<ul>
+<li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox"> Implementar caché con Redis o Hazelcast.</li>
+<li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox"> Optimizar consultas a la base de datos.</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2 id="️-fase-9-troubleshooting">🗂️ <strong>Fase 9: Troubleshooting</strong> </h2>
+<ol>
+<li><strong>Errores Comunes y Soluciones</strong></li>
+</ol>
+<table>
+<thead>
+<tr>
+<th><strong>Error</strong></th>
+<th><strong>Causa Posible</strong></th>
+<th><strong>Solución</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Circuit Breaker no se activa</td>
+<td>Configuración de umbral incorrecta</td>
+<td>Ajustar <code>failureRateThreshold</code> y <code>waitDuration</code>.</td>
+</tr>
+<tr>
+<td>Error de conexión con Eureka</td>
+<td>Configuración de cliente Eureka incorrecta</td>
+<td>Verificar URLs y nombres de servicios.</td>
+</tr>
+<tr>
+<td>Tiempo de espera en la comunicación</td>
+<td>Configuración de timeout insuficiente</td>
+<td>Aumentar valores de timeout en Feign Clients.</td>
+</tr>
+<tr>
+<td>Problemas de JWT inválido</td>
+<td>Token expirado o configuración incorrecta</td>
+<td>Revisar tiempo de expiración y claves públicas.</td>
+</tr>
+</tbody>
+</table>
+<ol start="2">
+<li><strong>Herramientas de Diagnóstico</strong>
+<ul>
+<li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox"> Revisar logs con Kibana (usando ELK stack).</li>
+<li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox"> Usar Actuator para inspeccionar endpoints críticos (<code>/health</code>, <code>/metrics</code>).</li>
+</ul>
+</li>
+</ol>
+<hr>
+<p>Con este checklist, puedes abordar cualquier proyecto basado en microservicios de manera estructurada y efectiva. ¿Hay algo adicional que desees detallar?</p>
+</div>
+      </div>
+      
+      
+    
+    
+    <script type="module">
+// TODO: If ZenUML gets integrated into mermaid in the future,
+//      we can remove the following lines.
+
+
+var MERMAID_CONFIG = ({"startOnLoad":false});
+if (typeof MERMAID_CONFIG !== 'undefined') {
+  MERMAID_CONFIG.startOnLoad = false
+  MERMAID_CONFIG.cloneCssStyles = false
+  MERMAID_CONFIG.theme = "default"
+}
+
+mermaid.initialize(MERMAID_CONFIG || {})
+if (typeof(window['Reveal']) !== 'undefined') {
+  function mermaidRevealHelper(event) {
+    var currentSlide = event.currentSlide
+    var diagrams = currentSlide.querySelectorAll('.mermaid')
+    for (var i = 0; i < diagrams.length; i++) {
+      var diagram = diagrams[i]
+      if (!diagram.hasAttribute('data-processed')) {
+        mermaid.init(null, diagram, ()=> {
+          Reveal.slide(event.indexh, event.indexv)
+        })
+      }
+    }
+  }
+  Reveal.addEventListener('slidetransitionend', mermaidRevealHelper)
+  Reveal.addEventListener('ready', mermaidRevealHelper)
+  await mermaid.run({
+    nodes: document.querySelectorAll('.mermaid')
+  })
+} else {
+  await mermaid.run({
+    nodes: document.querySelectorAll('.mermaid')
+  })
+}
+</script>
+    
+    
+    
+  
+    </body></html>

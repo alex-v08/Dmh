@@ -1,0 +1,67 @@
+server:
+  port: ${SERVER_PORT:8085}
+
+spring:
+  application:
+    name: card-service
+  
+  # Database Configuration
+  datasource:
+    url: jdbc:postgresql://localhost:5438/card_db
+    username: myuser
+    password: changeme
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      connection-timeout: 20000
+      maximum-pool-size: 5
+      minimum-idle: 2
+  
+  # JPA Configuration
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: true
+  
+  # Cloud Config
+  cloud:
+    config:
+      enabled: false
+    discovery:
+      enabled: true
+
+# Eureka Client
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    prefer-ip-address: true
+
+# Actuator
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: always
+
+# OpenAPI/Swagger
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+
+# Logging
+logging:
+  level:
+    root: INFO
+    com.dmh.cardservice: DEBUG
+    org.springframework: INFO

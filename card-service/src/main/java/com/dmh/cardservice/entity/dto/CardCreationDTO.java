@@ -1,6 +1,7 @@
 package com.dmh.cardservice.entity.dto;
-import com.DigitalMoneyHouse.msvc_cards.models.enums.CardBrand;
-import com.DigitalMoneyHouse.msvc_cards.models.enums.CardType;
+
+import com.dmh.cardservice.enums.CardBrand;
+import com.dmh.cardservice.enums.CardType;
 import lombok.Data;
 
 import java.math.BigDecimal;

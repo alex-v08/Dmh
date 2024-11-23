@@ -7,7 +7,8 @@ import com.dmh.cardservice.entity.Card;
 import com.dmh.cardservice.entity.dto.CardRequestDto;
 import com.dmh.cardservice.exceptions.CardNotFoundException;
 import com.dmh.cardservice.mapper.CardMapper;
-import com.dmh.cardservice.repository.CardRepository;
+import com.dmh.cardservice.repository.ICardRepository;
+
 import com.dmh.cardservice.repository.client.AccountServiceClient;
 import com.dmh.cardservice.service.CardService;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +21,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class CardServiceImpl implements CardService {
 
-    private final CardRepository cardRepository;
+    private final ICardRepository cardRepository;
     private final CardMapper cardMapper;
     private final AccountServiceClient accountServiceClient;
 

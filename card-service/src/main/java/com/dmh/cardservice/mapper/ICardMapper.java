@@ -18,7 +18,7 @@ import static com.dmh.cardservice.enums.CardType.CREDIT;
 import static com.dmh.cardservice.enums.CardType.DEBIT;
 
 @Mapper(componentModel = "spring")
-public interface CardMapper {
+public interface ICardMapper {
 
     @Mapping(target = "id", ignore = true)
     @Mapping(source = "accountId", target = "accountId")

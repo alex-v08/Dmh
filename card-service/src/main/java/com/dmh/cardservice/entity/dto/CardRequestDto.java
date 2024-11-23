@@ -10,6 +10,9 @@ import java.math.BigDecimal;
 
 @Data
 public class CardRequestDto {
+
+    private Long id;
+
     @NotNull(message = "El código es obligatorio")
     @Positive(message = "El código debe ser positivo")
     private Integer cod;

@@ -6,7 +6,7 @@ import com.dmh.cardservice.entity.dto.CardDto;
 import com.dmh.cardservice.entity.Card;
 import com.dmh.cardservice.entity.dto.CardRequestDto;
 import com.dmh.cardservice.exceptions.CardNotFoundException;
-import com.dmh.cardservice.mapper.CardMapper;
+import com.dmh.cardservice.mapper.ICardMapper;
 import com.dmh.cardservice.repository.ICardRepository;
 
 import com.dmh.cardservice.repository.client.AccountServiceClient;
@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 public class CardServiceImpl implements CardService {
 
     private final ICardRepository cardRepository;
-    private final CardMapper cardMapper;
+    private final ICardMapper ICardMapper;
     private final AccountServiceClient accountServiceClient;
 
     @Override
@@ -39,14 +39,14 @@ public class CardServiceImpl implements CardService {
         }
 
 
-        Card card = cardMapper.toCard(cardRequestDto);
+        Card card = ICardMapper.toCard(cardRequestDto);
         card.setAccountId(accountId);
 
 
         Card savedCard = cardRepository.save(card);
 
 
-        return cardMapper.toCardDto(savedCard);
+        return ICardMapper.toCardDto(savedCard);
     }
 
     @Override
@@ -58,7 +58,7 @@ public class CardServiceImpl implements CardService {
 
         List<Card> cards = cardRepository.findByAccountId(accountId);
         return cards.stream()
-                .map(cardMapper::toCardDto)
+                .map(ICardMapper::toCardDto)
                 .collect(Collectors.toList());
     }
 
@@ -71,7 +71,7 @@ public class CardServiceImpl implements CardService {
 
         Card card = cardRepository.findByAccountIdAndId(accountId, cardId)
                 .orElseThrow(() -> new CardNotFoundException("Tarjeta no encontrada con ID: " + cardId + " para la cuenta: " + accountId));
-        return cardMapper.toCardDto(card);
+        return ICardMapper.toCardDto(card);
     }
 
     @Override

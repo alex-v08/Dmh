@@ -1,5 +1,5 @@
 server:
-  port: ${SERVER_PORT:8085}
+  port: 8085
 
 spring:
   application:
@@ -53,11 +53,16 @@ management:
       show-details: always
 
 # OpenAPI/Swagger
+
+  servlet:
+    context-path: /
+
 springdoc:
   api-docs:
     path: /v3/api-docs
   swagger-ui:
     path: /swagger-ui.html
+    config-url: /v3/api-docs/swagger-config
 loadbalancer:
   client:
     name: card-service

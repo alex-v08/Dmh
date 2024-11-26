@@ -9,8 +9,8 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 
 public class CardServiceApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(CardServiceApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(CardServiceApplication.class, args);
+    }
 
 }

@@ -1,13 +1,10 @@
 package com.dmh.cardservice.entity.dto;
 
-
 import com.dmh.cardservice.entity.Card;
-import jakarta.persistence.Column;
-import jakarta.persistence.DiscriminatorValue;
-import jakarta.persistence.Entity;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-
 import java.math.BigDecimal;
 
 @Entity
@@ -15,7 +12,14 @@ import java.math.BigDecimal;
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class CreditCard extends Card {
-    @Column(precision = 10, scale = 2)
-    private BigDecimal creditLimit;
-}
 
+    @NotNull(message = "Credit limit cannot be null")
+    @Column(name = "credit_limit", precision = 10, scale = 2)
+    private BigDecimal creditLimit;
+
+    @Column(name = "current_balance", precision = 10, scale = 2)
+    private BigDecimal currentBalance = BigDecimal.ZERO;
+
+    @Column(name = "available_credit", precision = 10, scale = 2)
+    private BigDecimal availableCredit;
+}

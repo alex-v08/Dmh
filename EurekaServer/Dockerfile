@@ -1,5 +1,5 @@
 FROM openjdk:17
-ARG JAR_FILE=target/EurekaServer-0.0.1-SNAPSHOT.jar.jar
-COPY ${JAR_FILE} app.jar
-ENTRYPOINT ["java", "-jar", "app.jar"]
+WORKDIR /app
+COPY eureka-server/target/eureka-server-0.0.1-SNAPSHOT.jar /app/eureka-server.jar
 EXPOSE 8761
+ENTRYPOINT ["java", "-jar", "/app/eureka-server.jar"]

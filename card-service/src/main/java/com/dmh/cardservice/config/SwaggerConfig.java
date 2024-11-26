@@ -17,7 +17,7 @@ public class SwaggerConfig {
     public OpenAPI customOpenAPI() {
         return new OpenAPI()
                 .info(new Info()
-                        .title("msvc-cards")
+                        .title("cards-service")
                         .description("Gestionará las operaciones relacionadas con las tarjetas de crédito y débito asociadas a las cuentas de los usuarios")
                         .version("1.0.0")
                         .contact(new Contact()

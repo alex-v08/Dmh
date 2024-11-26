@@ -4,14 +4,22 @@ server:
 spring:
   application:
     name: api-gateway
+  
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:9092/realms/dmh  # Keycloak configuration
+  
   main:
     web-application-type: reactive
     allow-bean-definition-overriding: true
+  
   cloud:
     gateway:
       discovery:
         locator:
-          enabled: true
+          enabled: true          # Service discovery enabled
           lower-case-service-id: true
       routes:
         # Auth Service Routes
@@ -68,7 +76,7 @@ management:
   endpoints:
     web:
       exposure:
-        include: "*"
+        include: "*"    # Consider restricting in production
   endpoint:
     health:
       show-details: always
@@ -77,22 +85,14 @@ management:
 
 springdoc:
   api-docs:
-    path: /v3/api-docs
+    enabled: true
   swagger-ui:
     path: /swagger-ui.html
+    config-url: /v3/api-docs/swagger-config
     urls:
-      - url: /v3/api-docs
-        name: API Gateway
-      - url: /auth-service/v3/api-docs
-        name: Auth Service
-      - url: /user-service/v3/api-docs
-        name: User Service
-      - url: /account-service/v3/api-docs
-        name: Account Service
-      - url: /transaction-service/v3/api-docs
-        name: Transaction Service
-      - url: /card-service/v3/api-docs
-        name: Card Service
+      - url: /v3/api-docs/account-service
+        name: Account Service API
+    urls-primary-name: Account Service API
 
 logging:
   level:

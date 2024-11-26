@@ -12,8 +12,7 @@ public interface ICardRepository extends JpaRepository<Card, Long> {
 
     List<Card> findByAccountId(Long accountId);
     Optional<Card> findByAccountIdAndId(Long accountId, Long cardId);
-    Optional<Card> findByNumberId(Long numberId);
-
+    Optional<Card> findByNumber(String number);  // Cambiado de findByNumberId a findByNumber
 
 
 }

@@ -1,75 +1,58 @@
 package com.dmh.cardservice.mapper;
 
-
-import com.dmh.cardservice.entity.Card;
-import com.dmh.cardservice.entity.dto.CardDto;
-import com.dmh.cardservice.entity.dto.CardRequestDto;
-import com.dmh.cardservice.entity.dto.CreditCard;
-import com.dmh.cardservice.entity.dto.DebitCard;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.MappingTarget;
-
-
-
-import java.util.List;
-
-import static com.dmh.cardservice.enums.CardType.CREDIT;
-import static com.dmh.cardservice.enums.CardType.DEBIT;
+import com.dmh.cardservice.entity.*;
+import com.dmh.cardservice.entity.dto.*;
+import com.dmh.cardservice.enums.CardType;
+import org.mapstruct.*;
 
 @Mapper(componentModel = "spring")
 public interface ICardMapper {
 
     @Mapping(target = "id", ignore = true)
-    @Mapping(source = "accountId", target = "accountId")
-    @Mapping(source = "cod", target = "cod")
-    @Mapping(source = "expirationDate", target = "expirationDate")
-    @Mapping(source = "firstLastName", target = "firstLastName")
-    @Mapping(source = "numberId", target = "numberId")
-    @Mapping(source = "creditLimit", target = "creditLimit")
-    CreditCard toCreditCard(CardRequestDto cardRequestDto);
-
-    @Mapping(target = "id", ignore = true)
-    @Mapping(source = "accountId", target = "accountId")
-    @Mapping(source = "cod", target = "cod")
-    @Mapping(source = "expirationDate", target = "expirationDate")
-    @Mapping(source = "firstLastName", target = "firstLastName")
-    @Mapping(source = "numberId", target = "numberId")
-    @Mapping(source = "balance", target = "balance")
-    DebitCard toDebitCard(CardRequestDto cardRequestDto);
-
-    @Mapping(target = "cardType", expression = "java(determineCardType(card))")
-    @Mapping(target = "creditLimit", expression = "java(getCreditLimit(card))")
-    @Mapping(target = "balance", expression = "java(getBalance(card))")
-    CardDto toCardDto(Card card);
-
-    List<CardDto> toCardDtoList(List<Card> cards);
-
-    @Mapping(target = "id", ignore = true)
-    void updateCardFromDto(CardDto cardDto, @MappingTarget Card card);
-
-    default Card createCard(CardRequestDto requestDto) {
+    @Mapping(target = "accountId", source = "accountId")
+    @Mapping(target = "number", source = "number")
+    @Mapping(target = "cvv", source = "cvc")
+    @Mapping(target = "expiryDate", source = "expirationDate")
+    default Card cardRequestDtoToCard(CardRequestDto requestDto) {
         if (requestDto == null) {
             return null;
         }
 
-        switch (requestDto.getCardType()) {
-            case CREDIT:
-                return toCreditCard(requestDto);
-            case DEBIT:
-                return toDebitCard(requestDto);
-            default:
-                throw new IllegalArgumentException("Tipo de tarjeta no soportado: " + requestDto.getCardType());
+        Card card;
+        if (CardType.CREDIT.equals(requestDto.getCardType())) {
+            CreditCard creditCard = new CreditCard();
+            creditCard.setCreditLimit(requestDto.getCreditLimit());
+            card = creditCard;
+        } else {
+            DebitCard debitCard = new DebitCard();
+            debitCard.setBalance(requestDto.getBalance());
+            card = debitCard;
         }
+
+        card.setNumber(requestDto.getNumber());
+        card.setCvv(requestDto.getCvc());
+        card.setExpiryDate(requestDto.getExpirationDate());
+        card.setAccountId(requestDto.getAccountId());
+
+        return card;
     }
 
-    default com.dmh.cardservice.enums.CardType determineCardType(Card card) {
+    @Mapping(target = "number", source = "number")
+    @Mapping(target = "cvc", source = "cvv")
+    @Mapping(target = "expirationDate", source = "expiryDate")
+    @Mapping(target = "cardType", expression = "java(getCardType(card))")
+    @Mapping(target = "creditLimit", expression = "java(getCreditLimit(card))")
+    @Mapping(target = "balance", expression = "java(getBalance(card))")
+    CardDto cardToCardDto(Card card);
+
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    void updateCardFromDto(CardDto cardDto, @MappingTarget Card card);
+
+    default CardType getCardType(Card card) {
         if (card instanceof CreditCard) {
-            return CREDIT;
-        } else if (card instanceof DebitCard) {
-            return DEBIT;
+            return CardType.CREDIT;
         }
-        return null;
+        return CardType.DEBIT;
     }
 
     default java.math.BigDecimal getCreditLimit(Card card) {
@@ -85,7 +68,4 @@ public interface ICardMapper {
         }
         return null;
     }
-
-    Card toCard (CardRequestDto cardRequestDto);
-
 }

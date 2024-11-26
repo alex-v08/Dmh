@@ -18,7 +18,7 @@ public class Account {
     @Column(unique = true)
     private long userId;
 
-    @Column(columnDefinition = "DECIMAL(10,2) DEFAULT 0.0")
+    @Column(precision = 10, scale = 2)
     private BigDecimal balance;
     @Column(unique = true)
     private String cvu;

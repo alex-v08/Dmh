@@ -1,9 +1,7 @@
 package com.dmh.cardservice.exceptions;
 
-import com.DigitalMoneyHouse.msvc_cards.models.enums.CardType;
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.exc.InvalidFormatException;
+
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;

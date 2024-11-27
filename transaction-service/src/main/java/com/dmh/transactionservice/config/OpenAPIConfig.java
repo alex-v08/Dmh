@@ -1,6 +1,4 @@
-
-package com.dmh.UserService.config;
-
+package com.dmh.transactionservice.config;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.ExternalDocumentation;
 import io.swagger.v3.oas.models.OpenAPI;
@@ -9,18 +7,18 @@ import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.info.License;
 import io.swagger.v3.oas.models.security.SecurityRequirement;
 import io.swagger.v3.oas.models.security.SecurityScheme;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
-
-
 import org.springframework.context.annotation.Configuration;
+@Configuration
 public class OpenAPIConfig {
 
     @Bean
-    public OpenAPI userServiceOpenAPI() {
+    public OpenAPI transactionServiceOpenAPI() {
         return new OpenAPI()
                 .info(new Info()
-                        .title("User Service API")
-                        .description("User Management Service for Digital Money House")
+                        .title("Transaction Service API")
+                        .description("Transaction Management Service for Digital Money House")
                         .version("1.0.0")
                         .contact(new Contact()
                                 .name("Digital Money House Team")
@@ -30,8 +28,8 @@ public class OpenAPIConfig {
                                 .name("Apache 2.0")
                                 .url("http://springdoc.org")))
                 .externalDocs(new ExternalDocumentation()
-                        .description("User Service Wiki Documentation")
-                        .url("https://wiki.digitalmoney.house/users"))
+                        .description("Transaction Service Wiki Documentation")
+                        .url("https://wiki.digitalmoney.house/transactions"))
                 .addSecurityItem(new SecurityRequirement().addList("bearer-jwt"))
                 .components(new Components()
                         .addSecuritySchemes("bearer-jwt",

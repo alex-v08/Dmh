@@ -53,3 +53,11 @@ logging:
     org.hibernate.type.descriptor.sql.BasicBinder: TRACE
     com.zaxxer.hikari: DEBUG
 
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+    enabled: true
+  swagger-ui:
+    path: /swagger-ui.html
+    enabled: true
+  packages-to-scan: com.dmh.transactionservice

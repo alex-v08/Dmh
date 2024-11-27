@@ -100,4 +100,4 @@ springdoc:
   swagger-ui:
     path: /swagger-ui.html
     enabled: true
-  packages-to-scan: com.dmh.[service-name]
+  packages-to-scan: com.dmh.authservice

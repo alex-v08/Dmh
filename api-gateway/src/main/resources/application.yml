@@ -1,5 +1,8 @@
 server:
   port: 8080
+  error:
+    include-message: always
+    include-binding-errors: always
 
 spring:
   application:
@@ -9,58 +12,221 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: http://localhost:9092/realms/dmh  # Keycloak configuration
-  
-  main:
-    web-application-type: reactive
-    allow-bean-definition-overriding: true
+          issuer-uri: http://localhost:9092/realms/dmh
+          jwk-set-uri: http://localhost:9092/realms/dmh/protocol/openid-connect/certs
+      client:
+        provider:
+          keycloak:
+            issuer-uri: http://localhost:9092/realms/dmh
+            authorization-uri: http://localhost:9092/realms/dmh/protocol/openid-connect/auth
+            user-info-uri: http://localhost:9092/realms/dmh/protocol/openid-connect/userinfo
+            jwk-set-uri: http://localhost:9092/realms/dmh/protocol/openid-connect/certs
+            token-uri: http://localhost:9092/realms/dmh/protocol/openid-connect/token
+        registration:
+          keycloak:
+            client-id: gateway-client
+            client-secret: ${KEYCLOAK_CLIENT_SECRET}
+            scope: openid,profile,email
+            authorization-grant-type: authorization_code
+            redirect-uri: "{baseUrl}/login/oauth2/code/keycloak"
   
   cloud:
     gateway:
+      default-filters:
+        - DedupeResponseHeader=Access-Control-Allow-Origin
+        - AddResponseHeader=Access-Control-Allow-Credentials, true
       discovery:
         locator:
-          enabled: true          # Service discovery enabled
+          enabled: true
           lower-case-service-id: true
       routes:
-        # Auth Service Routes
+        # Rutas de servicios
         - id: auth-service
           uri: lb://AUTH-SERVICE
           predicates:
             - Path=/api/auth/**
           filters:
             - RewritePath=/api/(?<segment>.*), /$\{segment}
+            - name: CircuitBreaker
+              args:
+                name: authCircuitBreaker
+                fallbackUri: forward:/fallback/auth
+            - name: Retry
+              args:
+                retries: 3
+                methods: GET,POST
+                backoff:
+                  firstBackoff: 50ms
+                  maxBackoff: 500ms
         
-        # User Service Routes
         - id: user-service
           uri: lb://USER-SERVICE
           predicates:
             - Path=/api/users/**
           filters:
             - RewritePath=/api/(?<segment>.*), /$\{segment}
+            - name: CircuitBreaker
+              args:
+                name: userCircuitBreaker
+                fallbackUri: forward:/fallback/users
+            - name: Retry
+              args:
+                retries: 3
+                methods: GET,POST,PUT
+                backoff:
+                  firstBackoff: 50ms
+                  maxBackoff: 500ms
         
-        # Account Service Routes
         - id: account-service
           uri: lb://ACCOUNT-SERVICE
           predicates:
             - Path=/api/accounts/**
           filters:
             - RewritePath=/api/(?<segment>.*), /$\{segment}
+            - name: CircuitBreaker
+              args:
+                name: accountCircuitBreaker
+                fallbackUri: forward:/fallback/accounts
+            - name: Retry
+              args:
+                retries: 3
+                methods: GET,POST,PUT
+                backoff:
+                  firstBackoff: 50ms
+                  maxBackoff: 500ms
         
-        # Transaction Service Routes
         - id: transaction-service
           uri: lb://TRANSACTION-SERVICE
           predicates:
             - Path=/api/transactions/**
           filters:
             - RewritePath=/api/(?<segment>.*), /$\{segment}
+            - name: CircuitBreaker
+              args:
+                name: transactionCircuitBreaker
+                fallbackUri: forward:/fallback/transactions
+            - name: Retry
+              args:
+                retries: 3
+                methods: GET,POST
+                backoff:
+                  firstBackoff: 50ms
+                  maxBackoff: 500ms
         
-        # Card Service Routes
         - id: card-service
           uri: lb://CARD-SERVICE
           predicates:
             - Path=/api/cards/**
           filters:
             - RewritePath=/api/(?<segment>.*), /$\{segment}
+            - name: CircuitBreaker
+              args:
+                name: cardCircuitBreaker
+                fallbackUri: forward:/fallback/cards
+            - name: Retry
+              args:
+                retries: 3
+                methods: GET,POST,PUT,DELETE
+                backoff:
+                  firstBackoff: 50ms
+                  maxBackoff: 500ms
+        
+        # Rutas para la documentación OpenAPI
+        - id: auth-docs
+          uri: lb://AUTH-SERVICE
+          predicates:
+            - Path=/auth/v3/api-docs/**
+          filters:
+            - RewritePath=/auth(?<segment>/?.*), $\{segment}
+        
+        - id: user-docs
+          uri: lb://USER-SERVICE
+          predicates:
+            - Path=/users/v3/api-docs/**
+          filters:
+            - RewritePath=/users(?<segment>/?.*), $\{segment}
+        
+        - id: account-docs
+          uri: lb://ACCOUNT-SERVICE
+          predicates:
+            - Path=/accounts/v3/api-docs/**
+          filters:
+            - RewritePath=/accounts(?<segment>/?.*), $\{segment}
+        
+        - id: transaction-docs
+          uri: lb://TRANSACTION-SERVICE
+          predicates:
+            - Path=/transactions/v3/api-docs/**
+          filters:
+            - RewritePath=/transactions(?<segment>/?.*), $\{segment}
+        
+        - id: card-docs
+          uri: lb://CARD-SERVICE
+          predicates:
+            - Path=/cards/v3/api-docs/**
+          filters:
+            - RewritePath=/cards(?<segment>/?.*), $\{segment}
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      auth:
+        slidingWindowSize: 10
+        minimumNumberOfCalls: 5
+        failureRateThreshold: 50
+        waitDurationInOpenState: 5s
+        permittedNumberOfCallsInHalfOpenState: 3
+      user:
+        slidingWindowSize: 10
+        minimumNumberOfCalls: 5
+        failureRateThreshold: 50
+        waitDurationInOpenState: 5s
+        permittedNumberOfCallsInHalfOpenState: 3
+      account:
+        slidingWindowSize: 10
+        minimumNumberOfCalls: 5
+        failureRateThreshold: 50
+        waitDurationInOpenState: 5s
+        permittedNumberOfCallsInHalfOpenState: 3
+      transaction:
+        slidingWindowSize: 10
+        minimumNumberOfCalls: 5
+        failureRateThreshold: 50
+        waitDurationInOpenState: 5s
+        permittedNumberOfCallsInHalfOpenState: 3
+      card:
+        slidingWindowSize: 10
+        minimumNumberOfCalls: 5
+        failureRateThreshold: 50
+        waitDurationInOpenState: 5s
+        permittedNumberOfCallsInHalfOpenState: 3
+  retry:
+    instances:
+      auth:
+        maxAttempts: 3
+        waitDuration: 1s
+        enableExponentialBackoff: true
+        exponentialBackoffMultiplier: 2
+      user:
+        maxAttempts: 3
+        waitDuration: 1s
+        enableExponentialBackoff: true
+        exponentialBackoffMultiplier: 2
+      account:
+        maxAttempts: 3
+        waitDuration: 1s
+        enableExponentialBackoff: true
+        exponentialBackoffMultiplier: 2
+      transaction:
+        maxAttempts: 3
+        waitDuration: 1s
+        enableExponentialBackoff: true
+        exponentialBackoffMultiplier: 2
+      card:
+        maxAttempts: 3
+        waitDuration: 1s
+        enableExponentialBackoff: true
+        exponentialBackoffMultiplier: 2
 
 eureka:
   client:
@@ -76,27 +242,42 @@ management:
   endpoints:
     web:
       exposure:
-        include: "*"    # Consider restricting in production
+        include: health,metrics,gateway,circuitbreakers
   endpoint:
     health:
       show-details: always
     gateway:
       enabled: true
+  health:
+    circuitbreakers:
+      enabled: true
 
 springdoc:
-  api-docs:
-    enabled: true
   swagger-ui:
     path: /swagger-ui.html
-    config-url: /v3/api-docs/swagger-config
     urls:
-      - url: /v3/api-docs/account-service
-        name: Account Service API
-    urls-primary-name: Account Service API
+      - name: API Gateway
+        url: /v3/api-docs
+      - name: Auth Service
+        url: /auth/v3/api-docs
+      - name: User Service
+        url: /users/v3/api-docs
+      - name: Account Service
+        url: /accounts/v3/api-docs
+      - name: Transaction Service
+        url: /transactions/v3/api-docs
+      - name: Card Service
+        url: /cards/v3/api-docs
+  api-docs:
+    enabled: true
+    path: /v3/api-docs
+    groups:
+      enabled: true
 
 logging:
   level:
     root: INFO
     org.springframework.cloud.gateway: DEBUG
     org.springframework.security: DEBUG
-    com.dmh.gateway: DEBUG
+    org.springframework.web: DEBUG
+    reactor.netty: DEBUG

@@ -21,7 +21,7 @@ import java.util.List;
 @Configuration
 public class OpenAPIConfig {
 
-    @Primary  // Agregamos @Primary para evitar conflictos
+    @Primary
     @Bean
     public OpenAPI gatewayOpenAPI() {
         return new OpenAPI()

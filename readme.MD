@@ -1,361 +1,195 @@
-# Digital Money House - Arquitectura de Microservicios
+# Digital Money House 🏦
 
-## 1. Visión General de la Arquitectura
+## Descripción del Proyecto
 
-### 1.1 Diagrama de Arquitectura
+Digital Money House es una plataforma financiera digital desarrollada como parte del proyecto integrador. El sistema implementa una arquitectura de microservicios robusta utilizando Spring Boot y tecnologías modernas de la nube, permitiendo a los usuarios gestionar sus finanzas de manera segura y eficiente.
 
-```mermaid
-graph TB
-    Client[Cliente Web/Mobile] --> Gateway[API Gateway :8080]
-    
-    subgraph Security
-        Gateway --> KeycloakAuth[Keycloak :9092]
-        KeycloakAuth --> KeycloakDB[(Keycloak DB)]
-    end
-    
-    subgraph Infrastructure Services
-        Gateway --> Eureka[Eureka Server :8761]
-        Gateway --> Config[Config Server :8888]
-    end
-    
-    subgraph Core Services
-        Gateway --> Auth[Auth Service :8083]
-        Gateway --> User[User Service :8081]
-        Gateway --> Account[Account Service :8082]
-        Gateway --> Card[Card Service :8085]
-        Gateway --> Transaction[Transaction Service :8097]
-    end
-    
-    subgraph Utility Services
-        Account --> AliasGen[Alias Generator :8087]
-        Account --> CVUGen[CVU Generator :8088]
-    end
-    
-    subgraph Databases
-        Auth --> AuthDB[(Auth DB :3306)]
-        User --> UserDB[(User DB :5430)]
-        Account --> AccountDB[(Account DB :5432)]
-        Card --> CardDB[(Card DB :5438)]
-        Transaction --> TransactionDB[(Transaction DB :5436)]
-    end
-```
-
-### 1.2 Componentes Principales
-
-1. **API Gateway (Puerto: 8080)**
-    - Punto de entrada único para todas las peticiones
-    - Manejo de autenticación y autorización con Keycloak
-    - Enrutamiento de peticiones a microservicios
-
-2. **Keycloak (Puerto: 9092)**
-    - Gestión de identidad y acceso
-    - Autenticación OAuth2/OpenID Connect
-    - Gestión de usuarios y roles
-
-3. **Servicios Core**:
-    - **Auth Service (8083)**: Gestión de autenticación
-    - **User Service (8081)**: Gestión de usuarios
-    - **Account Service (8082)**: Gestión de cuentas
-    - **Card Service (8085)**: Gestión de tarjetas
-    - **Transaction Service (8097)**: Gestión de transacciones
-
-4. **Servicios de Infraestructura**:
-    - **Eureka Server (8761)**: Descubrimiento de servicios
-    - **Config Server (8888)**: Configuración centralizada
-
-5. **Servicios Utilitarios**:
-    - **Alias Generator (8087)**: Generación de alias
-    - **CVU Generator (8088)**: Generación de CVU
-
-## 2. Correcciones y Mejoras Necesarias
-
-### 2.1 Keycloak
-
-```yaml
-# Configuración de Keycloak en application.yml de API Gateway
-spring:
-  security:
-    oauth2:
-      resourceserver:
-        jwt:
-          issuer-uri: http://localhost:9092/realms/dmh
-          jwk-set-uri: http://localhost:9092/realms/dmh/protocol/openid-connect/certs
-
-keycloak:
-  realm: dmh
-  auth-server-url: http://localhost:9092
-  resource: gateway-client
-  public-client: false
-  bearer-only: true
-```
-
-#### Configuración del Realm
-1. Crear realm "dmh"
-2. Configurar clientes:
-   ```json
-   {
-     "clientId": "gateway-client",
-     "protocol": "openid-connect",
-     "publicClient": false,
-     "redirectUris": ["http://localhost:8080/*"],
-     "webOrigins": ["+"],
-     "authorizationServicesEnabled": true
-   }
-   ```
-
-### 2.2 Swagger/OpenAPI
-
-```java
-@Configuration
-public class OpenAPIConfig {
-    @Bean
-    public OpenAPI customOpenAPI() {
-        return new OpenAPI()
-                .info(new Info()
-                    .title("Digital Money House API")
-                    .version("1.0")
-                    .description("Digital Money House Financial Services API"))
-                .components(new Components()
-                    .addSecuritySchemes("bearer-jwt", new SecurityScheme()
-                        .type(SecurityScheme.Type.HTTP)
-                        .scheme("bearer")
-                        .bearerFormat("JWT")))
-                .addSecurityItem(new SecurityRequirement().addList("bearer-jwt"));
-    }
-}
-```
-
-### 2.3 Endpoints Faltantes
-
-#### Account Service
-
-```java
-@RestController
-@RequestMapping("/api/accounts")
-public class AccountController {
-    @PostMapping
-    public ResponseEntity<AccountDto> createAccount(@RequestParam Long userId);
-    
-    @GetMapping("/{accountId}")
-    public ResponseEntity<AccountDto> getAccount(@PathVariable Long accountId);
-    
-    @GetMapping("/user/{userId}")
-    public ResponseEntity<AccountDto> getAccountByUserId(@PathVariable Long userId);
-    
-    @PatchMapping("/{accountId}/balance")
-    public ResponseEntity<AccountDto> updateBalance(
-        @PathVariable Long accountId, 
-        @RequestBody TransactionRequest request
-    );
-}
-```
-
-#### Card Service
-
-```java
-@RestController
-@RequestMapping("/api/cards")
-public class CardController {
-    @PostMapping
-    public ResponseEntity<CardDto> createCard(@RequestBody CardRequest request);
-    
-    @GetMapping("/account/{accountId}")
-    public ResponseEntity<List<CardDto>> getCardsByAccountId(@PathVariable Long accountId);
-    
-    @GetMapping("/{cardId}")
-    public ResponseEntity<CardDto> getCard(@PathVariable Long cardId);
-    
-    @DeleteMapping("/{cardId}")
-    public ResponseEntity<Void> deleteCard(@PathVariable Long cardId);
-}
-```
-
-#### Transaction Service
-
-```java
-@RestController
-@RequestMapping("/api/transactions")
-public class TransactionController {
-    @PostMapping("/transfer")
-    public ResponseEntity<TransactionDto> createTransfer(@RequestBody TransferRequest request);
-    
-    @GetMapping("/account/{accountId}")
-    public ResponseEntity<List<TransactionDto>> getTransactionsByAccount(
-        @PathVariable Long accountId,
-        @RequestParam(required = false) LocalDate from,
-        @RequestParam(required = false) LocalDate to
-    );
-    
-    @GetMapping("/{transactionId}")
-    public ResponseEntity<TransactionDto> getTransaction(@PathVariable Long transactionId);
-}
-```
-
-## 3. Integración entre Servicios
-
-### 3.1 Feign Clients
-
-```java
-@FeignClient(name = "user-service")
-public interface UserServiceClient {
-    @GetMapping("/api/users/{userId}")
-    ResponseEntity<UserDto> getUser(@PathVariable Long userId);
-}
-
-@FeignClient(name = "account-service")
-public interface AccountServiceClient {
-    @GetMapping("/api/accounts/user/{userId}")
-    ResponseEntity<AccountDto> getAccountByUserId(@PathVariable Long userId);
-}
-```
-
-### 3.2 Circuit Breaker con Resilience4j
-
-```java
-@CircuitBreaker(name = "userService", fallbackMethod = "getUserFallback")
-@Retry(name = "userService")
-public UserDto getUser(Long userId) {
-    return userServiceClient.getUser(userId);
-}
-
-public UserDto getUserFallback(Long userId, Exception ex) {
-    log.error("Fallback executed for user {}", userId, ex);
-    // Implementar lógica de fallback
-    return null;
-}
-```
-
-## 4. Seguridad
-
-### 4.1 Configuración de Seguridad en Gateway
-
-```java
-@Configuration
-@EnableWebFluxSecurity
-public class SecurityConfig {
-    @Bean
-    public SecurityWebFilterChain springSecurityFilterChain(ServerHttpSecurity http) {
-        return http
-            .oauth2ResourceServer(oauth2 -> oauth2
-                .jwt(jwt -> jwt.jwtAuthenticationConverter(jwtAuthConverter)))
-            .authorizeExchange(exchanges -> exchanges
-                .pathMatchers("/api/auth/**").permitAll()
-                .pathMatchers("/api/users/**").hasRole("USER")
-                .pathMatchers("/api/admin/**").hasRole("ADMIN")
-                .anyExchange().authenticated())
-            .build();
-    }
-}
-```
-
-### 4.2 Configuración CORS
-
-```java
-@Configuration
-public class CorsConfig {
-    @Bean
-    public CorsWebFilter corsFilter() {
-        CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOrigins(Arrays.asList("http://localhost:3000"));
-        config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-        config.setAllowedHeaders(Arrays.asList("*"));
-        config.setAllowCredentials(true);
-        
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", config);
-        return new CorsWebFilter(source);
-    }
-}
-```
-
-## 5. Monitoreo y Observabilidad
-
-### 5.1 Actuator
-
-```yaml
-management:
-  endpoints:
-    web:
-      exposure:
-        include: health,metrics,info,prometheus
-  endpoint:
-    health:
-      show-details: always
-  metrics:
-    tags:
-      application: ${spring.application.name}
-```
-
-### 5.2 Logging Centralizado
-
-```xml
-<dependency>
-    <groupId>net.logstash.logback</groupId>
-    <artifactId>logstash-logback-encoder</artifactId>
-    <version>7.2</version>
-</dependency>
-```
-
-```xml
-<!-- logback-spring.xml -->
-<appender name="LOGSTASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
-    <destination>localhost:5000</destination>
-    <encoder class="net.logstash.logback.encoder.LogstashEncoder"/>
-</appender>
-```
-
-## 6. Tareas Pendientes
-
-1. **Keycloak**:
-    - [ ] Configurar realm "dmh"
-    - [ ] Crear roles y permisos
-    - [ ] Configurar client scopes
-    - [ ] Implementar token exchange
-
-2. **Swagger/OpenAPI**:
-    - [ ] Completar documentación de endpoints
-    - [ ] Agregar ejemplos de requests/responses
-    - [ ] Configurar autenticación en Swagger UI
-
-3. **Seguridad**:
-    - [ ] Implementar validación de tokens en todos los servicios
-    - [ ] Configurar políticas de contraseñas
-    - [ ] Implementar rate limiting
-
-4. **Monitoreo**:
-    - [ ] Configurar ELK Stack
-    - [ ] Implementar tracing distribuido
-    - [ ] Configurar alertas
-
-5. **Testing**:
-    - [ ] Implementar pruebas de integración
-    - [ ] Configurar pipeline de CI/CD
-    - [ ] Implementar pruebas de carga
-
-## 7. Comandos Útiles
+## Repositorio
 
 ```bash
-# Levantar servicios con Docker Compose
-docker-compose up -d
-
-# Verificar logs
-docker-compose logs -f [service-name]
-
-# Acceder a Keycloak
-http://localhost:9092/admin
-Usuario: admin
-Contraseña: admin
-
-# Verificar estado de servicios en Eureka
-http://localhost:8761
-
-# Acceder a Swagger UI de cada servicio
-http://localhost:[port]/swagger-ui.html
+https://gitlab.com/atuhome/digital-money-house
 ```
 
-## 8. Referencias
+## Arquitectura del Sistema 🏗
 
-1. [Keycloak Documentation](https://www.keycloak.org/documentation)
-2. [Spring Cloud Documentation](https://spring.io/projects/spring-cloud)
-3. [OpenAPI Specification](https://swagger.io/specification/)
-4. [Spring Security OAuth2](https://docs.spring.io/spring-security/reference/servlet/oauth2/index.html)
+El proyecto implementa una arquitectura de microservicios que consta de los siguientes componentes:
+
+### Servicios de Infraestructura
+
+- **Config Server**: Centraliza la gestión de configuraciones para todos los microservicios
+- **Eureka Server**: Proporciona registro y descubrimiento de servicios
+- **API Gateway**: Actúa como punto de entrada único y maneja el enrutamiento de solicitudes
+
+### Servicios de Negocio
+
+- **Auth Service**: Gestiona la autenticación y autorización utilizando Keycloak
+- **User Service**: Administra la información y operaciones de usuarios
+- **Account Service**: Maneja las cuentas y sus operaciones asociadas
+- **Card Service**: Gestiona las tarjetas de débito y crédito
+- **Transaction Service**: Procesa todas las transacciones financieras
+
+## Tecnologías Utilizadas 🛠
+
+- **Java 17**: Lenguaje de programación principal
+- **Spring Boot 3.x**: Framework de desarrollo
+- **Spring Cloud**: Para arquitectura de microservicios
+- **Keycloak**: Servidor de autenticación y autorización
+- **Docker**: Contenedorización de servicios
+- **PostgreSQL/MySQL**: Bases de datos
+- **Maven**: Gestión de dependencias y construcción
+- **Swagger/OpenAPI**: Documentación de APIs
+
+## Configuración del Entorno de Desarrollo
+
+### Prerrequisitos
+
+- Java JDK 17
+- Maven 3.6.3 o superior
+- Docker y Docker Compose
+- Git
+- IDE (recomendado IntelliJ IDEA)
+
+### Clonar el Repositorio
+
+```bash
+git clone https://gitlab.com/atuhome/digital-money-house.git
+cd digital-money-house
+```
+
+### Configuración de Base de Datos
+
+El proyecto utiliza múltiples bases de datos para diferentes servicios:
+
+```yaml
+# Para User Service
+mysql_user_service:
+  container_name: mysql_user_service
+  image: mysql:latest
+  ports:
+    - "3307:3306"
+
+# Para Account Service
+mysql_account_service:
+  container_name: mysql_account_service
+  ports:
+    - "3308:3306"
+
+# Para Keycloak
+postgres_keycloak:
+  container_name: postgres_keycloak
+  ports:
+    - "5433:5432"
+```
+
+### Iniciar los Servicios
+
+1. Iniciar servicios de infraestructura:
+```bash
+docker-compose up -d
+```
+
+2. Verificar que Keycloak esté funcionando:
+```bash
+http://localhost:9092
+```
+
+3. Iniciar los servicios en el siguiente orden:
+   - Eureka Server (Puerto 8761)
+   - Config Server (Puerto 8888)
+   - API Gateway (Puerto 8080)
+   - Servicios de negocio
+
+## Estructura de Puertos
+
+- Eureka Server: 8761
+- Config Server: 8888
+- API Gateway: 8080
+- Auth Service: 8083
+- User Service: 8081
+- Account Service: 8082
+- Card Service: 8085
+- Transaction Service: 8097
+
+## Documentación de APIs 📚
+
+Cada servicio cuenta con su propia documentación Swagger accesible en:
+
+```
+http://localhost:{puerto}/swagger-ui.html
+```
+
+Por ejemplo:
+- Gateway: http://localhost:8080/swagger-ui.html
+- User Service: http://localhost:8081/swagger-ui.html
+- Account Service: http://localhost:8082/swagger-ui.html
+
+## Seguridad 🔒
+
+El proyecto utiliza OAuth2 con Keycloak para la autenticación y autorización:
+
+- **Realm**: dmh
+- **Client ID**: gateway-client
+- **Grant Types**: Authorization Code, Client Credentials
+- **Roles**: USER, ADMIN
+
+## Monitoreo y Actuator 📊
+
+Todos los servicios exponen endpoints de Spring Boot Actuator para monitoreo:
+
+```
+http://localhost:{puerto}/actuator
+```
+
+Endpoints disponibles:
+- /health: Estado del servicio
+- /metrics: Métricas del servicio
+- /info: Información del servicio
+
+## Manejo de Errores y Circuit Breaker
+
+El proyecto implementa el patrón Circuit Breaker utilizando Resilience4j para manejar fallos en las comunicaciones entre servicios:
+
+```java
+resilience4j:
+  circuitbreaker:
+    instances:
+      userService:
+        slidingWindowSize: 10
+        failureRateThreshold: 50
+        waitDurationInOpenState: 10000ms
+```
+
+## Contribución al Proyecto 🤝
+
+1. Crear un fork del repositorio
+2. Crear una rama para tu feature
+```bash
+git checkout -b feature/nueva-funcionalidad
+```
+3. Realizar cambios y commits
+```bash
+git commit -m "Descripción detallada de los cambios"
+```
+4. Push a la rama
+```bash
+git push origin feature/nueva-funcionalidad
+```
+5. Crear un Merge Request
+
+## Convenciones de Código
+
+- Usar camelCase para nombres de variables y métodos
+- Usar PascalCase para nombres de clases
+- Documentar métodos públicos con Javadoc
+- Seguir principios SOLID
+- Escribir pruebas unitarias para nueva funcionalidad
+
+## Contacto y Soporte 📧
+
+Para consultas o reportes de problemas:
+- Crear un Issue en GitLab
+- Contactar al equipo: support@digitalmoney.house
+
+## Estado del Proyecto 📈
+
+El proyecto se encuentra en desarrollo activo, con actualizaciones y mejoras continuas. Se recomienda mantener actualizada la rama principal y revisar regularmente la documentación en GitLab para conocer los últimos cambios.

@@ -4,6 +4,14 @@ server:
 spring:
   application:
     name: ${SPRING_APPLICATION_NAME_CONFIG_SERVER:}
+  
+  
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:9092/realms/dmh
+          jwk-set-uri: http://localhost:9092/realms/dmh/protocol/openid-connect/certs
   cloud:
     config:
       server:

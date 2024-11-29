@@ -5,6 +5,13 @@ spring:
   application:
     name: card-service
   
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:9092/realms/dmh
+          jwk-set-uri: http://localhost:9092/realms/dmh/protocol/openid-connect/certs
+  
   # Database Configuration
   datasource:
     url: jdbc:postgresql://localhost:5438/card_db

@@ -5,7 +5,12 @@ spring:
   
   application:
     name: UserService
-    
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:9092/realms/dmh
+          jwk-set-uri: http://localhost:9092/realms/dmh/protocol/openid-connect/certs
   
   
   datasource:

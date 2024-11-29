@@ -18,7 +18,9 @@ public class CorsConfig {
                 "https://dev.digitalmoney.house",
                 "https://digitalmoney.house"
         ));
-        corsConfig.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
+        corsConfig.setAllowedMethods(Arrays.asList(
+                "GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"
+        ));
         corsConfig.setAllowedHeaders(Arrays.asList(
                 "Authorization",
                 "Content-Type",

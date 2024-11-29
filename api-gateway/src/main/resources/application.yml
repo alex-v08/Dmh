@@ -1,3 +1,4 @@
+# API Gateway Configuration (application.yml)
 server:
   port: 8080
   error:
@@ -40,7 +41,7 @@ spring:
           enabled: true
           lower-case-service-id: true
       routes:
-        # Rutas de servicios
+        # Auth Service Routes
         - id: auth-service
           uri: lb://AUTH-SERVICE
           predicates:
@@ -59,6 +60,7 @@ spring:
                   firstBackoff: 50ms
                   maxBackoff: 500ms
         
+        # User Service Routes
         - id: user-service
           uri: lb://USER-SERVICE
           predicates:
@@ -77,6 +79,7 @@ spring:
                   firstBackoff: 50ms
                   maxBackoff: 500ms
         
+        # Account Service Routes
         - id: account-service
           uri: lb://ACCOUNT-SERVICE
           predicates:
@@ -95,10 +98,11 @@ spring:
                   firstBackoff: 50ms
                   maxBackoff: 500ms
         
+        # Transaction Service Routes
         - id: transaction-service
           uri: lb://TRANSACTION-SERVICE
           predicates:
-            - Path=/api/transactions/**
+            - Path=/api/accounts/{accountId}/transactions/**
           filters:
             - RewritePath=/api/(?<segment>.*), /$\{segment}
             - name: CircuitBreaker
@@ -113,10 +117,11 @@ spring:
                   firstBackoff: 50ms
                   maxBackoff: 500ms
         
+        # Card Service Routes
         - id: card-service
           uri: lb://CARD-SERVICE
           predicates:
-            - Path=/api/cards/**
+            - Path=/api/accounts/{accountId}/cards/**
           filters:
             - RewritePath=/api/(?<segment>.*), /$\{segment}
             - name: CircuitBreaker
@@ -130,42 +135,6 @@ spring:
                 backoff:
                   firstBackoff: 50ms
                   maxBackoff: 500ms
-        
-        # Rutas para la documentación OpenAPI
-        - id: auth-docs
-          uri: lb://AUTH-SERVICE
-          predicates:
-            - Path=/auth/v3/api-docs/**
-          filters:
-            - RewritePath=/auth(?<segment>/?.*), $\{segment}
-        
-        - id: user-docs
-          uri: lb://USER-SERVICE
-          predicates:
-            - Path=/users/v3/api-docs/**
-          filters:
-            - RewritePath=/users(?<segment>/?.*), $\{segment}
-        
-        - id: account-docs
-          uri: lb://ACCOUNT-SERVICE
-          predicates:
-            - Path=/accounts/v3/api-docs/**
-          filters:
-            - RewritePath=/accounts(?<segment>/?.*), $\{segment}
-        
-        - id: transaction-docs
-          uri: lb://TRANSACTION-SERVICE
-          predicates:
-            - Path=/transactions/v3/api-docs/**
-          filters:
-            - RewritePath=/transactions(?<segment>/?.*), $\{segment}
-        
-        - id: card-docs
-          uri: lb://CARD-SERVICE
-          predicates:
-            - Path=/cards/v3/api-docs/**
-          filters:
-            - RewritePath=/cards(?<segment>/?.*), $\{segment}
 
 resilience4j:
   circuitbreaker:
@@ -200,33 +169,6 @@ resilience4j:
         failureRateThreshold: 50
         waitDurationInOpenState: 5s
         permittedNumberOfCallsInHalfOpenState: 3
-  retry:
-    instances:
-      auth:
-        maxAttempts: 3
-        waitDuration: 1s
-        enableExponentialBackoff: true
-        exponentialBackoffMultiplier: 2
-      user:
-        maxAttempts: 3
-        waitDuration: 1s
-        enableExponentialBackoff: true
-        exponentialBackoffMultiplier: 2
-      account:
-        maxAttempts: 3
-        waitDuration: 1s
-        enableExponentialBackoff: true
-        exponentialBackoffMultiplier: 2
-      transaction:
-        maxAttempts: 3
-        waitDuration: 1s
-        enableExponentialBackoff: true
-        exponentialBackoffMultiplier: 2
-      card:
-        maxAttempts: 3
-        waitDuration: 1s
-        enableExponentialBackoff: true
-        exponentialBackoffMultiplier: 2
 
 eureka:
   client:
@@ -250,28 +192,6 @@ management:
       enabled: true
   health:
     circuitbreakers:
-      enabled: true
-
-springdoc:
-  swagger-ui:
-    path: /swagger-ui.html
-    urls:
-      - name: API Gateway
-        url: /v3/api-docs
-      - name: Auth Service
-        url: /auth/v3/api-docs
-      - name: User Service
-        url: /users/v3/api-docs
-      - name: Account Service
-        url: /accounts/v3/api-docs
-      - name: Transaction Service
-        url: /transactions/v3/api-docs
-      - name: Card Service
-        url: /cards/v3/api-docs
-  api-docs:
-    enabled: true
-    path: /v3/api-docs
-    groups:
       enabled: true
 
 logging:

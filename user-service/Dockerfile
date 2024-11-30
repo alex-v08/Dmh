@@ -8,24 +8,24 @@ RUN apt-get update && \
 
 WORKDIR /app
 
-COPY target/auth-service-1.0.0-SNAPSHOT.jar app.jar
+COPY target/user-service-1.0.0-SNAPSHOT.jar app.jar
 RUN chown spring:spring /app/app.jar
 
 USER spring
 
-# Puerto configurado en Auth-Service-dev.yml
-EXPOSE ${SERVER_PORT:-8083}
+# Puerto configurado en user-service-dev.yml
+EXPOSE 8081
 
 HEALTHCHECK --interval=30s --timeout=3s \
-  CMD wget --quiet --tries=1 --spider http://localhost:${SERVER_PORT:-8083}/actuator/health || exit 1
+  CMD wget --quiet --tries=1 --spider http://localhost:8081/actuator/health || exit 1
 
-# Configuración específica para servicio de autenticación
+# Configuración optimizada para servicio de usuarios
 ENV JAVA_OPTS="\
     -Xms512m \
     -Xmx512m \
     -XX:+UseG1GC \
-    -Djava.security.egd=file:/dev/./urandom \
+    -XX:+UseStringDeduplication \
     -Dspring.jpa.hibernate.ddl-auto=update \
-    -Dspring.datasource.hikari.maximum-pool-size=10"
+    -Dspring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect"
 
 ENTRYPOINT ["sh", "-c", "java $JAVA_OPTS -jar app.jar"]

@@ -1,0 +1,82 @@
+server:
+  port: 8081
+
+spring:
+  
+  application:
+    name: UserService
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:9092/realms/dmh
+          jwk-set-uri: http://localhost:9092/realms/dmh/protocol/openid-connect/certs
+  
+  
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5430/userservice_db}
+    username: ${SPRING_DATASOURCE_USERNAME:postgres}
+    password: ${SPRING_DATASOURCE_PASSWORD:changeme}
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      connection-timeout: 20000
+      maximum-pool-size: 5
+  jpa:
+    hibernate:
+      ddl-auto: ${SPRING_JPA_HIBERNATE_DDL_AUTO:update}
+    show-sql: ${SPRING_JPA_SHOW_SQL:true}
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+  cloud:
+    config:
+      enabled: false
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: ${EUREKA_SERVICE_URL_DEFAULT_ZONE:http://localhost:8761/eureka}
+
+loadbalancer:
+  client:
+    name: ${LOADBALANCER_NAME_USER_SERVICE:user-service}
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: ALWAYS
+
+logging:
+  level:
+    root: INFO
+    com.dmh.UserService: DEBUG
+    org.springframework: INFO
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+    com.zaxxer.hikari: DEBUG
+
+
+service-urls:
+  account-service: ${ACCOUNT_SERVICE_URL:http://localhost:8082}
+  auth-service: ${AUTH_SERVICE_URL:http://localhost:8085}
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+    enabled: true
+  swagger-ui:
+    path: /swagger-ui.html
+    operations-sorter: method
+    tags-sorter: alpha
+    display-request-duration: true
+  show-actuator: true
+  packages-to-scan: com.dmh.userservice.controller
+  paths-to-match:
+    - /api/**
+    - /auth/**

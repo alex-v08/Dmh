@@ -1,0 +1,43 @@
+server:
+  port: ${SERVER_PORT_CONFIG_SERVER:}
+
+spring:
+  application:
+    name: ${SPRING_APPLICATION_NAME_CONFIG_SERVER:}
+  
+  
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:9092/realms/dmh
+          jwk-set-uri: http://localhost:9092/realms/dmh/protocol/openid-connect/certs
+  cloud:
+    config:
+      server:
+        git:
+          uri: ${SPRING_CLOUD_CONFIG_SERVER_GIT_URI:}
+          host-key-algorithm: ssh-rsa
+          private-key: ${SPRING_CLOUD_CONFIG_SERVER_GIT_PRIVATE_KEY:}
+
+eureka:
+  client:
+    register-with-eureka: ${EUREKA_REGISTER_WITH_EUREKA:}
+    fetch-registry: ${EUREKA_FETCH_REGISTRY:}
+    service-url:
+      defaultZone: ${EUREKA_SERVICE_URL_DEFAULT_ZONE:}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    env:
+      post:
+        enabled: ${MANAGEMENT_ENDPOINT_ENV_POST_ENABLED:}
+
+logging:
+  level:
+    org.springframework.cloud: DEBUG
+    org.springframework.boot: DEBUG

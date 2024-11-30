@@ -8,24 +8,24 @@ RUN apt-get update && \
 
 WORKDIR /app
 
-COPY target/account-service-1.0.0-SNAPSHOT.jar app.jar
+COPY target/transaction-service-1.0.0-SNAPSHOT.jar app.jar
 RUN chown spring:spring /app/app.jar
 
 USER spring
 
-# Puerto configurado en account-service-dev.yml
-EXPOSE 8082
+# Puerto configurado en transaction-service-dev.yml
+EXPOSE 8097
 
 HEALTHCHECK --interval=30s --timeout=3s \
-  CMD wget --quiet --tries=1 --spider http://localhost:8082/actuator/health || exit 1
+  CMD wget --quiet --tries=1 --spider http://localhost:8097/actuator/health || exit 1
 
-# Configuración optimizada para servicio de cuentas
+# Configuración optimizada para servicio de transacciones
 ENV JAVA_OPTS="\
     -Xms512m \
     -Xmx512m \
     -XX:+UseG1GC \
-    -XX:+HeapDumpOnOutOfMemoryError \
+    -XX:MaxGCPauseMillis=200 \
     -Dspring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect \
-    -Dspring.jpa.show-sql=true"
+    -Dspring.jpa.hibernate.ddl-auto=update"
 
 ENTRYPOINT ["sh", "-c", "java $JAVA_OPTS -jar app.jar"]

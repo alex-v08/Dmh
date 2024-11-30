@@ -1,0 +1,41 @@
+server:
+ port:8083
+spring:
+  application:
+    name: user-register-service
+  cloud:
+    loadbalancer:
+      ribbon:
+        enabled: false
+    config:
+      import: optional:configserver:${SPRING_CLOUD_CONFIG_URI:http://localhost:8888}
+      fail-fast: false
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: ${EUREKA_SERVICE_URL_DEFAULT_ZONE:http://localhost:8761/eureka}
+
+feign:
+  circuitbreaker:
+    enabled: true
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      account-service:
+        slidingWindowSize: 10
+        failureRateThreshold: 50
+        waitDurationInOpenState: 10000
+        permittedNumberOfCallsInHalfOpenState: 3
+  retry:
+    instances:
+      account-service:
+        maxAttempts: 3
+        waitDuration: 1000
+
+logging:
+  level:
+    com.dmh.user_register_service: DEBUG
+    org.springframework.web.client.RestTemplate: DEBUG
+    org.springframework.cloud.openfeign: DEBUG

@@ -1,0 +1,109 @@
+spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:9092/realms/dmh
+          jwk-set-uri: http://localhost:9092/realms/dmh/protocol/openid-connect/certs
+  application:
+    name: ${SPRING_APPLICATION_NAME:auth-service}
+  profiles:
+    active: ${SPRING_PROFILES_ACTIVE:dev}
+  
+  # Database Configuration
+  datasource:
+    url: jdbc:mysql://${DB_HOST:localhost}:${DB_PORT:3306}/${DB_DATABASE:dmh_auth}?allowPublicKeyRetrieval=true&useSSL=false&createDatabaseIfNotExist=true
+    username: ${DB_USERNAME:user}
+    password: ${DB_PASSWORD:password}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      minimum-idle: 5
+      maximum-pool-size: 20
+      idle-timeout: 300000
+      connection-timeout: 20000
+      connection-test-query: SELECT 1
+      
+      
+      loadbalancer:
+        client:
+          name: ${LOADBALANCER_NAME_auth-service:auth-service}
+  
+  # JPA Configuration
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+        format_sql: true
+        show_sql: true
+    open-in-view: false
+  
+  # Cloud Configuration
+  cloud:
+    config:
+      enabled: false
+    discovery:
+      enabled: ${DISCOVERY_ENABLED:true}
+loadbalancer:
+  client:
+    name: ${LOADBALANCER_NAME_auth-service:auth-service}
+server:
+  port: ${SERVER_PORT:8083}
+  servlet:
+    context-path: /api
+
+# JWT Configuration
+jwt:
+  secret: ${JWT_SECRET:404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970}
+  expiration: ${JWT_EXPIRATION:86400000} # 24 hours in milliseconds
+  refresh-expiration: ${JWT_REFRESH_EXPIRATION:604800000} # 7 days in milliseconds
+
+# User Service Configuration
+user-service:
+  url: ${USER_SERVICE_URL:http://localhost:8081}
+
+# Logging Configuration
+logging:
+  level:
+    root: ${LOG_LEVEL:INFO}
+    com.dmh.authservice: ${SERVICE_LOG_LEVEL:DEBUG}
+    org.springframework.security: ${SECURITY_LOG_LEVEL:INFO}
+    org.springframework.web: ${WEB_LOG_LEVEL:INFO}
+    org.hibernate.SQL: ${HIBERNATE_LOG_LEVEL:DEBUG}
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+
+# Feign Client Configuration
+feign:
+  client:
+    config:
+      default:
+        connectTimeout: ${FEIGN_CONNECT_TIMEOUT:5000}
+        readTimeout: ${FEIGN_READ_TIMEOUT:5000}
+        loggerLevel: ${FEIGN_LOGGER_LEVEL:FULL}
+
+# Management Endpoints Configuration
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+  endpoint:
+    health:
+      show-details: always
+
+# Eureka Client Configuration
+eureka:
+  client:
+ 
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    prefer-ip-address: true
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    enabled: true
+  packages-to-scan: com.dmh.authservice

@@ -31,11 +31,12 @@ server:
 springdoc:
   api-docs:
     path: /v3/api-docs
-    enabled: true
   swagger-ui:
     path: /swagger-ui.html
-    enabled: true
-  packages-to-scan: com.dmh.account
+    operationsSorter: method
+    tagsSorter: alpha
+    doc-expansion: none
+  packages-to-scan: com.dmh.accountservice.controller
 
 eureka:
   client:

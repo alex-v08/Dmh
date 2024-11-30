@@ -1,5 +1,7 @@
-FROM openjdk:17
+# Dockerfile para API Gateway
+# api-gateway/Dockerfile
+FROM openjdk:17-jdk-slim
 WORKDIR /app
-COPY eureka-server/target/eureka-server-0.0.1-SNAPSHOT.jar /app/eureka-server.jar
-EXPOSE 8761
-ENTRYPOINT ["java", "-jar", "/app/eureka-server.jar"]
+COPY target/api-gateway-1.0-SNAPSHOT.jar app.jar
+EXPOSE 8080
+ENTRYPOINT ["java", "-jar", "app.jar"]

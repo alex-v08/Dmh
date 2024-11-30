@@ -12,12 +12,13 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 
 @RestController
-@RequestMapping("/accounts")
+@RequestMapping("/api/accounts")
 @Tag(name = "Account", description = "Account management endpoints")
 public class AccountController {
 
@@ -33,6 +34,7 @@ public class AccountController {
                     content = @Content)
     })
     @PostMapping
+    @PreAuthorize("hasRole('ACCOUNT_ADMIN')")
     public ResponseEntity<Void> createAccount(
             @Parameter(description = "ID of the user to create account for", required = true)
             @RequestParam Long userId) {
@@ -55,6 +57,7 @@ public class AccountController {
                     content = @Content)
     })
     @GetMapping("/{userId}")
+    @PreAuthorize("hasRole('ACCOUNT_ADMIN')")
     public ResponseEntity<Account> getAccountByUserId(
             @Parameter(description = "ID of the user to retrieve account for", required = true)
             @PathVariable Long userId) {

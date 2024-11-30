@@ -1,3 +1,4 @@
+/*
 package com.dmh.accountservice.config;
 
 import io.swagger.v3.oas.models.OpenAPI;
@@ -30,4 +31,4 @@ public class SwaggerConfig {
                 .info(info)
                 .servers(Arrays.asList(localServer));
     }
-}
+}*/

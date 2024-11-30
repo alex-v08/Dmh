@@ -1,4 +1,6 @@
+// OpenAPIConfig.java
 package com.dmh.accountservice.config;
+
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.ExternalDocumentation;
 import io.swagger.v3.oas.models.OpenAPI;
@@ -7,20 +9,20 @@ import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.info.License;
 import io.swagger.v3.oas.models.security.SecurityRequirement;
 import io.swagger.v3.oas.models.security.SecurityScheme;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
+import org.springframework.context.annotation.Primary;
 
 @Configuration
 public class OpenAPIConfig {
 
     @Bean
-    public OpenAPI accountServiceOpenAPI() {
+    @Primary
+    public OpenAPI accountServiceAPI() {
         return new OpenAPI()
                 .info(new Info()
                         .title("Account Service API")
-                        .description("Account Management Service for Digital Money House")
+                        .description("API de Gestión de Cuentas para Digital Money House")
                         .version("1.0.0")
                         .contact(new Contact()
                                 .name("Digital Money House Team")
@@ -30,7 +32,7 @@ public class OpenAPIConfig {
                                 .name("Apache 2.0")
                                 .url("http://springdoc.org")))
                 .externalDocs(new ExternalDocumentation()
-                        .description("Account Service Wiki Documentation")
+                        .description("Documentación Wiki del Servicio de Cuentas")
                         .url("https://wiki.digitalmoney.house/accounts"))
                 .addSecurityItem(new SecurityRequirement().addList("bearer-jwt"))
                 .components(new Components()
@@ -39,6 +41,6 @@ public class OpenAPIConfig {
                                         .type(SecurityScheme.Type.HTTP)
                                         .scheme("bearer")
                                         .bearerFormat("JWT")
-                                        .description("JWT token authentication")));
+                                        .description("Autenticación con JWT token")));
     }
 }

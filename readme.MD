@@ -1,195 +1,138 @@
-# Digital Money House 🏦
+# Digital Money House - Guía de Despliegue
 
-## Descripción del Proyecto
+Digital Money House es una plataforma bancaria digital basada en microservicios. Esta guía le ayudará a desplegar la plataforma utilizando Docker Compose.
 
-Digital Money House es una plataforma financiera digital desarrollada como parte del proyecto integrador. El sistema implementa una arquitectura de microservicios robusta utilizando Spring Boot y tecnologías modernas de la nube, permitiendo a los usuarios gestionar sus finanzas de manera segura y eficiente.
+## Descarga del Docker Compose
 
-## Repositorio
-
-```bash
-https://gitlab.com/atuhome/digital-money-house
-```
-
-## Arquitectura del Sistema 🏗
-
-El proyecto implementa una arquitectura de microservicios que consta de los siguientes componentes:
-
-### Servicios de Infraestructura
-
-- **Config Server**: Centraliza la gestión de configuraciones para todos los microservicios
-- **Eureka Server**: Proporciona registro y descubrimiento de servicios
-- **API Gateway**: Actúa como punto de entrada único y maneja el enrutamiento de solicitudes
-
-### Servicios de Negocio
-
-- **Auth Service**: Gestiona la autenticación y autorización utilizando Keycloak
-- **User Service**: Administra la información y operaciones de usuarios
-- **Account Service**: Maneja las cuentas y sus operaciones asociadas
-- **Card Service**: Gestiona las tarjetas de débito y crédito
-- **Transaction Service**: Procesa todas las transacciones financieras
-
-## Tecnologías Utilizadas 🛠
-
-- **Java 17**: Lenguaje de programación principal
-- **Spring Boot 3.x**: Framework de desarrollo
-- **Spring Cloud**: Para arquitectura de microservicios
-- **Keycloak**: Servidor de autenticación y autorización
-- **Docker**: Contenedorización de servicios
-- **PostgreSQL/MySQL**: Bases de datos
-- **Maven**: Gestión de dependencias y construcción
-- **Swagger/OpenAPI**: Documentación de APIs
-
-## Configuración del Entorno de Desarrollo
-
-### Prerrequisitos
-
-- Java JDK 17
-- Maven 3.6.3 o superior
-- Docker y Docker Compose
-- Git
-- IDE (recomendado IntelliJ IDEA)
-
-### Clonar el Repositorio
+Descargue el archivo de configuración docker-compose.yml desde el siguiente enlace:
+https://gitlab.com/atuhome/digital-money-house/-/raw/main/docker-compose.yml
 
 ```bash
-git clone https://gitlab.com/atuhome/digital-money-house.git
-cd digital-money-house
+curl -O https://gitlab.com/atuhome/digital-money-house/-/raw/main/docker-compose.yml
 ```
 
-### Configuración de Base de Datos
+## Despliegue
 
-El proyecto utiliza múltiples bases de datos para diferentes servicios:
+La plataforma utiliza imágenes oficiales disponibles en Docker Hub (https://hub.docker.com/u/atuhome). Para iniciar todos los servicios, simplemente ejecute:
 
-```yaml
-# Para User Service
-mysql_user_service:
-  container_name: mysql_user_service
-  image: mysql:latest
-  ports:
-    - "3307:3306"
-
-# Para Account Service
-mysql_account_service:
-  container_name: mysql_account_service
-  ports:
-    - "3308:3306"
-
-# Para Keycloak
-postgres_keycloak:
-  container_name: postgres_keycloak
-  ports:
-    - "5433:5432"
-```
-
-### Iniciar los Servicios
-
-1. Iniciar servicios de infraestructura:
 ```bash
 docker-compose up -d
 ```
 
-2. Verificar que Keycloak esté funcionando:
+Una vez completado el despliegue, los servicios estarán disponibles en:
+
+- Puerta de enlace principal: http://localhost:8080
+- Administración de Keycloak: http://localhost:9092
+- Documentación de la API: http://localhost:8080/swagger-ui.html
+
+Comandos útiles:
+
 ```bash
-http://localhost:9092
+# Ver los logs de todos los servicios
+docker-compose logs -f
+
+# Detener todos los servicios
+docker-compose down
 ```
 
-3. Iniciar los servicios en el siguiente orden:
-   - Eureka Server (Puerto 8761)
-   - Config Server (Puerto 8888)
-   - API Gateway (Puerto 8080)
-   - Servicios de negocio
+## Arquitectura del Sistema
 
-## Estructura de Puertos
+```mermaid
+graph TD
+   subgraph "Frontend"
+      A[Cliente Web/Mobile]
+   end
 
-- Eureka Server: 8761
-- Config Server: 8888
-- API Gateway: 8080
-- Auth Service: 8083
-- User Service: 8081
-- Account Service: 8082
-- Card Service: 8085
-- Transaction Service: 8097
+   subgraph "Gateway y Seguridad"
+      B[API Gateway]
+      C[Keycloak]
+   end
 
-## Documentación de APIs 📚
+   subgraph "Infraestructura"
+      D[Eureka Server]
+      E[Config Server]
+   end
 
-Cada servicio cuenta con su propia documentación Swagger accesible en:
+   subgraph "Servicios Core"
+      F[Auth Service]
+      G[User Service]
+      H[Account Service]
+      I[Card Service]
+      J[Transaction Service]
+   end
 
-```
-http://localhost:{puerto}/swagger-ui.html
-```
+   subgraph "Base de Datos"
+      K[(DB Auth)]
+      L[(DB User)]
+      M[(DB Account)]
+      N[(DB Card)]
+      O[(DB Transaction)]
+   end
 
-Por ejemplo:
-- Gateway: http://localhost:8080/swagger-ui.html
-- User Service: http://localhost:8081/swagger-ui.html
-- Account Service: http://localhost:8082/swagger-ui.html
+   A --> B
+   B --> C
+   B --> F
+   B --> G
+   B --> H
+   B --> I
+   B --> J
 
-## Seguridad 🔒
+   F --> K
+   G --> L
+   H --> M
+   I --> N
+   J --> O
 
-El proyecto utiliza OAuth2 con Keycloak para la autenticación y autorización:
+   F --> D
+   G --> D
+   H --> D
+   I --> D
+   J --> D
 
-- **Realm**: dmh
-- **Client ID**: gateway-client
-- **Grant Types**: Authorization Code, Client Credentials
-- **Roles**: USER, ADMIN
-
-## Monitoreo y Actuator 📊
-
-Todos los servicios exponen endpoints de Spring Boot Actuator para monitoreo:
-
-```
-http://localhost:{puerto}/actuator
-```
-
-Endpoints disponibles:
-- /health: Estado del servicio
-- /metrics: Métricas del servicio
-- /info: Información del servicio
-
-## Manejo de Errores y Circuit Breaker
-
-El proyecto implementa el patrón Circuit Breaker utilizando Resilience4j para manejar fallos en las comunicaciones entre servicios:
-
-```java
-resilience4j:
-  circuitbreaker:
-    instances:
-      userService:
-        slidingWindowSize: 10
-        failureRateThreshold: 50
-        waitDurationInOpenState: 10000ms
+   F --> E
+   G --> E
+   H --> E
+   I --> E
+   J --> E
 ```
 
-## Contribución al Proyecto 🤝
+## Casos de Uso
 
-1. Crear un fork del repositorio
-2. Crear una rama para tu feature
-```bash
-git checkout -b feature/nueva-funcionalidad
+```mermaid
+graph TB
+   subgraph "Autenticación y Usuarios"
+      A1[Usuario No Registrado] -->|Registrarse| B1[Registro]
+      A1 -->|Iniciar Sesión| C1[Login]
+      B1 --> D1[Validar Datos]
+      B1 --> E1[Crear Cuenta]
+   end
+
+   subgraph "Gestión de Cuentas"
+      A2[Usuario] -->|Ver Balance| B2[Consultar Saldo]
+      A2 -->|Ver Movimientos| C2[Historial]
+      A2 -->|Obtener CVU| D2[Consultar CVU]
+      A2 -->|Obtener Alias| E2[Gestionar Alias]
+   end
+
+   subgraph "Gestión de Tarjetas"
+      A3[Usuario] -->|Agregar Tarjeta| B3[Alta de Tarjeta]
+      A3 -->|Eliminar Tarjeta| C3[Baja de Tarjeta]
+      A3 -->|Ver Tarjetas| D3[Listar Tarjetas]
+   end
+
+   subgraph "Transacciones"
+      A4[Usuario] -->|Transferir| B4[Realizar Transferencia]
+      A4 -->|Recibir| C4[Recibir Dinero]
+      B4 --> D4[Validar Fondos]
+      B4 --> E4[Ejecutar Transferencia]
+   end
 ```
-3. Realizar cambios y commits
-```bash
-git commit -m "Descripción detallada de los cambios"
-```
-4. Push a la rama
-```bash
-git push origin feature/nueva-funcionalidad
-```
-5. Crear un Merge Request
 
-## Convenciones de Código
+## 👤 Contacto y Soporte
 
-- Usar camelCase para nombres de variables y métodos
-- Usar PascalCase para nombres de clases
-- Documentar métodos públicos con Javadoc
-- Seguir principios SOLID
-- Escribir pruebas unitarias para nueva funcionalidad
+### Alex Velasquez
+👨‍💻 Software Developer
 
-## Contacto y Soporte 📧
-
-Para consultas o reportes de problemas:
-- Crear un Issue en GitLab
-- Contactar al equipo: support@digitalmoney.house
-
-## Estado del Proyecto 📈
-
-El proyecto se encuentra en desarrollo activo, con actualizaciones y mejoras continuas. Se recomienda mantener actualizada la rama principal y revisar regularmente la documentación en GitLab para conocer los últimos cambios.
+📎 LinkedIn: [linkedin.com/in/alex-velasquez08](https://linkedin.com/in/alex-velasquez08)  
+🐱 GitHub: [github.com/alex-v08](https://github.com/alex-v08)  
+📧 Email: [alex.velasquez08@outlook.com](mailto:alex.velasquez08@outlook.com)

@@ -1,73 +1,146 @@
+version: '3.8'
+
+# Define all shared networks
+networks:
+  dmh-network:
+    driver: bridge
+
+# Define all volumes
+volumes:
+  postgres_keycloak_data:
+  postgres_user_data:
+  postgres_account_data:
+  postgres_card_data:
+  postgres_transaction_data:
+  mysql_auth_data:
+
 services:
-  mysql_user_service:
-    container_name: mysql_user_service
-    image: mysql:latest
-    restart: unless-stopped
-    environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: user_db
-      MYSQL_USER: user_service
-      MYSQL_PASSWORD: password
-    ports:
-      - "3307:3306"
-    volumes:
-      - mysql_user_data:/var/lib/mysql
-      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
-    networks:
-      - back_network
-  
-  mysql_account_service:
-    container_name: mysql_account_service
-    image: mysql:latest
-    restart: unless-stopped
-    environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: account_db
-      MYSQL_USER: account_service
-      MYSQL_PASSWORD: password
-    ports:
-      - "3308:3306"
-    volumes:
-      - mysql_account_data:/var/lib/mysql
-      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
-    networks:
-      - back_network
-  
+  # Database Services
   postgres_keycloak:
     container_name: postgres_keycloak
     image: postgres:latest
-    restart: unless-stopped
     environment:
       POSTGRES_DB: keycloak_db
       POSTGRES_USER: keycloak
       POSTGRES_PASSWORD: password
     ports:
-      - "5433:5432"  # Cambiado de 5432 a 5433
+      - "5433:5432"
     volumes:
-      - postgres_data:/var/lib/postgresql/data
-      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+      - postgres_keycloak_data:/var/lib/postgresql/data
     networks:
-      - back_network
+      - dmh-network
     healthcheck:
-      test: [ "CMD-SHELL", "pg_isready -U keycloak -d keycloak_db" ]
-      interval: 30s
+      test: ["CMD-SHELL", "pg_isready -U keycloak -d keycloak_db"]
+      interval: 10s
       timeout: 5s
       retries: 5
   
+  postgres_user:
+    container_name: postgres_user_db
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: userservice_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: changeme
+    ports:
+      - "5430:5432"
+    volumes:
+      - postgres_user_data:/var/lib/postgresql/data
+    networks:
+      - dmh-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d userservice_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+  
+  postgres_account:
+    container_name: postgres_account_db
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: dmh_account_db
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_account_data:/var/lib/postgresql/data
+    networks:
+      - dmh-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U user -d dmh_account_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+  
+  postgres_card:
+    container_name: postgres_card_db
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: card_db
+      POSTGRES_USER: myuser
+      POSTGRES_PASSWORD: changeme
+    ports:
+      - "5438:5432"
+    volumes:
+      - postgres_card_data:/var/lib/postgresql/data
+    networks:
+      - dmh-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U myuser -d card_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+  
+  postgres_transaction:
+    container_name: postgres_transaction_db
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: transaction_db
+      POSTGRES_USER: myuser
+      POSTGRES_PASSWORD: changeme
+    ports:
+      - "5436:5432"
+    volumes:
+      - postgres_transaction_data:/var/lib/postgresql/data
+    networks:
+      - dmh-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U myuser -d transaction_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+  
+  mysql_auth:
+    container_name: mysql_auth_db
+    image: mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: dmh_auth
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_auth_data:/var/lib/mysql
+    networks:
+      - dmh-network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+  
+  # Keycloak
   keycloak:
     container_name: keycloak
     image: quay.io/keycloak/keycloak:latest
-    command:
-      - start-dev
-    restart: unless-stopped
+    command: ["start-dev"]
     environment:
       KC_DB: postgres
-      KC_DB_SCHEMA: public
-      KC_DB_URL_HOST: postgres_keycloak
-      KC_DB_URL_DATABASE: keycloak_db
+      KC_DB_URL: jdbc:postgresql://postgres_keycloak:5432/keycloak_db
       KC_DB_USERNAME: keycloak
       KC_DB_PASSWORD: password
-      KC_DB_URL: jdbc:postgresql://postgres_keycloak:5432/keycloak_db
       KEYCLOAK_ADMIN: admin
       KEYCLOAK_ADMIN_PASSWORD: admin
       KC_HOSTNAME: localhost
@@ -78,13 +151,167 @@ services:
       postgres_keycloak:
         condition: service_healthy
     networks:
-      - back_network
-
-volumes:
-  mysql_user_data:
-  mysql_account_data:
-  postgres_data:
-
-networks:
-  back_network:
-    driver: bridge
+      - dmh-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health/ready"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+  
+  # Infrastructure Services
+  eureka-server:
+    container_name: eureka-server
+    image: atuhome/eureka-server:latest
+    ports:
+      - "8761:8761"
+    networks:
+      - dmh-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8761/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+  
+  config-server:
+    container_name: config-server
+    image: atuhome/config-server:latest
+    ports:
+      - "8888:8888"
+    networks:
+      - dmh-network
+    depends_on:
+      eureka-server:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8888/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+  
+  # Core Services
+  api-gateway:
+    container_name: api-gateway
+    image: atuhome/api-gateway:latest
+    ports:
+      - "8080:8080"
+    networks:
+      - dmh-network
+    depends_on:
+      eureka-server:
+        condition: service_healthy
+      config-server:
+        condition: service_healthy
+      keycloak:
+        condition: service_healthy
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka/
+      SPRING_CLOUD_CONFIG_URI: http://config-server:8888
+  
+  auth-service:
+    container_name: auth-service
+    image: atuhome/auth-service:latest
+    ports:
+      - "8083:8083"
+    networks:
+      - dmh-network
+    depends_on:
+      mysql_auth:
+        condition: service_healthy
+      eureka-server:
+        condition: service_healthy
+      config-server:
+        condition: service_healthy
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql_auth:3306/dmh_auth
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka/
+      SPRING_CLOUD_CONFIG_URI: http://config-server:8888
+  
+  user-service:
+    container_name: user-service
+    image: atuhome/user-service:latest
+    ports:
+      - "8081:8081"
+    networks:
+      - dmh-network
+    depends_on:
+      postgres_user:
+        condition: service_healthy
+      eureka-server:
+        condition: service_healthy
+      config-server:
+        condition: service_healthy
+      auth-service:
+        condition: service_started
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres_user:5432/userservice_db
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka/
+      SPRING_CLOUD_CONFIG_URI: http://config-server:8888
+  
+  account-service:
+    container_name: account-service
+    image: atuhome/account-service:latest
+    ports:
+      - "8082:8082"
+    networks:
+      - dmh-network
+    depends_on:
+      postgres_account:
+        condition: service_healthy
+      eureka-server:
+        condition: service_healthy
+      config-server:
+        condition: service_healthy
+      user-service:
+        condition: service_started
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres_account:5432/dmh_account_db
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka/
+      SPRING_CLOUD_CONFIG_URI: http://config-server:8888
+  
+  card-service:
+    container_name: card-service
+    image: atuhome/card-service:latest
+    ports:
+      - "8085:8085"
+    networks:
+      - dmh-network
+    depends_on:
+      postgres_card:
+        condition: service_healthy
+      eureka-server:
+        condition: service_healthy
+      config-server:
+        condition: service_healthy
+      account-service:
+        condition: service_started
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres_card:5432/card_db
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka/
+      SPRING_CLOUD_CONFIG_URI: http://config-server:8888
+  
+  transaction-service:
+    container_name: transaction-service
+    image: atuhome/transaction-service:latest
+    ports:
+      - "8097:8097"
+    networks:
+      - dmh-network
+    depends_on:
+      postgres_transaction:
+        condition: service_healthy
+      eureka-server:
+        condition: service_healthy
+      config-server:
+        condition: service_healthy
+      account-service:
+        condition: service_started
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres_transaction:5432/transaction_db
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka/
+      SPRING_CLOUD_CONFIG_URI: http://config-server:8888

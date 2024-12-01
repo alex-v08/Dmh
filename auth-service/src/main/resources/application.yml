@@ -1,8 +1,82 @@
 spring:
   application:
     name: auth-service
-  config:
-    import: optional:configserver:${SPRING_CLOUD_CONFIG_URI:http://localhost:8888}
-  cloud:
+  profiles:
+    active: dev
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:9092/realms/dmh
+          jwk-set-uri: http://localhost:9092/realms/dmh/protocol/openid-connect/certs
+  datasource:
+    url: jdbc:mysql://${DB_HOST:localhost}:${DB_PORT:3306}/${DB_DATABASE:dmh_auth}?allowPublicKeyRetrieval=true&useSSL=false&createDatabaseIfNotExist=true
+    username: ${DB_USERNAME:user}
+    password: ${DB_PASSWORD:password}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      minimum-idle: 5
+      maximum-pool-size: 20
+      idle-timeout: 300000
+      connection-timeout: 20000
+      connection-test-query: SELECT 1
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+        format_sql: true
+        show_sql: true
+    open-in-view: false
+
+server:
+  port: ${SERVER_PORT:8083}
+  servlet:
+    context-path: /api
+
+jwt:
+  secret: ${JWT_SECRET:404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970}
+  expiration: ${JWT_EXPIRATION:86400000}
+  refresh-expiration: ${JWT_REFRESH_EXPIRATION:604800000}
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    prefer-ip-address: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+  endpoint:
+    health:
+      show-details: always
+
+logging:
+  level:
+    root: ${LOG_LEVEL:INFO}
+    com.dmh.authservice: ${SERVICE_LOG_LEVEL:DEBUG}
+    org.springframework.security: ${SECURITY_LOG_LEVEL:INFO}
+    org.springframework.web: ${WEB_LOG_LEVEL:INFO}
+    org.hibernate.SQL: ${HIBERNATE_LOG_LEVEL:DEBUG}
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+
+feign:
+  client:
     config:
-      fail-fast: true
+      default:
+        connectTimeout: ${FEIGN_CONNECT_TIMEOUT:5000}
+        readTimeout: ${FEIGN_READ_TIMEOUT:5000}
+        loggerLevel: ${FEIGN_LOGGER_LEVEL:FULL}
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    enabled: true
+  packages-to-scan: com.dmh.authservice

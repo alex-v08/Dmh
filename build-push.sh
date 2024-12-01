@@ -4,27 +4,39 @@
 DOCKER_HUB_USERNAME="atuhome"
 VERSION="latest"
 
-# Array de servicios actualizado
+# Array de servicios con nombres en minúsculas y rutas corregidas
 declare -A SERVICES=(
     ["eureka-server"]="./eureka-server"
     ["config-server"]="./config-server"
     ["api-gateway"]="./api-gateway"
     ["auth-service"]="./auth-service"
-    ["User-service"]="./user-service"
+    ["user-service"]="./User-service" 
     ["account-service"]="./account-service"
     ["card-service"]="./card-service"
     ["transaction-service"]="./transaction-service"
-    ["GenerateAlias"]="./generatealias"
-    ["GenerateCvu"]="./generatecvu"
+    ["generate-alias"]="./generate-alias"
+    ["generate-cvu"]="./generate-cvu"
 )
 
 # Función para construir y subir una imagen
 build_and_push() {
     local service_name=$1
     local service_path=$2
-    local image_name="${DOCKER_HUB_USERNAME}/${service_name}:${VERSION}"
+    local image_name="${DOCKER_HUB_USERNAME}/${service_name,,}:${VERSION}"
 
     echo "📦 Procesando ${service_name}..."
+
+    # Verificar si el directorio existe
+    if [ ! -d "${service_path}" ]; then
+        echo "❌ Error: Directorio ${service_path} no encontrado"
+        return 1
+    fi
+
+    # Verificar si existe el Dockerfile
+    if [ ! -f "${service_path}/Dockerfile" ]; then
+        echo "❌ Error: Dockerfile no encontrado en ${service_path}"
+        return 1
+    fi
 
     # Construir la imagen
     echo "🔨 Construyendo ${image_name}..."

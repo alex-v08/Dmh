@@ -1,442 +1,331 @@
-version: '3.8'
-
-# Definición de redes
-networks:
-  dmh-network:
-    driver: bridge
-    name: dmh-network
-
-# Definición de volúmenes para persistencia de datos
-volumes:
-  postgres_keycloak_data:
-  postgres_user_data:
-  postgres_account_data:
-  postgres_card_data:
-  postgres_transaction_data:
-  mysql_auth_data:
-
 services:
-  # =============================================
-  # Capa 1: Bases de Datos
-  # =============================================
-  
-  # Base de datos para Keycloak
-  postgres_keycloak:
-    container_name: postgres_keycloak
+  # Databases
+  account-db:
     image: postgres:latest
+    container_name: dmh_account_db_v1
     environment:
-      POSTGRES_DB: keycloak_db
+      POSTGRES_DB: account_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - account_data:/var/lib/postgresql/data
+    networks:
+      - dmh_network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  user-db:
+    image: postgres:latest
+    container_name: dmh_user_db_v1
+    environment:
+      POSTGRES_DB: user_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5430:5432"
+    volumes:
+      - user_data:/var/lib/postgresql/data
+    networks:
+      - dmh_network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  transaction-db:
+    image: postgres:latest
+    container_name: dmh_transaction_db_v1
+    environment:
+      POSTGRES_DB: transaction_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5436:5432"
+    volumes:
+      - transaction_data:/var/lib/postgresql/data
+    networks:
+      - dmh_network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  card-db:
+    image: postgres:latest
+    container_name: dmh_card_db_v1
+    environment:
+      POSTGRES_DB: card_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5438:5432"
+    volumes:
+      - card_data:/var/lib/postgresql/data
+    networks:
+      - dmh_network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  auth-db:
+    image: mysql:latest
+    container_name: dmh_auth_db_v1
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: auth_db
+      MYSQL_USER: auth
+      MYSQL_PASSWORD: auth
+    ports:
+      - "3306:3306"
+    volumes:
+      - auth_data:/var/lib/mysql
+    networks:
+      - dmh_network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "auth", "-pauth"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  keycloak-db:
+    image: postgres:latest
+    container_name: dmh_keycloak_db_v1
+    environment:
+      POSTGRES_DB: keycloak
       POSTGRES_USER: keycloak
       POSTGRES_PASSWORD: password
     ports:
       - "5433:5432"
     volumes:
-      - postgres_keycloak_data:/var/lib/postgresql/data
+      - keycloak_data:/var/lib/postgresql/data
     networks:
-      - dmh-network
+      - dmh_network
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U keycloak -d keycloak_db"]
+      test: ["CMD-SHELL", "pg_isready -U keycloak"]
       interval: 10s
       timeout: 5s
       retries: 5
-    restart: unless-stopped
-  
-  # Base de datos para Auth Service
-  mysql_auth:
-    container_name: mysql_auth_db
-    image: mysql:latest
-    environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: dmh_auth
-      MYSQL_USER: user
-      MYSQL_PASSWORD: password
-    ports:
-      - "3306:3306"
-    volumes:
-      - mysql_auth_data:/var/lib/mysql
-    networks:
-      - dmh-network
-    healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-    restart: unless-stopped
-  
-  # Base de datos para User Service
-  postgres_user:
-    container_name: postgres_user_db
-    image: postgres:latest
-    environment:
-      POSTGRES_DB: userservice_db
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: changeme
-    ports:
-      - "5430:5432"
-    volumes:
-      - postgres_user_data:/var/lib/postgresql/data
-    networks:
-      - dmh-network
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres -d userservice_db"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-    restart: unless-stopped
-  
-  # Base de datos para Account Service
-  postgres_account:
-    container_name: postgres_account_db
-    image: postgres:latest
-    environment:
-      POSTGRES_DB: dmh_account_db
-      POSTGRES_USER: user
-      POSTGRES_PASSWORD: password
-    ports:
-      - "5432:5432"
-    volumes:
-      - postgres_account_data:/var/lib/postgresql/data
-    networks:
-      - dmh-network
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U user -d dmh_account_db"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-    restart: unless-stopped
-  
-  # Base de datos para Card Service
-  postgres_card:
-    container_name: postgres_card_db
-    image: postgres:latest
-    environment:
-      POSTGRES_DB: card_db
-      POSTGRES_USER: myuser
-      POSTGRES_PASSWORD: changeme
-    ports:
-      - "5438:5432"
-    volumes:
-      - postgres_card_data:/var/lib/postgresql/data
-    networks:
-      - dmh-network
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U myuser -d card_db"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-    restart: unless-stopped
-  
-  # Base de datos para Transaction Service
-  postgres_transaction:
-    container_name: postgres_transaction_db
-    image: postgres:latest
-    environment:
-      POSTGRES_DB: transaction_db
-      POSTGRES_USER: myuser
-      POSTGRES_PASSWORD: changeme
-    ports:
-      - "5436:5432"
-    volumes:
-      - postgres_transaction_data:/var/lib/postgresql/data
-    networks:
-      - dmh-network
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U myuser -d transaction_db"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-    restart: unless-stopped
-  
-  # =============================================
-  # Capa 2: Proveedor de Autenticación
-  # =============================================
-  
+
+  # Keycloak
   keycloak:
-    container_name: keycloak
     image: quay.io/keycloak/keycloak:latest
-    command: ["start-dev"]
+    container_name: dmh_keycloak_v1
     environment:
       KC_DB: postgres
-      KC_DB_URL: jdbc:postgresql://postgres_keycloak:5432/keycloak_db
+      KC_DB_URL: jdbc:postgresql://keycloak-db:5432/keycloak
       KC_DB_USERNAME: keycloak
       KC_DB_PASSWORD: password
       KEYCLOAK_ADMIN: admin
       KEYCLOAK_ADMIN_PASSWORD: admin
       KC_HOSTNAME: localhost
+    command:
+      - start-dev
+      - --import-realm
+    volumes:
+      - ./realm-export.json:/opt/keycloak/data/import/realm.json
     ports:
       - "9092:8080"
-    networks:
-      - dmh-network
     depends_on:
-      postgres_keycloak:
+      keycloak-db:
         condition: service_healthy
+    networks:
+      - dmh_network
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8080/health/ready"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-    restart: unless-stopped
-  
-  # =============================================
-  # Capa 3: Descubrimiento de Servicios y Configuración
-  # =============================================
-  
-  # Servidor Eureka para registro y descubrimiento de servicios
-  eureka-server:
-    container_name: eureka-server
-    build:
-      context: ./eureka-server
-      dockerfile: Dockerfile
-    ports:
-      - "8761:8761"
-    environment:
-      - SPRING_PROFILES_ACTIVE=docker
-      - EUREKA_CLIENT_REGISTER-WITH-EUREKA=false
-      - EUREKA_CLIENT_FETCH-REGISTRY=false
-    networks:
-      - dmh-network
-    healthcheck:
-      test: ["CMD", "wget", "--spider", "-q", "http://localhost:8761/actuator/health"]
       interval: 10s
       timeout: 5s
       retries: 5
-    restart: unless-stopped
-  
-  # Servidor de Configuración
+
+  # Microservices
   config-server:
-    container_name: config-server
-    build:
-      context: ./config-server
-      dockerfile: Dockerfile
+    image: atuhome/config-server:latest
+    container_name: dmh_config_server_v1
     ports:
       - "8888:8888"
-    environment:
-      - SPRING_PROFILES_ACTIVE=docker
-      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka/
     networks:
-      - dmh-network
+      - dmh_network
+    environment:
+      - SERVER_PORT_CONFIG_SERVER=8888
+      - SPRING_APPLICATION_NAME_CONFIG_SERVER=config-server
+      - SPRING_PROFILES_ACTIVE=docker
+      - SPRING_CLOUD_CONFIG_SERVER_GIT_URI=${CONFIG_REPO_URL:-https://github.com/yourusername/config-repo.git}
+      - EUREKA_REGISTER_WITH_EUREKA=true
+      - EUREKA_FETCH_REGISTRY=true
+      - EUREKA_SERVICE_URL_DEFAULT_ZONE=http://eureka-server:8761/eureka/
+      - MANAGEMENT_ENDPOINT_ENV_POST_ENABLED=true
+      - EUREKA_INSTANCE_PREFER_IP_ADDRESS=true
+      - SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI=http://keycloak:8080/realms/dmh
+      - SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_JWK_SET_URI=http://keycloak:8080/realms/dmh/protocol/openid-connect/certs
     depends_on:
-      eureka-server:
+      keycloak:
         condition: service_healthy
     healthcheck:
       test: ["CMD", "wget", "--spider", "-q", "http://localhost:8888/actuator/health"]
       interval: 10s
       timeout: 5s
       retries: 5
-    restart: unless-stopped
-  
-  # =============================================
-  # Capa 4: Servicios Core
-  # =============================================
-  
-  # API Gateway
-  api-gateway:
-    container_name: api-gateway
-    build:
-      context: ./api-gateway
-      dockerfile: Dockerfile
+
+  eureka-server:
+    image: atuhome/eureka-server:latest
+    container_name: dmh_eureka_server_v1
     ports:
-      - "8080:8080"
+      - "8761:8761"
+    networks:
+      - dmh_network
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - SERVER_PORT=8761
+      - EUREKA_INSTANCE_HOSTNAME=eureka-server
+      - EUREKA_CLIENT_REGISTERWITHEUREKA=false
+      - EUREKA_CLIENT_FETCHREGISTRY=false
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka/
+      - EUREKA_INSTANCE_PREFER_IP_ADDRESS=true
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:8761/actuator/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  api-gateway:
+    image: atuhome/api-gateway:latest
+    container_name: dmh_api_gateway_v1
+    ports:
+      - "8090:8090"
+    networks:
+      - dmh_network
     environment:
       - SPRING_PROFILES_ACTIVE=docker
       - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka/
       - SPRING_CLOUD_CONFIG_URI=http://config-server:8888
-    networks:
-      - dmh-network
+      - EUREKA_INSTANCE_PREFER_IP_ADDRESS=true
     depends_on:
       eureka-server:
         condition: service_healthy
       config-server:
         condition: service_healthy
-    healthcheck:
-      test: ["CMD", "wget", "--spider", "-q", "http://localhost:8080/actuator/health"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-    restart: unless-stopped
-  
-  # Servicio de Autenticación
+
   auth-service:
-    container_name: auth-service
-    build:
-      context: ./auth-service
-      dockerfile: Dockerfile
-    ports:
-      - "8083:8083"
+    image: atuhome/auth-service:latest
+    container_name: dmh_auth_service_v1
+    networks:
+      - dmh_network
     environment:
       - SPRING_PROFILES_ACTIVE=docker
-      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql_auth:3306/dmh_auth
       - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka/
       - SPRING_CLOUD_CONFIG_URI=http://config-server:8888
-    networks:
-      - dmh-network
+      - SPRING_DATASOURCE_URL=jdbc:mysql://auth-db:3306/auth_db
+      - SPRING_DATASOURCE_USERNAME=auth
+      - SPRING_DATASOURCE_PASSWORD=auth
+      - EUREKA_INSTANCE_PREFER_IP_ADDRESS=true
     depends_on:
-      mysql_auth:
+      auth-db:
         condition: service_healthy
       eureka-server:
         condition: service_healthy
-    healthcheck:
-      test: ["CMD", "wget", "--spider", "-q", "http://localhost:8083/actuator/health"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-    restart: unless-stopped
-  
-  # Servicio de Usuarios
+      config-server:
+        condition: service_healthy
+
   user-service:
-    container_name: user-service
-    build:
-      context: ./user-service
-      dockerfile: Dockerfile
-    ports:
-      - "8081:8081"
+    image: atuhome/user-service:latest
+    container_name: dmh_user_service_v1
+    networks:
+      - dmh_network
     environment:
       - SPRING_PROFILES_ACTIVE=docker
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres_user:5432/userservice_db
       - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka/
       - SPRING_CLOUD_CONFIG_URI=http://config-server:8888
-    networks:
-      - dmh-network
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://user-db:5432/user_db
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=postgres
+      - EUREKA_INSTANCE_PREFER_IP_ADDRESS=true
     depends_on:
-      postgres_user:
+      user-db:
         condition: service_healthy
       eureka-server:
         condition: service_healthy
-    healthcheck:
-      test: ["CMD", "wget", "--spider", "-q", "http://localhost:8081/actuator/health"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-    restart: unless-stopped
-  
-  # =============================================
-  # Capa 5: Servicios de Negocio
-  # =============================================
-  
-  # Servicio de Cuentas
+      config-server:
+        condition: service_healthy
+
   account-service:
-    container_name: account-service
-    build:
-      context: ./account-service
-      dockerfile: Dockerfile
-    ports:
-      - "8082:8082"
+    image: atuhome/account-service:latest
+    container_name: dmh_account_service_v1
+    networks:
+      - dmh_network
     environment:
       - SPRING_PROFILES_ACTIVE=docker
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres_account:5432/dmh_account_db
       - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka/
-    networks:
-      - dmh-network
+      - SPRING_CLOUD_CONFIG_URI=http://config-server:8888
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://account-db:5432/account_db
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=postgres
+      - EUREKA_INSTANCE_PREFER_IP_ADDRESS=true
     depends_on:
-      postgres_account:
+      account-db:
         condition: service_healthy
       eureka-server:
         condition: service_healthy
-    healthcheck:
-      test: ["CMD", "wget", "--spider", "-q", "http://localhost:8082/actuator/health"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-    restart: unless-stopped
-  
-  # Servicio de Tarjetas
-  card-service:
-    container_name: card-service
-    build:
-      context: ./card-service
-      dockerfile: Dockerfile
-    ports:
-      - "8085:8085"
-    environment:
-      - SPRING_PROFILES_ACTIVE=docker
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres_card:5432/card_db
-      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka/
-    networks:
-      - dmh-network
-    depends_on:
-      postgres_card:
+      config-server:
         condition: service_healthy
-      eureka-server:
-        condition: service_healthy
-    healthcheck:
-      test: ["CMD", "wget", "--spider", "-q", "http://localhost:8085/actuator/health"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-    restart: unless-stopped
-  
-  # Servicio de Transacciones
+
   transaction-service:
-    container_name: transaction-service
-    build:
-      context: ./transaction-service
-      dockerfile: Dockerfile
-    ports:
-      - "8097:8097"
-    environment:
-      - SPRING_PROFILES_ACTIVE=docker
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres_transaction:5432/transaction_db
-      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka/
+    image: atuhome/transaction-service:latest
+    container_name: dmh_transaction_service_v1
     networks:
-      - dmh-network
-    depends_on:
-      postgres_transaction:
-        condition: service_healthy
-      eureka-server:
-        condition: service_healthy
-    healthcheck:
-      test: ["CMD", "wget", "--spider", "-q", "http://localhost:8097/actuator/health"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-    restart: unless-stopped
-  
-  # =============================================
-  # Capa 6: Servicios de Utilidad
-  # =============================================
-  
-  # Servicio de Generación de Alias
-  generatealias:
-    container_name: generatealias
-    build:
-      context: ./generate-alias
-      dockerfile: Dockerfile
-    ports:
-      - "8087:8087"
+      - dmh_network
     environment:
       - SPRING_PROFILES_ACTIVE=docker
       - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka/
-    networks:
-      - dmh-network
+      - SPRING_CLOUD_CONFIG_URI=http://config-server:8888
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://transaction-db:5432/transaction_db
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=postgres
+      - EUREKA_INSTANCE_PREFER_IP_ADDRESS=true
     depends_on:
+      transaction-db:
+        condition: service_healthy
       eureka-server:
         condition: service_healthy
-    healthcheck:
-      test: ["CMD", "wget", "--spider", "-q", "http://localhost:8087/actuator/health"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-    restart: unless-stopped
-  
-  # Servicio de Generación de CVU
-  generatecvu:
-    container_name: generatecvu
-    build:
-      context: ./generate-cvu
-      dockerfile: Dockerfile
-    ports:
-      - "8088:8088"
+      config-server:
+        condition: service_healthy
+
+  card-service:
+    image: atuhome/card-service:latest
+    container_name: dmh_card_service_v1
+    networks:
+      - dmh_network
     environment:
       - SPRING_PROFILES_ACTIVE=docker
       - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka/
-    networks:
-      - dmh-network
+      - SPRING_CLOUD_CONFIG_URI=http://config-server:8888
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://card-db:5432/card_db
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=postgres
+      - EUREKA_INSTANCE_PREFER_IP_ADDRESS=true
     depends_on:
+      card-db:
+        condition: service_healthy
       eureka-server:
         condition: service_healthy
-    healthcheck:
-      test: ["CMD", "wget", "--spider", "-q", "http://localhost:8088/actuator/health"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-    restart: unless-stopped
+      config-server:
+        condition: service_healthy
+
+networks:
+  dmh_network:
+    driver: bridge
+
+volumes:
+  account_data:
+  user_data:
+  transaction_data:
+  card_data:
+  auth_data:
+  keycloak_data:

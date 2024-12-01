@@ -31,13 +31,8 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
     show-sql: true
-  
-  # Cloud Config
-  cloud:
-    config:
-      enabled: false
-    discovery:
-      enabled: true
+
+
 
 # Eureka Client
 eureka:
@@ -58,9 +53,9 @@ management:
   endpoint:
     health:
       show-details: always
-
-# OpenAPI/Swagger
-
+  
+  # OpenAPI/Swagger
+  
   servlet:
     context-path: /
 
@@ -81,5 +76,4 @@ logging:
     root: INFO
     com.dmh.cardservice: DEBUG
     org.springframework: INFO
-
 

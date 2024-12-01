@@ -1,6 +1,6 @@
 version: '3.8'
 
-# Definición de redes para la comunicación entre servicios
+# Definición de redes
 networks:
   dmh-network:
     driver: bridge
@@ -16,11 +16,11 @@ volumes:
   mysql_auth_data:
 
 services:
-  # ============================================
+  # =============================================
   # Capa 1: Bases de Datos
-  # ============================================
+  # =============================================
   
-  # Base de datos para Keycloak (Autenticación)
+  # Base de datos para Keycloak
   postgres_keycloak:
     container_name: postgres_keycloak
     image: postgres:latest
@@ -39,7 +39,6 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
-      start_period: 30s
     restart: unless-stopped
   
   # Base de datos para Auth Service
@@ -58,11 +57,10 @@ services:
     networks:
       - dmh-network
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "user", "--password=password"]
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
       interval: 10s
       timeout: 5s
       retries: 5
-      start_period: 30s
     restart: unless-stopped
   
   # Base de datos para User Service
@@ -84,7 +82,6 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
-      start_period: 30s
     restart: unless-stopped
   
   # Base de datos para Account Service
@@ -106,7 +103,6 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
-      start_period: 30s
     restart: unless-stopped
   
   # Base de datos para Card Service
@@ -128,7 +124,6 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
-      start_period: 30s
     restart: unless-stopped
   
   # Base de datos para Transaction Service
@@ -150,12 +145,11 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
-      start_period: 30s
     restart: unless-stopped
   
-  # ============================================
+  # =============================================
   # Capa 2: Proveedor de Autenticación
-  # ============================================
+  # =============================================
   
   keycloak:
     container_name: keycloak
@@ -169,7 +163,6 @@ services:
       KEYCLOAK_ADMIN: admin
       KEYCLOAK_ADMIN_PASSWORD: admin
       KC_HOSTNAME: localhost
-      KC_FEATURES: token-exchange,admin-fine-grained-authz
     ports:
       - "9092:8080"
     networks:
@@ -182,14 +175,13 @@ services:
       interval: 30s
       timeout: 10s
       retries: 3
-      start_period: 60s
     restart: unless-stopped
   
-  # ============================================
-  # Capa 3: Infraestructura de Servicios
-  # ============================================
+  # =============================================
+  # Capa 3: Descubrimiento de Servicios y Configuración
+  # =============================================
   
-  # Servidor Eureka con la nueva configuración
+  # Servidor Eureka para registro y descubrimiento de servicios
   eureka-server:
     container_name: eureka-server
     build:
@@ -201,8 +193,6 @@ services:
       - SPRING_PROFILES_ACTIVE=docker
       - EUREKA_CLIENT_REGISTER-WITH-EUREKA=false
       - EUREKA_CLIENT_FETCH-REGISTRY=false
-      - EUREKA_SERVER_ENABLE-SELF-PRESERVATION=false
-      - EUREKA_SERVER_EVICTION-INTERVAL-TIMER-IN-MS=5000
     networks:
       - dmh-network
     healthcheck:
@@ -210,20 +200,19 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
-      start_period: 30s
     restart: unless-stopped
   
-  # Config Server
+  # Servidor de Configuración
   config-server:
     container_name: config-server
     build:
       context: ./config-server
       dockerfile: Dockerfile
+    ports:
+      - "8888:8888"
     environment:
       - SPRING_PROFILES_ACTIVE=docker
       - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka/
-    ports:
-      - "8888:8888"
     networks:
       - dmh-network
     depends_on:
@@ -236,9 +225,9 @@ services:
       retries: 5
     restart: unless-stopped
   
-  # ============================================
+  # =============================================
   # Capa 4: Servicios Core
-  # ============================================
+  # =============================================
   
   # API Gateway
   api-gateway:
@@ -266,7 +255,7 @@ services:
       retries: 5
     restart: unless-stopped
   
-  # Auth Service
+  # Servicio de Autenticación
   auth-service:
     container_name: auth-service
     build:
@@ -278,6 +267,7 @@ services:
       - SPRING_PROFILES_ACTIVE=docker
       - SPRING_DATASOURCE_URL=jdbc:mysql://mysql_auth:3306/dmh_auth
       - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka/
+      - SPRING_CLOUD_CONFIG_URI=http://config-server:8888
     networks:
       - dmh-network
     depends_on:
@@ -292,7 +282,7 @@ services:
       retries: 5
     restart: unless-stopped
   
-  # User Service
+  # Servicio de Usuarios
   user-service:
     container_name: user-service
     build:
@@ -304,6 +294,7 @@ services:
       - SPRING_PROFILES_ACTIVE=docker
       - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres_user:5432/userservice_db
       - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka/
+      - SPRING_CLOUD_CONFIG_URI=http://config-server:8888
     networks:
       - dmh-network
     depends_on:
@@ -318,11 +309,11 @@ services:
       retries: 5
     restart: unless-stopped
   
-  # ============================================
+  # =============================================
   # Capa 5: Servicios de Negocio
-  # ============================================
+  # =============================================
   
-  # Account Service
+  # Servicio de Cuentas
   account-service:
     container_name: account-service
     build:
@@ -348,7 +339,7 @@ services:
       retries: 5
     restart: unless-stopped
   
-  # Card Service
+  # Servicio de Tarjetas
   card-service:
     container_name: card-service
     build:
@@ -374,7 +365,7 @@ services:
       retries: 5
     restart: unless-stopped
   
-  # Transaction Service
+  # Servicio de Transacciones
   transaction-service:
     container_name: transaction-service
     build:
@@ -400,11 +391,11 @@ services:
       retries: 5
     restart: unless-stopped
   
-  # ============================================
+  # =============================================
   # Capa 6: Servicios de Utilidad
-  # ============================================
+  # =============================================
   
-  # Generate Alias Service
+  # Servicio de Generación de Alias
   generatealias:
     container_name: generatealias
     build:
@@ -427,7 +418,7 @@ services:
       retries: 5
     restart: unless-stopped
   
-  # Generate CVU Service
+  # Servicio de Generación de CVU
   generatecvu:
     container_name: generatecvu
     build:

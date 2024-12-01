@@ -3,8 +3,7 @@ server:
 
 spring:
   application:
-    name: TransactionService
-  
+    name: transaction-service
   datasource:
     url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5436/transaction_db}
     username: ${SPRING_DATASOURCE_USERNAME:myuser}
@@ -21,9 +20,6 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
         format_sql: true
-  cloud:
-    config:
-      enabled: false
 
 eureka:
   client:
@@ -31,9 +27,6 @@ eureka:
     fetch-registry: true
     service-url:
       defaultZone: ${EUREKA_SERVICE_URL_DEFAULT_ZONE:http://localhost:8761/eureka}
-loadbalancer:
-  client:
-    name: transaction-Service
 
 management:
   endpoints:
@@ -47,7 +40,7 @@ management:
 logging:
   level:
     root: INFO
-    com.dmh.TransactionService: DEBUG
+    com.dmh.transactionservice: DEBUG
     org.springframework: INFO
     org.hibernate.SQL: DEBUG
     org.hibernate.type.descriptor.sql.BasicBinder: TRACE

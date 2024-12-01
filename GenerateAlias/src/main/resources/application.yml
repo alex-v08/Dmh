@@ -1,10 +1,11 @@
 spring:
   application:
-    name: ${SPRING_APPLICATION_NAME_GENERATE_ALIAS:}
+    name: GenerateAlias
   profiles:
-    active: ${SPRING_PROFILES_ACTIVE:}
+    active: ${SPRING_PROFILES_ACTIVE:dev}
   config:
     import: optional:configserver:${SPRING_CLOUD_CONFIG_URI:}
   cloud:
     config:
       fail-fast: false
+

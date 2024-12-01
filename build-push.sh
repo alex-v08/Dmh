@@ -10,12 +10,12 @@ declare -A SERVICES=(
     ["config-server"]="./config-server"
     ["api-gateway"]="./api-gateway"
     ["auth-service"]="./auth-service"
-    ["user-service"]="./user-service"
+    ["User-service"]="./user-service"
     ["account-service"]="./account-service"
     ["card-service"]="./card-service"
     ["transaction-service"]="./transaction-service"
-    ["generatealias"]="./generatealias"
-    ["generatecvu"]="./generatecvu"
+    ["GenerateAlias"]="./generatealias"
+    ["GenerateCvu"]="./generatecvu"
 )
 
 # Función para construir y subir una imagen

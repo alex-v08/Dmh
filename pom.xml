@@ -7,7 +7,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.3.4</version>
+        <version>3.4.0</version>
         <relativePath/>
     </parent>
 
@@ -15,6 +15,19 @@
     <artifactId>dmh-parent</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
+    <name>Digital Money House Parent</name>
+    <description>Parent POM for Digital Money House Microservices</description>
+
+    <modules>
+        <module>config-server</module>
+        <module>eureka-server</module>
+        <module>api-gateway</module>
+        <module>auth-service</module>
+        <module>User-service</module>
+        <module>account-service</module>
+        <module>transaction-service</module>
+        <module>card-service</module>
+    </modules>
 
     <properties>
         <!-- Core Properties -->
@@ -22,28 +35,24 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-        <!-- Spring Cloud -->
-        <spring-cloud.version>2023.0.3</spring-cloud.version>
-
-        <!-- Database -->
-        <postgresql.version>42.7.4</postgresql.version>
-        <mysql.version>8.0.33</mysql.version>
-
-        <!-- Testing -->
-        <junit-jupiter.version>5.10.2</junit-jupiter.version>
-        <mockito.version>5.10.0</mockito.version>
-        <rest-assured.version>5.4.0</rest-assured.version>
+        <!-- Spring Versions -->
+        <spring-cloud.version>2023.0.0</spring-cloud.version>
 
         <!-- Tools -->
-        <mapstruct.version>1.6.2</mapstruct.version>
         <lombok.version>1.18.30</lombok.version>
+        <mapstruct.version>1.5.5.Final</mapstruct.version>
         <lombok-mapstruct-binding.version>0.2.0</lombok-mapstruct-binding.version>
+
+        <!-- Security -->
+        <keycloak.version>23.0.3</keycloak.version>
+        <jjwt.version>0.11.5</jjwt.version>
 
         <!-- Documentation -->
         <springdoc-openapi.version>2.3.0</springdoc-openapi.version>
 
-        <!-- Security -->
-        <jjwt.version>0.11.5</jjwt.version>
+        <!-- Database -->
+        <postgresql.version>42.7.1</postgresql.version>
+        <mysql.version>8.0.33</mysql.version>
     </properties>
 
     <dependencyManagement>
@@ -57,16 +66,13 @@
                 <scope>import</scope>
             </dependency>
 
-            <!-- Database Drivers -->
+            <!-- Keycloak BOM -->
             <dependency>
-                <groupId>org.postgresql</groupId>
-                <artifactId>postgresql</artifactId>
-                <version>${postgresql.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.mysql</groupId>
-                <artifactId>mysql-connector-j</artifactId>
-                <version>${mysql.version}</version>
+                <groupId>org.keycloak.bom</groupId>
+                <artifactId>keycloak-adapter-bom</artifactId>
+                <version>${keycloak.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
             </dependency>
 
             <!-- JWT Dependencies -->
@@ -79,11 +85,25 @@
                 <groupId>io.jsonwebtoken</groupId>
                 <artifactId>jjwt-impl</artifactId>
                 <version>${jjwt.version}</version>
+                <scope>runtime</scope>
             </dependency>
             <dependency>
                 <groupId>io.jsonwebtoken</groupId>
                 <artifactId>jjwt-jackson</artifactId>
                 <version>${jjwt.version}</version>
+                <scope>runtime</scope>
+            </dependency>
+
+            <!-- Database -->
+            <dependency>
+                <groupId>org.postgresql</groupId>
+                <artifactId>postgresql</artifactId>
+                <version>${postgresql.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.mysql</groupId>
+                <artifactId>mysql-connector-j</artifactId>
+                <version>${mysql.version}</version>
             </dependency>
 
             <!-- Documentation -->
@@ -137,6 +157,7 @@
                 <plugin>
                     <groupId>org.springframework.boot</groupId>
                     <artifactId>spring-boot-maven-plugin</artifactId>
+                    <version>${project.parent.version}</version>
                     <configuration>
                         <excludes>
                             <exclude>
@@ -149,6 +170,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
+                    <version>3.11.0</version>
                     <configuration>
                         <source>${java.version}</source>
                         <target>${java.version}</target>
